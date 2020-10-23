@@ -1,7 +1,7 @@
 //require('newrelic');
 var express = require("express");
 //const sslRedirect = require('heroku-ssl-redirect');
-import default as sslRedirect from 'heroku-ssl-redirect';
+//import default as sslRedirect from 'heroku-ssl-redirect';
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
