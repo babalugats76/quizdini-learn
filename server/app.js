@@ -34,7 +34,7 @@ const app = express();
 app.use(logger("dev"));
 
 // enable ssl redirect
-app.use(sslRedirect());
+//app.use(sslRedirect());
 
 /*var corsOptions = {
   origin: 'http://example.com',
@@ -51,9 +51,9 @@ app.use(errorHandler); // Custom default, i.e., catch-all, error handler middlew
 
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
+  app.use(express.static(path.resolve(__dirname, '../client/dist')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
   });
 }
 
