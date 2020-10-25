@@ -51,9 +51,9 @@ app.use(errorHandler); // Custom default, i.e., catch-all, error handler middlew
 
 if (process.env.NODE_ENV === 'production') {
   const path = require('path');
-  app.use(express.static(path.resolve(__dirname, '../client/dist')));
+  app.use(express.static(path.resolve(__dirname, '../dist')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
   });
 }
 
