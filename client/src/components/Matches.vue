@@ -37,7 +37,7 @@ export default {
       // API GET
       try {
         const res = await axios.get(
-          "https://quizdini-games.herokuapp.com/api/matches/",
+          "/api/matches/",
           {
             timeout: 30000,
           }

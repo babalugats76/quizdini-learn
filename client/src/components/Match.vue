@@ -82,12 +82,9 @@ export default {
     async fetchData() {
       // API GET
       try {
-        const res = await axios.get(
-          "https://quizdini-games.herokuapp.com/api/match/" + this.matchId,
-          {
-            timeout: 30000,
-          }
-        );
+        const res = await axios.get("/api/match/" + this.matchId, {
+          timeout: 30000,
+        });
         return res.data;
       } catch (error) {
         console.log(error);
