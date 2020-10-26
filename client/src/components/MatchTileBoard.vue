@@ -80,7 +80,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 @keyframes hit {
   0% {
     background-color: blue;
@@ -111,7 +110,7 @@ export default {
 }
 
 .slide {
-  transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
 }
 
 .tile-board {
@@ -142,7 +141,7 @@ export default {
   user-select: none;
   touch-action: none;
   opacity: 1;
-  
+
   &.fade-in-active {
     opacity: 0;
     transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -155,26 +154,26 @@ export default {
   &.fade-in-end {
     opacity: 1;
   }
-  
+
   &.term {
-      background-color: blue;
-      color: white;
-      font-weight: 500;
-      &.drag {
-        transition: transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
-        z-index: 500;
-      }
-      &.hit {
-        animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
-        animation-name: hit;
-        animation-duration: var(--hit-duration, 2s);
-        animation-fill-mode: forwards;
-        z-index: 3;
-      }
-      &.miss {
-       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
-        z-index: 2;
-      }
+    background-color: blue;
+    color: white;
+    font-weight: 500;
+    &.drag {
+      transition: transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+      z-index: 500;
+    }
+    &.hit {
+      animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      animation-name: hit;
+      animation-duration: var(--hit-duration, 2s);
+      animation-fill-mode: forwards;
+      z-index: 3;
+    }
+    &.miss {
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      z-index: 2;
+    }
   }
   &.definition {
     background-color: white;

@@ -270,7 +270,7 @@ export default {
 
           setTimeout(() => {
             this.inTransition = false;
-          }, 800);
+          }, 500);
         }, this.hitDurationMs);
       } else {
         this.terms = this.terms.map((term) => {
