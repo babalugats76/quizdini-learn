@@ -8,7 +8,9 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "prettier": "prettier **/*.{js,ts,vue,json} --write",
-    "deploy": "npm run build --prefix client && git add . && git commit -m \"built latest version of client app\" && git push origin main && git push main heroku"
+    "deploy-to-prod": "npm run build --prefix client && git add . && git commit -m \"built latest version of client app\" && git push origin main && git push heroku main",
+    "heroku-prebuild": "echo Hook for Heroku prebuild...",
+    "heroku-postbuild": "echo Hook for Heroku postbuild..."
   },
   "dependencies": {
     "body-parser": "^1.19.0",
