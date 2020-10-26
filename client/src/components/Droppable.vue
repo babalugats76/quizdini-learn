@@ -22,7 +22,4 @@ export default {
   pointer-events: none;
 }
 
-.droppable.over {
-  background-color: yellow;
-}
 </style>

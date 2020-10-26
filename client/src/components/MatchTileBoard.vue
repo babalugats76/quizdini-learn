@@ -180,6 +180,9 @@ export default {
     background-color: white;
     color: black;
     font-weight: 300;
+    &.over {
+      background-color: yellow;
+    }
   }
 }
 
