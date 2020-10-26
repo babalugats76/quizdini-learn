@@ -385,7 +385,6 @@ export default {
   padding: 0;
   background-color: var(--board-bg-color);
   opacity: 1;
-  overflow: auto;
 }
 
 #match-timer {
