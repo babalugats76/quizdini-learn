@@ -1,5 +1,6 @@
 //require('newrelic');
 var express = require("express");
+var path = require('path');
 //const sslRedirect = require('heroku-ssl-redirect');
 //import default as sslRedirect from 'heroku-ssl-redirect';
 const mongoose = require('mongoose');
@@ -49,12 +50,10 @@ require('./routes/pingRoutes')(app);
 
 app.use(errorHandler); // Custom default, i.e., catch-all, error handler middleware
 
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
-  app.use(express.static(path.resolve(__dirname, '../dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../dist', 'index.html'));
-  });
-}
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
 module.exports = app;

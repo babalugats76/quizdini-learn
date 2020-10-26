@@ -7,7 +7,8 @@
     "server": "nodemon server/bin/www",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "prettier": "prettier **/*.{js,ts,vue,json} --write"
+    "prettier": "prettier **/*.{js,ts,vue,json} --write",
+    "deploy": "npm run build --prefix client && git add . && git commit -m \"built latest version of client app\" && git push origin main && git push main heroku"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
