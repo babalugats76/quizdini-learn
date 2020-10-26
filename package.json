@@ -1,7 +1,7 @@
 {
   "name": "server",
   "config": {
-    "comment": "Updated quizdini-learn source code..."
+    "comment": "Updated quizdini-learn source code"
   },
   "version": "0.0.0",
   "private": true,
@@ -11,7 +11,7 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "prettier": "prettier **/*.{js,ts,vue,json} --write",
-    "deploy-to-prod": "npm run build --prefix client && git add . && git commit -m \"%npm_package_config_comment%\" && git push origin main && git push heroku main",
+    "deploy-to-prod": "npm run build --prefix client && git add . && git commit -m \"%npm_config_comment%\" && git push origin main && git push heroku main",
     "heroku-prebuild": "echo Hook for Heroku prebuild...",
     "heroku-postbuild": "echo Hook for Heroku postbuild..."
   },
