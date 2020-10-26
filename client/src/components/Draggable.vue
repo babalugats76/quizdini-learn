@@ -15,12 +15,13 @@ export default {
 }
 
 .draggable {
+  transition: opacity 150ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
   z-index: 2;
 }
 
 .draggable.disabled {
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.75;
 }
 
 .draggable.drag {

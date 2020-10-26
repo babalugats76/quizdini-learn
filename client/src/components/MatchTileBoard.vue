@@ -110,7 +110,8 @@ export default {
 }
 
 .slide {
-  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+  /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
+  transition: transform 500ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
 }
 
 .tile-board {
@@ -128,59 +129,62 @@ export default {
       opacity: 0.8;
     }
   }
-}
-
-.tile {
-  flex: 0 0 auto;
-  align-items: center;
-  justify-items: center;
-  border-radius: 0.2em;
-  background-color: white;
-  color: black;
-  font-weight: 300;
-  user-select: none;
-  touch-action: none;
-  opacity: 1;
-
-  &.fade-in-active {
-    opacity: 0;
-    transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  &.fade-in-start {
-    opacity: 0;
-  }
-
-  &.fade-in-end {
-    opacity: 1;
-  }
-
-  &.term {
-    background-color: blue;
-    color: white;
-    font-weight: 500;
-    &.drag {
-      transition: transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
-      z-index: 500;
-    }
-    &.hit {
-      animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
-      animation-name: hit;
-      animation-duration: var(--hit-duration, 2s);
-      animation-fill-mode: forwards;
-      z-index: 3;
-    }
-    &.miss {
-      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
-      z-index: 2;
-    }
-  }
-  &.definition {
+  .tile {
+    position: relative;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-items: center;
+    border-radius: 0.2em;
     background-color: white;
     color: black;
     font-weight: 300;
-    &.over {
-      background-color: yellow;
+    user-select: none;
+    touch-action: none;
+    opacity: 1;
+
+    &.fade-in-active {
+      opacity: 0;
+      transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    &.fade-in-start {
+      opacity: 0;
+    }
+
+    &.fade-in-end {
+      opacity: 1;
+    }
+
+    &.term {
+      border: 0.2em solid transparent;
+      background-color: blue;
+      color: white;
+      font-weight: 500;
+      &.drag {
+        transition: border-color 500ms ease-in-out,
+          transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+        z-index: 500;
+        border-color: white;
+      }
+      &.hit {
+        animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
+        animation-name: hit;
+        animation-duration: var(--hit-duration, 2s);
+        animation-fill-mode: forwards;
+        z-index: 3;
+      }
+      &.miss {
+        transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+        z-index: 2;
+      }
+    }
+    &.definition {
+      background-color: white;
+      color: black;
+      font-weight: 300;
+      &.over {
+        background-color: yellow;
+      }
     }
   }
 }
