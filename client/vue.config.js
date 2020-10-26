@@ -3,8 +3,6 @@ module.exports = {
     proxy: {
       '^/api': {
         target: 'http://localhost:5001',
-        //ws: true,
-        //changeOrigin: true
       },
     }
   },
@@ -16,5 +14,7 @@ module.exports = {
         args[0].title = "Quizdini Games";
         return args
       })
-  }
+  },
+
+  outputDir: '../server/public'
 }
