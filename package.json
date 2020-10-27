@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "express-sslify": "^1.2.0",
     "heroku-ssl-redirect": "^0.1.1",
     "http-status-codes": "^2.1.4",
     "memjs": "^1.2.2",
