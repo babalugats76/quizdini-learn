@@ -282,7 +282,7 @@ export default {
         if (!dropId) return;
         this.definitions = this.definitions.map(matchDef(dropId, false, ""));
         this.incorrect++;
-        this.score = Math.max(this.score - 1, 0); // increment score (floor of 0)
+        this.score = Math.max(this.score - 1, 0); // decrement score (floor of 0)
       }
     },
     onGameEnter() {
@@ -307,6 +307,14 @@ export default {
       setTimeout(() => {
         console.log("game over logic goes here...");
         this.$emit("game-over");
+        /* send "results" payload upstream - should be something like 
+        [ { "correct": 0,
+            "incorrect": 0,
+            "data": [{"term": "yo", "hit": 1, "miss": 0}],
+            "score": 23
+           }
+        ] 
+        */
       }, 2000);
     },
     togglePlaying() {
