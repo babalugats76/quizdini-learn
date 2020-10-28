@@ -21,7 +21,7 @@ export default {
 
 .draggable.disabled {
   pointer-events: none;
-  opacity: 0.75;
+  opacity: 0.5!important;
 }
 
 .draggable.drag {

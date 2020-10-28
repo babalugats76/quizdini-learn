@@ -221,74 +221,68 @@ export default {
       });
     },
     onDrop(payload) {
-      const defaultDnD = { id: null, x: null, y: null }; // useful for safe, nested destructuring
-      const { id: dragId, x: dragX, y: dragY } = payload.drag || defaultDnD;
-      const { id: dropId, x: dropX, y: dropY } = payload.drop || defaultDnD;
-      const keepScore = !!dropId;
-      const hit = dropId ? this.isMatch(dragId, dropId) : false;
+      const dnd = { id: null, x: null, y: null }; // useful for safe, nested destructuring
+      const { id: dragId, x: dragX, y: dragY } = payload.drag || dnd;
+      const { id: dropId, x: dropX, y: dropY } = payload.drop || dnd;
 
-      if (hit) {
+      const showById = (id, show) => (v) => {
+        v.show = v.id === id ? show : v.show;
+        return v;
+      };
+
+      const matchTerm = (id, matched, className, style) => (term) => {
+        if (term.id === id) {
+          term.matched = matched;
+          term.className = className;
+          term.style = style;
+        }
+        return term;
+      };
+
+      const matchDef = (id, matched, className) => (def) => {
+        if (def.id === id) {
+          def.matched = matched;
+          def.className = className;
+        }
+        return def;
+      };
+
+      const matched = dropId ? this.isMatch(dragId, dropId) : false;
+
+      if (matched) {
         this.inTransition = true;
-        this.terms = this.terms.map((term) => {
-          term.matched = term.id === dragId ? true : term.matched;
-          term.className = term.id === dragId ? "hit" : term.className;
-          term.style =
-            term.id === dragId
-              ? this.hitStyle(
-                  dragX,
-                  dragY,
-                  1,
-                  dropX,
-                  dropY,
-                  1,
-                  this.hitDurationMs
-                )
-              : term.style;
-          return term;
-        });
 
-        this.definitions = this.definitions.map((def) => {
-          def.matched = def.id === dropId ? true : def.matched;
-          def.className = def.id === dropId ? "hit" : def.className;
-          return def;
-        });
+        this.terms = this.terms.map(
+          matchTerm(
+            dragId,
+            true,
+            "hit",
+            this.hitStyle(dragX, dragY, 1, dropX, dropY, 1, this.hitDurationMs)
+          )
+        );
+
+        this.definitions = this.definitions.map(matchDef(dropId, true, "hit"));
 
         setTimeout(() => {
-          this.terms = this.terms.map((term) => {
-            term.show = term.id === dragId ? false : term.show;
-            return term;
-          });
-          this.definitions = this.definitions.map((def) => {
-            def.show = def.id === dropId ? false : def.show;
-            return def;
-          });
-
+          this.terms = this.terms.map(showById(dragId, false));
+          this.definitions = this.definitions.map(showById(dropId, false));
           this.correct++;
           this.score = Math.max(this.score + 1, 0); // increment score (floor of 0)
           this.terms = shuffleArray(this.terms);
           this.definitions = shuffleArray(this.definitions);
-
           setTimeout(() => {
             this.inTransition = false;
           }, 500);
         }, this.hitDurationMs);
       } else {
-        this.terms = this.terms.map((term) => {
-          term.style =
-            term.id === dragId ? this.missStyle(0, 0, 0) : term.style;
-          term.className = term.id === dragId ? "miss" : term.className;
-          return term;
-        });
+        this.terms = this.terms.map(
+          matchTerm(dragId, false, "miss", this.missStyle(0, 0, 0))
+        );
 
-        this.definitions = this.definitions.map((def) => {
-          def.className = "";
-          return def;
-        });
-
-        if (keepScore) {
-          this.incorrect++;
-          this.score = Math.max(this.score - 1, 0); // increment score (floor of 0)
-        }
+        if (!dropId) return;
+        this.definitions = this.definitions.map(matchDef(dropId, false, ""));
+        this.incorrect++;
+        this.score = Math.max(this.score - 1, 0); // increment score (floor of 0)
       }
     },
     onGameEnter() {
