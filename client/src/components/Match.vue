@@ -79,7 +79,7 @@ export default {
     },
   },
   methods: {
-    async fetchData() {
+    async fetchMatch() {
       // API GET
       try {
         const res = await axios.get("/api/match/" + this.matchId, {
@@ -90,8 +90,30 @@ export default {
         console.log(error);
       }
     },
-    onGameOver() {
+    async postPing(data) {
+      try {
+        const res = await axios.post("/api/ping", data, {
+          timeout: 30000,
+        });
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async onGameOver() {
       console.log("on game over...");
+      let results = { "stuff": 0 };
+      /* should be something like 
+      [ { "correct": 0,
+          "incorrect": 0,
+          "data": [
+            {"term": "yo", "hit": 1, "miss": 0}
+          ],
+          "score": 23
+          }
+      ] */
+      const ping = await this.postPing({ gameId: this.matchId, gameType: "M", results });
+      console.log(JSON.stringify(ping));
       this.showBoard = false;
       setTimeout(() => {
         this.showBoard = true;
@@ -99,7 +121,7 @@ export default {
     },
   },
   async created() {
-    const game = await this.fetchData(); // fetch
+    const game = await this.fetchMatch(); // fetch
     this.game = game; // set and transform
     this.showBoard = true;
     // this.showSplash = false;
