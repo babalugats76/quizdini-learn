@@ -100,19 +100,13 @@ export default {
         console.log(error);
       }
     },
-    async onGameOver() {
+    async onGameOver(payload) {
       console.log("on game over...");
-      let results = { "stuff": 0 };
-      /* should be something like 
-      [ { "correct": 0,
-          "incorrect": 0,
-          "data": [
-            {"term": "yo", "hit": 1, "miss": 0}
-          ],
-          "score": 23
-          }
-      ] */
-      const ping = await this.postPing({ gameId: this.matchId, gameType: "M", results });
+      const ping = await this.postPing({
+        gameId: this.matchId,
+        gameType: "M",
+        results: payload,
+      });
       console.log(JSON.stringify(ping));
       this.showBoard = false;
       setTimeout(() => {

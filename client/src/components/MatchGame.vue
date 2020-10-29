@@ -340,16 +340,12 @@ export default {
       console.log("timer expired...");
       this.playing = false;
       setTimeout(() => {
-        console.log("game over logic goes here...");
-        this.$emit("game-over");
-        /* send "results" payload upstream - should be something like 
-        [ { "correct": 0,
-            "incorrect": 0,
-            "data": [{"term": "yo", "hit": 1, "miss": 0}],
-            "score": 23
-           }
-        ] 
-        */
+        this.$emit("game-over", {
+          correct: this.correct,
+          incorrect: this.incorrect,
+          data: this.stats,
+          score: this.score,
+        });
       }, 2000);
     },
     togglePlaying() {
