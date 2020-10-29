@@ -5,6 +5,7 @@
       :duration="duration"
       :items-per-board="itemsPerBoard"
       :matches="matches"
+      :timeouts="timeouts"
       v-if="showBoard"
       v-on:game-over="onGameOver"
     />
@@ -77,13 +78,32 @@ export default {
     matchId() {
       return this.$route.params.id;
     },
+    timeouts() {
+      return {
+        game: {
+          enter: 1000,
+          leave: 1000,
+        },
+        tile: {
+          enter: 800,
+          hit: 800,
+          leave: 0,
+          miss: 800,
+        },
+        timer: {
+          enter: 1000,
+          leave: 1000,
+          change: 250,
+        },
+      };
+    },
   },
   methods: {
     async fetchMatch() {
       // API GET
       try {
         const res = await axios.get("/api/match/" + this.matchId, {
-          timeout: 30000,
+          timeout: 10000,
         });
         return res.data;
       } catch (error) {
@@ -93,7 +113,7 @@ export default {
     async postPing(data) {
       try {
         const res = await axios.post("/api/ping", data, {
-          timeout: 30000,
+          timeout: 10000,
         });
         return res.data;
       } catch (error) {
@@ -102,16 +122,16 @@ export default {
     },
     async onGameOver(payload) {
       console.log("on game over...");
+      this.showBoard = false;
       const ping = await this.postPing({
         gameId: this.matchId,
         gameType: "M",
         results: payload,
       });
       console.log(JSON.stringify(ping));
-      this.showBoard = false;
       setTimeout(() => {
         this.showBoard = true;
-      }, 2000);
+      }, 5000);
     },
   },
   async created() {

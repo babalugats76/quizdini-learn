@@ -1,22 +1,23 @@
 <template>
   <transition
     appear
-    :duration="{ enter: 1000, leave: 1000 }"
+    :css="true"
+    :duration="{ enter: timeouts.game.enter, leave: timeouts.game.leave }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"
     leave-active-class="fade-out-active"
     leave-class="fade-out-start"
     leave-to-class="fade-out-end"
-    :css="true"
-    @after-enter="onGameEnter"
-    @after-leave="onGameLeave"
+    @after-enter="onEntered"
+    @after-leave="onLeft"
   >
     <div id="match-game">
       <div id="match-timer">
         <MatchTimer
-          :playing="playing"
           :duration="duration"
+          :playing="playing"
+          :timeouts="timeouts.timer"
           :interval-ms="100"
           :score="score"
           v-on:timer-expired="onTimerExpired"
@@ -26,7 +27,7 @@
         id="match-dnd-board"
         :disabled="inTransition"
         :playing="playing"
-        :throttle-ms="throttleMs"
+        :throttle-ms="33"
         v-on:drag="onDrag"
         v-on:over="onOver"
         v-on:drop="onDrop"
@@ -36,20 +37,20 @@
           id="terms"
           tile-type="term"
           :disabled="inTransition"
-          :duration="{ enter: 800, leave: 0 }"
           :playing="playing"
           :tiles="terms"
           :tile-count="itemsPerBoard"
+          :timeouts="timeouts.tile"
         />
         <MatchTileBoard
           componentName="Droppable"
           id="definitions"
           tile-type="definition"
           :disabled="inTransition"
-          :duration="{ enter: 800, leave: 0 }"
           :playing="playing"
           :tiles="definitions"
           :tile-count="itemsPerBoard"
+          :timeouts="timeouts.tile"
         />
       </DnD>
     </div>
@@ -96,15 +97,9 @@ export default {
       required: true,
       default: () => [],
     },
-    maxFps: {
-      type: Number,
-      required: false,
-      default: 30,
-    },
-    shuffleDurationMs: {
-      type: Number,
-      required: false,
-      default: 500,
+    timeouts: {
+      type: Object,
+      required: true,
     },
   },
   data() {
@@ -128,11 +123,9 @@ export default {
         this.transitioning = newVal;
       },
     },
-    rounds() {
-      return Math.floor(this.correct / this.itemsPerBoard); // calculate completed rounds
-    },
-    throttleMs() {
-      return Math.round(1000 / this.maxFps);
+    progress() {
+      // think of as rounds (fractional) completed
+      return this.correct / this.itemsPerBoard;
     },
   },
   methods: {
@@ -181,7 +174,6 @@ export default {
         };
       });
       this.definitions = shuffleArray(defs); // Shuffle definitions
-      this.playing = true;
     },
     hitStyle(startX, startY, startZ, endX, endY, endZ, duration) {
       return {
@@ -212,7 +204,7 @@ export default {
       return {
         ...this.translate(x, y, z),
         //  transition:
-        //   "transform " + this.throttleMs + "ms cubic-bezier(0, 0, 0.2, 1)",
+        //   "transform " + this.timouts.dnd.throttle + "ms cubic-bezier(0, 0, 0.2, 1)",
         //  zIndex: 500,
       };
     },
@@ -277,7 +269,7 @@ export default {
                 dropX,
                 dropY,
                 1,
-                this.hitDurationMs
+                this.timeouts.tile.hit
               )
             : this.missStyle(0, 0, 0)
         )
@@ -309,23 +301,19 @@ export default {
         setTimeout(() => {
           this.terms = this.terms.map(showById(dragId, false));
           this.definitions = this.definitions.map(showById(dropId, false));
-          this.terms = shuffleArray(this.terms);
-          this.definitions = shuffleArray(this.definitions);
           this.correct++;
-          setTimeout(() => {
-            this.inTransition = false;
-          }, this.shuffleDurationMs);
-        }, this.hitDurationMs);
+          this.inTransition = false;
+        }, this.timeouts.tile.hit);
       } else {
         this.incorrect++;
       }
     },
-    onGameEnter() {
+    onEntered() {
       console.log("game entered...");
       this.deal();
       this.playing = true;
     },
-    onGameLeave() {
+    onLeft() {
       console.log("game left....");
       /* fire game over, transfer stats */
     },
@@ -348,9 +336,6 @@ export default {
         });
       }, 2000);
     },
-    togglePlaying() {
-      this.playing = !this.playing;
-    },
     translate(x, y, z) {
       return {
         transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)",
@@ -358,9 +343,22 @@ export default {
     },
   },
   watch: {
-    rounds() {
-      console.log("dealing new round...");
-      this.deal();
+    progress(newVal, oldVal) {
+      if (oldVal && Math.floor(newVal) !== Math.floor(oldVal)) {
+        // New Round
+        console.log("new round...", oldVal, "vs", newVal);
+        this.deal();
+        this.playing = true;
+      } else {
+        // Terms remain (shuffle)
+        console.log("shuffling...");
+        this.inTransition = true;
+        this.terms = shuffleArray(this.terms);
+        this.definitions = shuffleArray(this.definitions);
+        setTimeout(() => {
+          this.inTransition = false;
+        }, this.timeouts.tile.shuffle);
+      }
     },
   },
 };

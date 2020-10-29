@@ -4,13 +4,14 @@
     tag="div"
     :id="id"
     :class="[classes]"
-    :duration="duration"
+    :duration="{ enter: timeouts.enter, leave: timeouts.leave }"
     :css="true"
     enter-class="fade-in-start"
     enter-active-class="fade-in-active"
     enter-to-class="fade-in-end"
     :move-class="transitionGroup"
-    @leave="leave"
+    @after-enter="onEntered"
+    @leave="onLeft"
   >
     <component
       :is="componentName"
@@ -44,6 +45,7 @@ export default {
     "tiles",
     "tileType",
     "tileCount",
+    "timeouts",
   ],
   computed: {
     transitionGroup() {
@@ -70,10 +72,12 @@ export default {
     },
   },
   methods: {
-    leave(el, done) {
-      console.log("leave!");
+    onEntered() {
+      console.log("entered!");
+    },
+    onLeft(el) {
+      console.log("left!");
       el.style.display = "none";
-      done();
     },
   },
 };
@@ -161,8 +165,9 @@ export default {
       color: white;
       font-weight: 500;
       &.drag {
-        transition: border-color 500ms ease-in-out;
-         // transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+        transition: border-color 500ms ease-in-out,
+          transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+        // transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
         z-index: 500;
         border-color: white;
       }

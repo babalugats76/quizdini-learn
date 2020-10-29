@@ -1,6 +1,6 @@
 <template>
   <transition
-    :duration="{ enter: 1000, leave: 1000 }"
+    :duration="{ enter: timeouts.enter, leave: timeouts.leave }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"
@@ -8,14 +8,14 @@
     leave-class="fade-out-start"
     leave-to-class="fade-out-end"
     :css="true"
-    @after-enter="afterEnter"
-    @after-leave="afterLeave"
+    @after-enter="onEntered"
+    @after-leave="onLeft"
   >
     <div class="timer" :id="id" v-show="playing">
       <transition
         appear
         :css="true"
-        :duration="{ enter: 250, leave: 250 }"
+        :duration="{ enter: timeouts.change, leave: timeouts.change }"
         leave-active-class="score-out-active"
         leave-class="score-out-start"
         leave-to-class="score-out-end"
@@ -67,7 +67,15 @@ const ALERT_THRESHOLD = 20;
 
 export default {
   name: "MatchTimer",
-  props: ["active", "duration", "id", "intervalMs", "playing", "score"],
+  props: [
+    "active",
+    "duration",
+    "id",
+    "intervalMs",
+    "playing",
+    "score",
+    "timeouts",
+  ],
   data() {
     return {
       elapsed: 0,
@@ -113,12 +121,12 @@ export default {
 
   methods: {
     // eslint-disable-next-line no-unused-vars
-    afterEnter(el) {
+    onEntered(el) {
       console.log("timer entered...");
       this.startTimer();
     },
     // eslint-disable-next-line no-unused-vars
-    afterLeave(el) {
+    onLeft(el) {
       console.log("timer left...");
       this.elapsed = 0;
     },

@@ -61,7 +61,7 @@ export default {
         : {};
     },
     throttledDrag() {
-      return _.throttle(this.drag, this.throttleMs, { trailing: false });
+      return _.throttle(this.drag, this.throttleMs, { trailing: true });
     },
   },
   methods: {
