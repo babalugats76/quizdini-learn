@@ -161,8 +161,8 @@ export default {
       color: white;
       font-weight: 500;
       &.drag {
-        transition: border-color 500ms ease-in-out,
-          transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+        transition: border-color 500ms ease-in-out;
+         // transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
         z-index: 500;
         border-color: white;
       }

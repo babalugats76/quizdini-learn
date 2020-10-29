@@ -2,7 +2,7 @@
   <div class="full-page full-page--match">
     <MatchGame
       :color-scheme="colorScheme"
-      :duration="30"
+      :duration="duration"
       :items-per-board="itemsPerBoard"
       :matches="matches"
       v-if="showBoard"

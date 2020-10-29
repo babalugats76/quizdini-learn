@@ -101,6 +101,11 @@ export default {
       required: false,
       default: 30,
     },
+    shuffleDurationMs: {
+      type: Number,
+      required: false,
+      default: 500,
+    },
   },
   data() {
     return {
@@ -247,42 +252,72 @@ export default {
         return def;
       };
 
+      const updateStat = (term, matched) => (stat) => {
+        if (stat.term === term) {
+          return {
+            term: term,
+            hit: matched ? stat.hit + 1 : stat.hit,
+            miss: matched ? stat.miss : stat.miss + 1,
+          };
+        }
+        return stat;
+      };
+
       const matched = dropId ? this.isMatch(dragId, dropId) : false;
+      this.terms = this.terms.map(
+        matchTerm(
+          dragId,
+          matched,
+          matched ? "hit" : "miss",
+          matched
+            ? this.hitStyle(
+                dragX,
+                dragY,
+                1,
+                dropX,
+                dropY,
+                1,
+                this.hitDurationMs
+              )
+            : this.missStyle(0, 0, 0)
+        )
+      );
+
+      if (!dropId) {
+        return;
+      }
+
+      this.definitions = this.definitions.map(
+        matchDef(dropId, matched, matched ? "hit" : "miss")
+      );
+
+      const { content: term } =
+        this.terms.find((term) => term.id === dragId) || {};
+      this.score = Math.max(matched ? this.score + 1 : this.score - 1, 0);
+
+      const stat = this.stats.filter((stat) => stat.term === term); // lookup dropped term's stats
+      this.stats = stat.length
+        ? this.stats.map(updateStat(term, matched))
+        : this.stats.concat({
+            term,
+            hit: matched ? 1 : 0,
+            miss: matched ? 0 : 1,
+          });
 
       if (matched) {
         this.inTransition = true;
-
-        this.terms = this.terms.map(
-          matchTerm(
-            dragId,
-            true,
-            "hit",
-            this.hitStyle(dragX, dragY, 1, dropX, dropY, 1, this.hitDurationMs)
-          )
-        );
-
-        this.definitions = this.definitions.map(matchDef(dropId, true, "hit"));
-
         setTimeout(() => {
           this.terms = this.terms.map(showById(dragId, false));
           this.definitions = this.definitions.map(showById(dropId, false));
-          this.correct++;
-          this.score = Math.max(this.score + 1, 0); // increment score (floor of 0)
           this.terms = shuffleArray(this.terms);
           this.definitions = shuffleArray(this.definitions);
+          this.correct++;
           setTimeout(() => {
             this.inTransition = false;
-          }, 500);
+          }, this.shuffleDurationMs);
         }, this.hitDurationMs);
       } else {
-        this.terms = this.terms.map(
-          matchTerm(dragId, false, "miss", this.missStyle(0, 0, 0))
-        );
-
-        if (!dropId) return;
-        this.definitions = this.definitions.map(matchDef(dropId, false, ""));
         this.incorrect++;
-        this.score = Math.max(this.score - 1, 0); // decrement score (floor of 0)
       }
     },
     onGameEnter() {
