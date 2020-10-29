@@ -11,7 +11,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "Quizdini Games";
+        args[0].title = "Quizdini Games!";
         return args
       })
   },
