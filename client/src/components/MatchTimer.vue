@@ -1,6 +1,6 @@
 <template>
   <transition
-    :duration="{ enter: enterMs, leave: leaveMs }"
+    :duration="{ enter: `${enterMs}`, leave: `${leaveMs}` }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"
@@ -15,7 +15,7 @@
       <transition
         appear
         :css="true"
-        :duration="{ enter: changeMs, leave: changeMs }"
+        :duration="{ enter: `${changeMs}`, leave: `${changeMs}` }"
         leave-active-class="score-out-active"
         leave-class="score-out-start"
         leave-to-class="score-out-end"
@@ -76,7 +76,7 @@ export default {
     "intervalMs",
     "leaveMs",
     "playing",
-    "score"
+    "score",
   ],
   data() {
     return {

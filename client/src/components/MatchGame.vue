@@ -2,7 +2,7 @@
   <transition
     appear
     :css="true"
-    :duration="{ enter: config.game.enterMs, leave: config.game.leaveMs }"
+    :duration="{ enter: `${config.game.enterMs}`, leave: `${config.game.leaveMs}` }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"

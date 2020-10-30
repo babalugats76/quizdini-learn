@@ -4,7 +4,7 @@
     tag="div"
     :id="id"
     :class="[classes]"
-    :duration="{ enter: enterMs, leave: leaveMs }"
+    :duration="{ enter: `${enterMs}`, leave: `${leaveMs}` }"
     :css="true"
     enter-class="fade-in-start"
     enter-active-class="fade-in-active"

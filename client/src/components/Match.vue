@@ -44,6 +44,7 @@ const CONFIG = {
   },
   timer: {
     intervalMs: 100,
+    changeMs: 250,
     enterMs: 1000,
     leaveMs: 1000,
   },
