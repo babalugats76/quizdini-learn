@@ -90,11 +90,6 @@ export default {
       required: true,
       default: 60,
     },
-    hitDurationMs: {
-      type: Number,
-      required: false,
-      default: 800,
-    },
     itemsPerBoard: {
       type: Number,
       required: true,
