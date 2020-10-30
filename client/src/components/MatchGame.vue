@@ -2,7 +2,7 @@
   <transition
     appear
     :css="true"
-    :duration="{ enter: timeouts.game.enter, leave: timeouts.game.leave }"
+    :duration="{ enter: config.game.enterMs, leave: config.game.leaveMs }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"
@@ -15,10 +15,12 @@
     <div id="match-game">
       <div id="match-timer">
         <MatchTimer
+          :change-ms="config.timer.changeMs"
           :duration="duration"
+          :enter-ms="config.timer.enterMs"
+          :interval-ms="config.timer.intervalMs"
+          :leave-ms="config.timer.leaveMs"
           :playing="playing"
-          :timeouts="timeouts.timer"
-          :interval-ms="100"
           :score="score"
           v-on:timer-expired="onTimerExpired"
         />
@@ -27,7 +29,7 @@
         id="match-dnd-board"
         :disabled="inTransition"
         :playing="playing"
-        :throttle-ms="33"
+        :throttle-ms="config.dnd.throttleMs"
         v-on:drag="onDrag"
         v-on:over="onOver"
         v-on:drop="onDrop"
@@ -37,20 +39,22 @@
           id="terms"
           tile-type="term"
           :disabled="inTransition"
+          :enter-ms="config.tile.enterMs"
+          :leave-ms="config.tile.leaveMs"
           :playing="playing"
           :tiles="terms"
           :tile-count="itemsPerBoard"
-          :timeouts="timeouts.tile"
         />
         <MatchTileBoard
           componentName="Droppable"
           id="definitions"
           tile-type="definition"
           :disabled="inTransition"
+          :enter-ms="config.tile.enterMs"
+          :leave-ms="config.tile.leaveMs"
           :playing="playing"
           :tiles="definitions"
           :tile-count="itemsPerBoard"
-          :timeouts="timeouts.tile"
         />
       </DnD>
     </div>
@@ -77,6 +81,10 @@ export default {
       required: false,
       default: "rainbow",
     },
+    config: {
+      type: Object,
+      required: true,
+    },
     duration: {
       type: Number,
       required: true,
@@ -96,10 +104,6 @@ export default {
       type: Array,
       required: true,
       default: () => [],
-    },
-    timeouts: {
-      type: Object,
-      required: true,
     },
   },
   data() {
@@ -269,7 +273,7 @@ export default {
                 dropX,
                 dropY,
                 1,
-                this.timeouts.tile.hit
+                this.config.tile.hitMs
               )
             : this.missStyle(0, 0, 0)
         )
@@ -303,7 +307,7 @@ export default {
           this.definitions = this.definitions.map(showById(dropId, false));
           this.correct++;
           this.inTransition = false;
-        }, this.timeouts.tile.hit);
+        }, this.config.tile.hitMs);
       } else {
         this.incorrect++;
       }
@@ -357,7 +361,7 @@ export default {
         this.definitions = shuffleArray(this.definitions);
         setTimeout(() => {
           this.inTransition = false;
-        }, this.timeouts.tile.shuffle);
+        }, this.config.tile.shuffleMs);
       }
     },
   },

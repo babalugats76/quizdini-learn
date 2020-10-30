@@ -1,6 +1,6 @@
 <template>
   <transition
-    :duration="{ enter: timeouts.enter, leave: timeouts.leave }"
+    :duration="{ enter: enterMs, leave: leaveMs }"
     enter-active-class="fade-in-active"
     enter-class="fade-in-start"
     enter-to-class="fade-in-end"
@@ -15,7 +15,7 @@
       <transition
         appear
         :css="true"
-        :duration="{ enter: timeouts.change, leave: timeouts.change }"
+        :duration="{ enter: changeMs, leave: changeMs }"
         leave-active-class="score-out-active"
         leave-class="score-out-start"
         leave-to-class="score-out-end"
@@ -69,12 +69,14 @@ export default {
   name: "MatchTimer",
   props: [
     "active",
+    "changeMs",
     "duration",
+    "enterMs",
     "id",
     "intervalMs",
+    "leaveMs",
     "playing",
-    "score",
-    "timeouts",
+    "score"
   ],
   data() {
     return {

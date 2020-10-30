@@ -5,7 +5,7 @@
       :duration="duration"
       :items-per-board="itemsPerBoard"
       :matches="matches"
-      :timeouts="timeouts"
+      :config="config"
       v-if="showBoard"
       v-on:game-over="onGameOver"
     />
@@ -28,6 +28,27 @@ axios.defaults.headers.common[
   "quizdini-timezone"
 ] = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+const CONFIG = {
+  dnd: {
+    throttleMs: 33.33,
+  },
+  game: {
+    enterMs: 1000,
+    leaveMs: 1000,
+  },
+  tile: {
+    enterMs: 800,
+    hitMs: 800,
+    leaveMs: 0,
+    missMs: 800,
+  },
+  timer: {
+    intervalMs: 100,
+    enterMs: 1000,
+    leaveMs: 1000,
+  },
+};
+
 export default {
   name: "Match",
   components: {
@@ -48,6 +69,9 @@ export default {
     };
   },
   computed: {
+    config() {
+      return CONFIG;
+    },
     game: {
       get() {
         return {
@@ -77,25 +101,6 @@ export default {
     },
     matchId() {
       return this.$route.params.id;
-    },
-    timeouts() {
-      return {
-        game: {
-          enter: 1000,
-          leave: 1000,
-        },
-        tile: {
-          enter: 800,
-          hit: 800,
-          leave: 0,
-          miss: 800,
-        },
-        timer: {
-          enter: 1000,
-          leave: 1000,
-          change: 250,
-        },
-      };
     },
   },
   methods: {

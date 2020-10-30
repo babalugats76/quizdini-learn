@@ -4,7 +4,7 @@
     tag="div"
     :id="id"
     :class="[classes]"
-    :duration="{ enter: timeouts.enter, leave: timeouts.leave }"
+    :duration="{ enter: enterMs, leave: leaveMs }"
     :css="true"
     enter-class="fade-in-start"
     enter-active-class="fade-in-active"
@@ -40,12 +40,13 @@ export default {
     "componentName",
     "disabled",
     "duration",
+    "enterMs",
     "id",
+    "leaveMs",
     "playing",
     "tiles",
     "tileType",
     "tileCount",
-    "timeouts",
   ],
   computed: {
     transitionGroup() {
