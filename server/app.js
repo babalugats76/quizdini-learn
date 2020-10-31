@@ -1,17 +1,17 @@
 //require('newrelic');
 const express = require("express");
 const logger = require("morgan");
-const path = require('path');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const path = require("path");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
-const errorHandler = require('./middlewares/errorHandler');
-const keys = require('./config/keys');
+const errorHandler = require("./middlewares/errorHandler");
+const keys = require("./config/keys");
 
-require('./models/User'); // Used in match routes, etc.
-require('./models/Match'); // Used in match routes, etc.
-require('./models/Ping'); // Used in ping routes, etc.
+require("./models/User"); // Used in match routes, etc.
+require("./models/Match"); // Used in match routes, etc.
+require("./models/Ping"); // Used in ping routes, etc.
 
 const memcache = require("./services/memcache")(keys);
 
@@ -27,8 +27,8 @@ mongoose.connect(keys.mongoURI, {
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
-  const enforce = require('express-sslify');
+if (process.env.NODE_ENV === "production") {
+  const enforce = require("express-sslify");
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
@@ -40,15 +40,15 @@ app.use(logger("dev"));
 }*/
 
 app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use(errorHandler); // Custom default, i.e., catch-all, error handler middleware
 
-require('./routes/matchRoutes')(app, memcache);
-require('./routes/pingRoutes')(app);
+require("./routes/matchRoutes")(app, memcache);
+require("./routes/pingRoutes")(app);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
 module.exports = app;
