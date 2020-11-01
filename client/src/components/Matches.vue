@@ -36,12 +36,9 @@ export default {
     async fetchData() {
       // API GET
       try {
-        const res = await axios.get(
-          "/api/matches/",
-          {
-            timeout: 30000,
-          }
-        );
+        const res = await axios.get("/api/matches/", {
+          timeout: 30000,
+        });
         return res.data;
       } catch (error) {
         console.log(error);

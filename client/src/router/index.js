@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
-import { createWebHistory, createRouter } from 'vue-router';
-import { Match, Matches } from '@/components/';
+import { createWebHistory, createRouter } from "vue-router";
+import { Match, Matches } from "@/components/";
 
 const routes = [
   {
-    path: '/',
-    name: 'matches',
+    path: "/",
+    name: "matches",
     component: Matches,
     props: false,
   },
   {
-    path: '/match/:id',
-    name: 'match',
+    path: "/match/:id",
+    name: "match",
     component: Match,
     props: false,
   },

@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const Match = mongoose.model('matches');
+const mongoose = require("mongoose");
+const Match = mongoose.model("matches");
 
 module.exports = (app, memcache) => {
-  app.get('/api/matches', async (req, res, next) => {
+  app.get("/api/matches", async (req, res, next) => {
     try {
       const matches = await Match.aggregate([
         /*{ $match: { user_id: mongoose.Types.ObjectId(req.user.id) } },*/
-        { $addFields: { termCount: { $size: '$matches' } } },
-        { $unset: ['user_id', 'matches', '__v'] },
+        { $addFields: { termCount: { $size: "$matches" } } },
+        { $unset: ["user_id", "matches", "__v"] },
         { $sort: { updateDate: -1 } },
         { $project: { _id: false } },
       ]);
@@ -18,7 +18,7 @@ module.exports = (app, memcache) => {
     }
   });
 
-  app.get('/api/match/:id', async (req, res, next) => {
+  app.get("/api/match/:id", async (req, res, next) => {
     try {
       // throw new Error('Testing match error...');
 
@@ -30,7 +30,7 @@ module.exports = (app, memcache) => {
       // Otherwise, fetch data from database
       let match = await Match.findOne({
         matchId: req.params.id,
-      }).populate('user_id', 'title firstName lastName author', 'users');
+      }).populate("user_id", "title firstName lastName author", "users");
       if (!match) return res.send({}); // empty object signifies not found
       match = match.toJSON(); // convert to POJO
       match.author = match.user_id.author; // map author

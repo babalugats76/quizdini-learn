@@ -18,7 +18,7 @@ export function addColor(array, colorScheme) {
     "magenta",
     "navy",
     "gray",
-    "teal"
+    "teal",
   ];
 
   switch (colorScheme.toLowerCase()) {
@@ -29,14 +29,14 @@ export function addColor(array, colorScheme) {
         colors.splice(rand, 1);
         return {
           ...obj,
-          color
+          color,
         };
       });
     default:
       return array.map((obj) => {
         return {
           ...obj,
-          color: "" // empty string for color represents default
+          color: "", // empty string for color represents default
         };
       });
   }

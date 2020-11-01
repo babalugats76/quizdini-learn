@@ -11,7 +11,7 @@ module.exports = (err, req, res, next) => {
           message:
             err.message ||
             HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR) ||
-            ""
+            "",
         };
   res.status(error.statusCode).send(error);
   //next(err);

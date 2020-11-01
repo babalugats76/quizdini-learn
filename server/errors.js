@@ -10,11 +10,11 @@ class CustomError extends Error {
     return {
       statusCode: this.statusCode,
       code: this.code,
-      message: this.message
+      message: this.message,
     };
   }
 }
 
 module.exports = {
-  CustomError
+  CustomError,
 };

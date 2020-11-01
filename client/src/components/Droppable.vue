@@ -21,5 +21,4 @@ export default {
 .droppable.disabled {
   pointer-events: none;
 }
-
 </style>

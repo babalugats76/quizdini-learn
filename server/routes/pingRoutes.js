@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Ping = mongoose.model("pings");
 
-module.exports = app => {
+module.exports = (app) => {
   app.post("/api/ping", async (req, res, next) => {
     try {
       const { gameId, gameType, results } = req.body;
@@ -11,7 +11,7 @@ module.exports = app => {
         gameId,
         gameType,
         results,
-        createDate: Date.now()
+        createDate: Date.now(),
       }).save();
       res.send(ping);
     } catch (e) {

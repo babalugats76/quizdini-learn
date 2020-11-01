@@ -4,5 +4,5 @@ module.exports = {
   memcachierPassword: process.env.MEMCACHIER_PASSWORD,
   memcachierServers: process.env.MEMCACHIER_SERVERS,
   memcachierUsername: process.env.MEMCACHIER_USERNAME,
-  mongoURI: process.env.MONGO_URI
+  mongoURI: process.env.MONGO_URI,
 };
