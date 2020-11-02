@@ -1,5 +1,4 @@
 import { reactive } from 'vue';
-//import axios from 'axios';
 import shortid from 'shortid';
 import { shuffleArray } from '../utils';
 
@@ -127,29 +126,4 @@ const deal = () => {
 
 export const actions = {
   deal: deal,
-
-  /*fetchMatch = async (id) => {
-    try {
-      const res = await axios.get("/api/match/" + id, {
-        timeout: 10000,
-      });
-      const {
-        matchId: gameId,
-        matches = [],
-        options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
-        title = "",
-      } = res.data || {} ;
-
-      mutations.setColorScheme(colorScheme);
-      mutations.setDuration(duration);
-      mutations.setGameId(gameId);
-      mutations.setItemsPerBoard(itemsPerBoard);
-      mutations.setMatches(matches);
-      mutations.setTitle(title);
-
-    } catch (error) {
-      // add store-based error stuff?
-      console.log(error);
-    }
-  },*/
 };
