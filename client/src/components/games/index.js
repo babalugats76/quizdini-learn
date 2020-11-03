@@ -1,2 +1,2 @@
 import Match from "./Match";
-export { Match }
+export { Match };

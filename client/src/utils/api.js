@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 /* Include custom header containing client's current tz */
 axios.defaults.headers.common[
-  'quizdini-timezone'
+  "quizdini-timezone"
 ] = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 /* Set "global" settings that can be overwritten (by arg) */
@@ -12,8 +12,9 @@ const AXIOS_CONFIG = { timeout: 30000 };
  * Calls GET method of url using axios
  * @returns {object} data or error object (from server)
  */
-export const get = async (url, config = AXIOS_CONFIG) => {
-  console.log('url', url);
+export const get = async ({ url, config = AXIOS_CONFIG }) => {
+  console.log("url", url);
+  console.log("config", config);
   try {
     const res = await axios.get(url, config);
     return { data: res.data };

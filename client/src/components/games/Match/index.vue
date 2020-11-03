@@ -1,20 +1,20 @@
 <template>
   <pre>
- 
-     {{ JSON.stringify(sharedData, null, 4) }}
+     {{ JSON.stringify(globalState, null, 4) }}
    </pre
   >
 </template>
 <script>
 import matchService from "@/services/match";
-import { state as store, actions, mutations } from "./store";
+import { state, actions, getters, mutations } from "./lib";
 
 export default {
   name: "Match",
   data() {
-    return { sharedData: store };
+    return { globalState: state };
   },
   computed: {
+    ...getters,
     matchId() {
       return this.$route.params.id;
     },
@@ -26,23 +26,13 @@ export default {
   async created() {
     console.log(this.matchId);
     const response = await matchService.fetch(this.matchId);
-    //console.log(JSON.stringify(response));
-    const {
-      matchId: gameId,
-      matches = [],
-      options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
-      title = "",
-    } = response.data;
-
-    this.setColorScheme(colorScheme);
-    this.setDuration(duration);
-    this.setGameId(gameId);
-    this.setItemsPerBoard(itemsPerBoard);
-    this.setMatches(matches);
-    this.setTitle(title);
+    this.load(response.data);
     this.deal();
+    setTimeout(() => {
+      this.shuffle();
+      this.setCanDnD(true);
+    }, 1000);
   },
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

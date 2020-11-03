@@ -66,7 +66,7 @@
 
 <script>
 import shortid from "shortid";
-import { addColor, shuffleArray } from "./utils";
+import { addColor, shuffleArray, updateObjInArray, upsertArray } from "./utils";
 import DnD from "./DnD";
 import MatchTileBoard from "./MatchTileBoard";
 import MatchTimer from "./MatchTimer";
@@ -190,9 +190,9 @@ export default {
       };
     },
     isMatch: function (dragId, dropId) {
-      const { answer } = this.terms.find((term) => term.id === dragId) || {};
-      const { content: question } =
-        this.definitions.find((def) => def.id === dropId) || {};
+      const uid = (id) => (el) => el.id === id;
+      const { answer } = this.terms.find(uid(dragId)) || {};
+      const { content: question } = this.definitions.find(uid(dropId)) || {};
       return !!answer && !!question && answer === question;
     },
     missStyle(x, y, z) {
@@ -229,74 +229,49 @@ export default {
         return v;
       };
 
-      const matchTerm = (id, matched, className, style) => (term) => {
-        if (term.id === id) {
-          term.matched = matched;
-          term.className = className;
-          term.style = style;
-        }
-        return term;
-      };
-
-      const matchDef = (id, matched, className) => (def) => {
-        if (def.id === id) {
-          def.matched = matched;
-          def.className = className;
-        }
-        return def;
-      };
-
-      const updateStat = (term, matched) => (stat) => {
-        if (stat.term === term) {
-          return {
-            term: term,
-            hit: matched ? stat.hit + 1 : stat.hit,
-            miss: matched ? stat.miss : stat.miss + 1,
-          };
-        }
-        return stat;
-      };
-
       const matched = dropId ? this.isMatch(dragId, dropId) : false;
-      this.terms = this.terms.map(
-        matchTerm(
-          dragId,
-          matched,
-          matched ? "hit" : "miss",
-          matched
-            ? this.hitStyle(
-                dragX,
-                dragY,
-                1,
-                dropX,
-                dropY,
-                1,
-                this.config.tile.hitMs
-              )
-            : this.missStyle(0, 0, 0)
-        )
-      );
+
+      this.terms = updateObjInArray(this.terms, {
+        id: dragId,
+        matched: matched,
+        className: matched ? "hit" : "miss",
+        style: matched
+          ? this.hitStyle(
+              dragX,
+              dragY,
+              1,
+              dropX,
+              dropY,
+              1,
+              this.config.tile.hitMs
+            )
+          : this.missStyle(0, 0, 0),
+      });
 
       if (!dropId) {
         return;
       }
 
-      this.definitions = this.definitions.map(
-        matchDef(dropId, matched, matched ? "hit" : "miss")
-      );
+      this.definitions = updateObjInArray(this.definitions, {
+        id: dropId,
+        className: matched ? "hit" : "",
+        ...(matched && { matched: true }),
+      });
+
+      this.score = Math.max(matched ? this.score + 1 : this.score - 1, 0);
 
       const { content: term } =
         this.terms.find((term) => term.id === dragId) || {};
-      this.score = Math.max(matched ? this.score + 1 : this.score - 1, 0);
 
-      const stat = this.stats.filter((stat) => stat.term === term); // lookup dropped term's stats
-      this.stats = stat.length
-        ? this.stats.map(updateStat(term, matched))
-        : this.stats.concat({
-            term,
-            hit: matched ? 1 : 0,
-            miss: matched ? 0 : 1,
-          });
+      this.stats = upsertArray(this.stats, { term }, "term", (s) =>
+        s
+          ? {
+              term: term,
+              hit: matched ? s.hit + 1 : s.hit,
+              miss: matched ? s.miss : s.miss + 1,
+            }
+          : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
+      );
 
       if (matched) {
         this.inTransition = true;
