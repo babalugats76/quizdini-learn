@@ -12,6 +12,7 @@
     leave-to-class="fade-out-end"
     @after-enter="onEntered"
     @after-leave="onLeft"
+    v-show="!expired"
   >
     <div class="timer" v-show="playing">
       <!-- leave-class="scoring-start" -->
@@ -137,7 +138,7 @@ export default {
     },
     onLeft() {
       this.debug && console.log("timer left...");
-      this.elapsed = 0;
+      //this.elapsed = 0;
     },
     startTimer() {
       this.elapsed = 0;

@@ -1,5 +1,6 @@
 <template>
   <div class="match-game">
+    <button v-on:click="setDuration(5)">Set Duration</button>
     <button v-on:click="setScore(1)">1</button>
     <button v-on:click="setScore(0)">0</button>
     <div class="match-timer">
