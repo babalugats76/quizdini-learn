@@ -35,7 +35,7 @@
             <g class="timer__circle">
               <circle
                 class="timer__path-elapsed"
-                :class="hitMiss"
+                :class="scoreClass"
                 cx="50"
                 cy="50"
                 r="45"
@@ -43,7 +43,7 @@
               <path
                 :stroke-dasharray="strokeDasharray"
                 class="timer__path-remaining"
-                :class="[severity, hitMiss]"
+                :class="[severity, scoreClass]"
                 d="M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
@@ -52,7 +52,7 @@
               ></path>
             </g>
           </svg>
-          <span class="timer__label" :class="hitMiss">{{
+          <span class="timer__label" :class="scoreClass">{{
             score || formatted
           }}</span>
         </div>
@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       elapsed: 0,
-      hitMiss: "",
+      scoreClass: "",
       intervalId: null,
       scoring: false,
     };
@@ -156,14 +156,14 @@ export default {
     endScoreChange() {
       this.debug && console.log("timer scoring end...");
       this.scoring = false;
-      this.hitMiss = "";
+      this.scoreClass = "";
     },
   },
   watch: {
     score(newVal, oldVal) {
       this.debug && console.log("timer scoring:", oldVal, "-->", newVal);
       this.scoring = true;
-      this.hitMiss = newVal > oldVal ? "hit" : "miss";
+      this.scoreClass = newVal > oldVal ? "hit" : "miss";
     },
     expired(newVal, oldVal) {
       if (!oldVal && newVal) {
