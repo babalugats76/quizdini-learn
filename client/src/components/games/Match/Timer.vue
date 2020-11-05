@@ -81,8 +81,8 @@ export default {
   data() {
     return {
       elapsed: 0,
-      scoreClass: "",
       intervalId: null,
+      scoreClass: "",
       scoring: false,
     };
   },
