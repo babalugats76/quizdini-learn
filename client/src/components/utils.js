@@ -56,32 +56,41 @@ export function shuffleArray(array) {
 }
 
 /**
- * Updates single object in array of objects
+ * Updates single object into array of objects.
  *
  * Avoids mutation by creating new version of array
  * which can be used in state assignments, etc.
  *
  * @param {Array} array  array of objects
- * @param {Object} obj   object to update
- * @param {String} key   property to used in equality check
+ * @param {object} obj   object to update
+ * @param {string} key   property to used in equality check
  */
 export function updateObjInArray(array, obj, key = "id") {
-  return array.map((i) => {
-    if (i[key] !== obj[key]) {
-      return i;
-    }
-    return {
-      ...i,
-      ...obj,
-    };
-  });
+  return Object.prototype.hasOwnProperty.call(obj, key)
+    ? array.map((i) => (i[key] !== obj[key] ? i : { ...i, ...obj }))
+    : array;
 }
 
+/**
+ * "Upserts" object into array of objects.
+ *
+ * If exists, updates; otherwise, inserts
+ *
+ * Avoids mutation by creating new version of array
+ * which can be used in state assignments, etc.
+ *
+ * @param {Array} array         array of objects
+ * @param {object} obj          object to upsert
+ * @param {string} key          property to used in equality check
+ * @param {function} transform  lookup transform function (optional)
+ */
 export function upsertArray(array, obj, key = "id", transform = undefined) {
   if (!Object.prototype.hasOwnProperty.call(obj, key)) return array;
-  const found = array.find((i) => i[key] === obj[key]);
-  const upsert = transform ? transform(found) : obj;
-  return found ? updateObjInArray(array, upsert, key) : array.concat(upsert);
+  const lookup = array.find((i) => i[key] === obj[key]);
+  const upsert = transform ? transform(lookup) : obj;
+  return lookup
+    ? array.map((i) => (i[key] !== upsert[key] ? i : { ...i, ...upsert }))
+    : array.concat(upsert);
 }
 
 /**

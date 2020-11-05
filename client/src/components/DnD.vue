@@ -164,23 +164,16 @@ export default {
         .find((el) => el.classList.contains("droppable"));
 
       // Grab info and perform calculations necessary for hit/miss transforms
-      const { id: dropId } = drop || {};
       const { top, left } = (drop && drop.getBoundingClientRect()) || {};
 
       // Fire event that allows application of custom hit/miss logic
       this.$emit("drop", {
-        drag: {
-          id: dragId,
-          x: drop ? x - initialX : x,
-          y: drop ? y - initialY : y,
-        },
-        drop: drop
-          ? {
-              id: dropId,
-              x: Math.round(left - initialX + offsetX), // apply original "pointer" location offsets
-              y: Math.round(top - initialY + offsetY), // apply original "pointer" location offsets
-            }
-          : null,
+        dragId: dragId,
+        dragX: drop ? x - initialX : x,
+        dragY: drop ? y - initialY : y,
+        dropId: drop ? drop.id : null,
+        dropX: drop ? Math.round(left - initialX + offsetX) : null, // apply original "pointer" location offsets
+        dropY: drop ? Math.round(top - initialY + offsetY) : null, // apply original "pointer" location offsets
       });
 
       // No matter what, current drag is over (reset) state

@@ -1,21 +1,35 @@
 export default {
   dnd: {
-    throttleMs: 33.33,
+    timeouts: {
+      throttle: 33,
+    },
   },
   game: {
-    enterMs: 1000,
-    leaveMs: 1000,
+    timeouts: {
+      enter: 1000,
+      leave: 1000,
+    },
   },
   tile: {
-    enterMs: 800,
-    hitMs: 800,
-    leaveMs: 0,
-    missMs: 800,
+    timeouts: {
+      enter: 800,
+      hit: 800,
+      leave: 0,
+      miss: 800,
+      shuffle: 500,
+    },
   },
   timer: {
-    intervalMs: 100,
-    changeMs: 250,
-    enterMs: 1000,
-    leaveMs: 1000,
+    debug: true,
+    thresholds: {
+      warn: 40,
+      alert: 20,
+    },
+    timeouts: {
+      interval: 100,
+      change: 250,
+      enter: 1000,
+      leave: 1000,
+    },
   },
 };

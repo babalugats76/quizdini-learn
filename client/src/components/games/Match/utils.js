@@ -56,6 +56,44 @@ export function shuffleArray(array) {
 }
 
 /**
+ * Updates single object into array of objects.
+ *
+ * Avoids mutation by creating new version of array
+ * which can be used in state assignments, etc.
+ *
+ * @param {Array} array  array of objects
+ * @param {object} obj   object to update
+ * @param {string} key   property to used in equality check
+ */
+export function updateObjInArray(array, obj, key = "id") {
+  return Object.prototype.hasOwnProperty.call(obj, key)
+    ? array.map((i) => (i[key] !== obj[key] ? i : { ...i, ...obj }))
+    : array;
+}
+
+/**
+ * "Upserts" object into array of objects.
+ *
+ * If exists, updates; otherwise, inserts
+ *
+ * Avoids mutation by creating new version of array
+ * which can be used in state assignments, etc.
+ *
+ * @param {Array} array         array of objects
+ * @param {object} obj          object to upsert
+ * @param {string} key          property to used in equality check
+ * @param {function} transform  lookup transform function (optional)
+ */
+export function upsertArray(array, obj, key = "id", transform = undefined) {
+  if (!Object.prototype.hasOwnProperty.call(obj, key)) return array;
+  const lookup = array.find((i) => i[key] === obj[key]);
+  const upsert = transform ? transform(lookup) : obj;
+  return lookup
+    ? array.map((i) => (i[key] !== upsert[key] ? i : { ...i, ...upsert }))
+    : array.concat(upsert);
+}
+
+/**
  * Determines whether a POJO is empty.
  *
  * @param {Object} obj  object to check

@@ -220,15 +220,7 @@ export default {
       });
     },
     onDrop(payload) {
-      const dnd = { id: null, x: null, y: null }; // useful for safe, nested destructuring
-      const { id: dragId, x: dragX, y: dragY } = payload.drag || dnd;
-      const { id: dropId, x: dropX, y: dropY } = payload.drop || dnd;
-
-      const showById = (id, show) => (v) => {
-        v.show = v.id === id ? show : v.show;
-        return v;
-      };
-
+      const { dragId, dragX, dragY, dropId, dropX, dropY } = payload || {};
       const matched = dropId ? this.isMatch(dragId, dropId) : false;
 
       this.terms = updateObjInArray(this.terms, {
@@ -259,9 +251,7 @@ export default {
       });
 
       this.score = Math.max(matched ? this.score + 1 : this.score - 1, 0);
-
-      const { content: term } =
-        this.terms.find((term) => term.id === dragId) || {};
+      const { content: term } = this.terms.find((t) => t.id === dragId) || {};
 
       this.stats = upsertArray(this.stats, { term }, "term", (s) =>
         s
@@ -276,8 +266,16 @@ export default {
       if (matched) {
         this.inTransition = true;
         setTimeout(() => {
-          this.terms = this.terms.map(showById(dragId, false));
-          this.definitions = this.definitions.map(showById(dropId, false));
+          this.terms = updateObjInArray(this.terms, {
+            id: dragId,
+            show: false,
+          });
+
+          this.definitions = updateObjInArray(this.definitions, {
+            id: dropId,
+            show: false,
+          });
+
           this.correct++;
           this.inTransition = false;
         }, this.config.tile.hitMs);
