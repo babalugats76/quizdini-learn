@@ -68,7 +68,7 @@
 import { config, getters, mutations } from "./store";
 import { actions } from "./lib";
 
-import {
+/*import {
   onBeforeMount,
   onMounted,
   onBeforeUpdate,
@@ -78,7 +78,7 @@ import {
   onActivated,
   onDeactivated,
   onErrorCaptured,
-} from "vue";
+} from "vue";*/
 
 /*Refer to previous code and this article
 https://medium.com/js-dojo/how-to-create-an-animated-countdown-timer-with-vue-89738903823f */
@@ -92,7 +92,7 @@ const SEVERITY = {
 };
 
 export default {
-  setup() {
+  /*setup() {
     onBeforeMount(() => {
       console.log("Before Mount!");
     });
@@ -120,7 +120,7 @@ export default {
     onErrorCaptured(() => {
       console.log("Error Captured!");
     });
-  },
+  },*/
   name: "Timer",
   data() {
     return {
@@ -191,6 +191,7 @@ export default {
       this.debug && console.log("timer left...");
     },
     startTimer() {
+      this.debug && console.log("timer starting...");
       this.elapsed = 0;
       this.intervalId = setInterval(
         () => (this.elapsed += this.timeouts.interval),
@@ -198,6 +199,7 @@ export default {
       );
     },
     endTimer() {
+      this.debug && console.log("timer ending...");
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
@@ -228,7 +230,6 @@ export default {
   },
   beforeUnmount() {
     this.debug && console.log(this.$options.name, "before destroy...");
-    this.debug && console.log("clearing timer...");
     this.endTimer();
   },
 };
