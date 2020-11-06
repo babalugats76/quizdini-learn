@@ -109,6 +109,14 @@ const isMatch = (termId, defId) => {
   return !!answer && !!question && answer === question;
 };
 
+const over = (payload) => {
+  const { dropId } = payload || {};
+  this.definitions = this.definitions.map((d) => ({
+    ...d,
+    className: d.id === dropId && !d.matched ? "over" : "",
+  }));
+};
+
 const drop = (payload) => {
   const { dragId, dragX, dragY, dropId, dropX, dropY } = payload || {};
   const matched = dropId ? isMatch(dragId, dropId) : false;
@@ -149,6 +157,7 @@ export const actions = {
   deal,
   drop,
   isMatch,
-  shuffle,
   load,
+  over,
+  shuffle,
 };

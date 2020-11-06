@@ -293,11 +293,11 @@ export default {
       /* fire game over, transfer stats */
     },
     onOver(payload) {
-      const { dropId } = payload;
-      this.definitions = this.definitions.map((def) => {
-        def.className = def.id === dropId && !def.matched ? "over" : "";
-        return def;
-      });
+      const { dropId } = payload || {};
+      this.definitions = this.definitions.map((d) => ({
+        ...d,
+        className: d.id === dropId && !d.matched ? "over" : "",
+      }));
     },
     onTimerExpired() {
       console.log("timer expired...");

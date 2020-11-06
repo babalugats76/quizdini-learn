@@ -56,14 +56,14 @@ export function shuffleArray(array) {
 }
 
 /**
- * Updates single object into array of objects.
+ * Updates single object in array of objects.
  *
  * Avoids mutation by creating new version of array
  * which can be used in state assignments, etc.
  *
- * @param {Array} array  array of objects
- * @param {object} obj   object to update
- * @param {string} key   property to used in equality check
+ * @param {Array} array         array of objects
+ * @param {object} obj          object to update
+ * @param {string} key          property to used in equality check
  */
 export function updateObjInArray(array, obj, key = "id") {
   return Object.prototype.hasOwnProperty.call(obj, key)
