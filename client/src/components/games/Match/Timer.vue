@@ -10,60 +10,75 @@
     leave-active-class="fade-out-active"
     leave-class="fade-out-start"
     leave-to-class="fade-out-end"
-    @after-enter="onEntered"
-    @after-leave="onLeft"
-    v-show="!expired"
+    @before-enter="beforeEnter"
+    @after-enter="afterEnter"
+    @after-leave="afterLeave"
   >
-    <div class="timer" v-show="playing">
-      <!-- leave-class="scoring-start" -->
-      <transition
-        appear
-        :duration="{
-          enter: `${timeouts.change}`,
-          leave: `${timeouts.change}`,
-        }"
-        leave-active-class="scoring-active"
-        leave-to-class="scoring-end"
-        @after-leave="endScoreChange"
-      >
-        <div class="timer__wrapper" v-show="!scoring">
-          <svg
-            class="timer__svg"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:svg="http://www.w3.org/2000/svg"
-          >
-            <g class="timer__circle">
-              <circle
-                class="timer__path-elapsed"
-                :class="scoreClass"
-                cx="50"
-                cy="50"
-                r="45"
-              ></circle>
-              <path
-                :stroke-dasharray="strokeDasharray"
-                class="timer__path-remaining"
-                :class="[severity, scoreClass]"
-                d="M 50, 50
+    <div class="match-timer" v-show="playing">
+      <div class="timer">
+        <!-- leave-class="scoring-start" -->
+        <transition
+          appear
+          :duration="{
+            enter: `${timeouts.change}`,
+            leave: `${timeouts.change}`,
+          }"
+          leave-active-class="scoring-active"
+          leave-to-class="scoring-end"
+          @after-leave="endScoreChange"
+        >
+          <div class="timer__wrapper" v-show="!scoring">
+            <svg
+              class="timer__svg"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:svg="http://www.w3.org/2000/svg"
+            >
+              <g class="timer__circle">
+                <circle
+                  class="timer__path-elapsed"
+                  :class="scoreClass"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                ></circle>
+                <path
+                  :stroke-dasharray="strokeDasharray"
+                  class="timer__path-remaining"
+                  :class="[severity, scoreClass]"
+                  d="M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-              ></path>
-            </g>
-          </svg>
-          <span class="timer__label" :class="scoreClass">{{
-            score || formatted
-          }}</span>
-        </div>
-      </transition>
+                ></path>
+              </g>
+            </svg>
+            <span class="timer__label" :class="scoreClass">{{
+              score || formatted
+            }}</span>
+          </div>
+        </transition>
+      </div>
     </div>
   </transition>
 </template>
 
 <script>
-import { config, getters } from "./store";
+import { config, getters, mutations } from "./store";
+import { actions } from "./lib";
+
+import {
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+  onErrorCaptured,
+} from "vue";
 
 /*Refer to previous code and this article
 https://medium.com/js-dojo/how-to-create-an-animated-countdown-timer-with-vue-89738903823f */
@@ -77,6 +92,35 @@ const SEVERITY = {
 };
 
 export default {
+  setup() {
+    onBeforeMount(() => {
+      console.log("Before Mount!");
+    });
+    onMounted(() => {
+      console.log("Mounted!");
+    });
+    onBeforeUpdate(() => {
+      console.log("Before Update!");
+    });
+    onUpdated(() => {
+      console.log("Updated!");
+    });
+    onBeforeUnmount(() => {
+      console.log("Before Unmount!");
+    });
+    onUnmounted(() => {
+      console.log("Unmounted!");
+    });
+    onActivated(() => {
+      console.log("Activated!");
+    });
+    onDeactivated(() => {
+      console.log("Deactivated!");
+    });
+    onErrorCaptured(() => {
+      console.log("Error Captured!");
+    });
+  },
   name: "Timer",
   data() {
     return {
@@ -130,15 +174,21 @@ export default {
       return `${(sofar * FULL_DASH_ARRAY).toFixed(0)} ${FULL_DASH_ARRAY}`;
     },
   },
-
   methods: {
-    onEntered() {
+    ...{
+      gameOver: actions.gameOver,
+    },
+    ...mutations,
+    beforeEnter() {
+      this.debug && console.log("before entered...");
+      this.elapsed = 0;
+    },
+    afterEnter() {
       this.debug && console.log("timer entered...");
       this.startTimer();
     },
-    onLeft() {
+    afterLeave() {
       this.debug && console.log("timer left...");
-      //this.elapsed = 0;
     },
     startTimer() {
       this.elapsed = 0;
@@ -169,14 +219,15 @@ export default {
     expired(newVal, oldVal) {
       if (!oldVal && newVal) {
         this.endTimer();
-        this.$emit("timer-expired");
+        this.gameOver();
       }
     },
   },
   mounted() {
     this.debug && console.log(this.$options.name, "mounted...");
   },
-  unmounted() {
+  beforeUnmount() {
+    this.debug && console.log(this.$options.name, "before destroy...");
     this.debug && console.log("clearing timer...");
     this.endTimer();
   },
@@ -184,6 +235,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.match-timer {
+  position: fixed;
+  width: 6em;
+  height: 6em;
+  bottom: 1em;
+  right: 1em;
+  z-index: 1000;
+  user-select: none;
+  pointer-events: none;
+}
+
 .fade-in-active {
   opacity: 0;
   transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);

@@ -3,9 +3,8 @@
     <button v-on:click="setDuration(5)">Set Duration</button>
     <button v-on:click="setScore(1)">1</button>
     <button v-on:click="setScore(0)">0</button>
-    <div class="match-timer">
-      <Timer />
-    </div>
+    <button v-on:click="setPlaying(true)">Set to Play</button>
+    <Timer />
   </div>
 </template>
 <script>
@@ -37,7 +36,6 @@ export default {
     ...actions,
   },
   async created() {
-    console.log(this.matchId);
     const response = await matchService.fetch(this.matchId);
     this.load(response.data);
     this.deal();
@@ -50,6 +48,14 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.full-page {
+  height: 100%;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: purple;
+}
+
 .match-game {
   --board-bg-color: turquoise;
   display: grid;
@@ -62,16 +68,5 @@ export default {
   margin: 0 auto;
   padding: 0;
   overflow: auto;
-}
-
-.match-timer {
-  position: fixed;
-  width: 6em;
-  height: 6em;
-  bottom: 1em;
-  right: 1em;
-  z-index: 1000;
-  user-select: none;
-  pointer-events: none;
 }
 </style>

@@ -13,6 +13,7 @@ export const state = reactive({
   matches: [],
   playing: false,
   score: 0,
+  showBoard: false,
   stats: [],
   terms: [],
   title: null,
@@ -20,66 +21,38 @@ export const state = reactive({
 
 export const config = matchConfig;
 
-export const canDnD = () => state.canDnD;
-export const colorScheme = () => state.colorScheme;
-export const correct = () => state.correct;
-export const definitions = () => state.definitions;
-export const duration = () => state.duration;
-export const gameId = () => state.gameId;
-export const incorrect = () => state.incorrect;
-export const itemsPerBoard = () => state.itemsPerBoard;
-export const matches = () => state.matches;
-export const playing = () => state.playing;
-export const score = () => state.score;
-export const stats = () => state.stats;
-export const terms = () => state.terms;
-export const title = () => state.title;
-
-export const setCanDnD = (val) => (state.canDnD = val);
-export const setColorScheme = (val) => (state.colorScheme = val);
-export const setCorrect = (val) => (state.correct = val);
-export const setDefinitions = (val) => (state.definitions = val);
-export const setDuration = (val) => (state.duration = val);
-export const setGameId = (val) => (state.gameId = val);
-export const setIncorrect = (val) => (state.incorrect = val);
-export const setItemsPerBoard = (val) => (state.itemsPerBoard = val);
-export const setMatches = (val) => (state.matches = val);
-export const setPlaying = (val) => (state.playing = val);
-export const setScore = (val) => (state.score = val);
-export const setStats = (val) => (state.stats = val);
-export const setTerms = (val) => (state.terms = val);
-export const setTitle = (val) => (state.title = val);
-
 export const getters = {
-  canDnD,
-  colorScheme,
-  correct,
-  definitions,
-  duration,
-  gameId,
-  incorrect,
-  itemsPerBoard,
-  matches,
-  playing,
-  score,
-  stats,
-  terms,
-  title,
+  canDnD: () => state.canDnD,
+  colorScheme: () => state.colorScheme,
+  correct: () => state.correct,
+  definitions: () => state.definitions,
+  duration: () => state.duration,
+  gameId: () => state.gameId,
+  incorrect: () => state.incorrect,
+  itemsPerBoard: () => state.itemsPerBoard,
+  matches: () => state.matches,
+  playing: () => state.playing,
+  score: () => state.score,
+  showBoard: () => state.showBoard,
+  stats: () => state.stats,
+  terms: () => state.terms,
+  title: () => state.title,
 };
 
 export const mutations = {
-  setCanDnD,
-  setColorScheme,
-  setCorrect,
-  setDefinitions,
-  setDuration,
-  setGameId,
-  setIncorrect,
-  setItemsPerBoard,
-  setMatches,
-  setPlaying,
-  setScore,
-  setStats,
-  setTerms,
-  setTitle,
+  setCanDnD: (val) => (state.canDnD = val),
+  setColorScheme: (val) => (state.colorScheme = val),
+  setCorrect: (val) => (state.correct = val),
+  setDefinitions: (val) => (state.definitions = val),
+  setDuration: (val) => (state.duration = val),
+  setGameId: (val) => (state.gameId = val),
+  setIncorrect: (val) => (state.incorrect = val),
+  setItemsPerBoard: (val) => (state.itemsPerBoard = val),
+  setMatches: (val) => (state.matches = val),
+  setPlaying: (val) => (state.playing = val),
+  setScore: (val) => (state.score = val),
+  setShowBoard: (val) => (state.showBoard = val),
+  setStats: (val) => (state.stats = val),
+  setTerms: (val) => (state.terms = val),
+  setTitle: (val) => (state.title = val),
 };

@@ -109,9 +109,18 @@ const isMatch = (termId, defId) => {
   return !!answer && !!question && answer === question;
 };
 
+const drag = (payload) => {
+  const { dragId, dragX, dragY } = payload || {};
+  state.terms = updateObjInArray(state.terms, {
+    id: dragId,
+    style: state.moveStyle(dragX, dragY, 1),
+    className: "drag",
+  });
+};
+
 const over = (payload) => {
   const { dropId } = payload || {};
-  this.definitions = this.definitions.map((d) => ({
+  state.definitions = state.definitions.map((d) => ({
     ...d,
     className: d.id === dropId && !d.matched ? "over" : "",
   }));
@@ -153,9 +162,17 @@ const drop = (payload) => {
   );
 };
 
+export const gameOver = () => {
+  console.log("game over...");
+  state.playing = false;
+  state.showBoard = false;
+};
+
 export const actions = {
   deal,
+  drag,
   drop,
+  gameOver,
   isMatch,
   load,
   over,

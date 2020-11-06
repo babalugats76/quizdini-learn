@@ -211,12 +211,11 @@ export default {
       };
     },
     onDrag(payload) {
-      const { dragId, dragX, dragY } = payload;
-      this.terms = this.terms.map((term) => {
-        term.style =
-          term.id === dragId ? this.moveStyle(dragX, dragY, 1) : term.style;
-        term.className = term.id === dragId ? "drag" : term.className;
-        return term;
+      const { dragId, dragX, dragY } = payload || {};
+      this.terms = updateObjInArray(this.terms, {
+        id: dragId,
+        style: this.moveStyle(dragX, dragY, 1),
+        className: "drag",
       });
     },
     onDrop(payload) {
