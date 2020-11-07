@@ -14,7 +14,7 @@
     @after-enter="afterEnter"
     @after-leave="afterLeave"
   >
-    <div class="match-timer" v-show="playing">
+    <div class="match-timer" v-show="active">
       <div class="timer">
         <!-- leave-class="scoring-start" -->
         <transition
@@ -68,29 +68,40 @@
 /* See: https://tinyurl.com/y3dy82l8 */
 
 import { toRefs } from "vue";
-import { actions } from "./lib";
 import useTimer from "../shared/use/timer";
 
 const FULL_DASH_ARRAY = 283;
 
 export default {
   name: "Timer",
-  props: ["config", "duration", "playing", "score"],
-  setup(props) {
+  props: ["active", "config", "duration", "score"],
+  setup(props, { emit }) {
+    /* Pass props that change to composable via reference vs. value */
     const { duration, score } = toRefs(props);
+
+    const timer = useTimer({
+      duration,
+      score,
+      interval: props.config.timeouts.interval,
+      warn: props.config.thresholds.warn,
+      alert: props.config.thresholds.alert,
+      debug: props.config.debug,
+      emit,
+    });
+
     return {
-      ...useTimer({
-        duration,
-        score,
-        interval: props.config.timeouts.interval,
-        warn: props.config.thresholds.warn,
-        alert: props.config.thresholds.alert,
-        debug: props.config.debug,
-      }),
+      ...timer,
       ...props.config,
     };
   },
   computed: {
+    scoreClass() {
+      return this.scoring
+        ? this.scoringStatus === this.SCORING_STATUS.UP
+          ? "hit"
+          : "miss"
+        : "";
+    },
     strokeDasharray() {
       const sofar =
         this.progress / 100 - (1 / this.duration) * (1 - this.progress / 100);
@@ -98,9 +109,6 @@ export default {
     },
   },
   methods: {
-    ...{
-      gameOver: actions.gameOver,
-    },
     beforeEnter() {
       this.debug && console.log("before entered...");
       this.setElapsed(0);
@@ -112,18 +120,6 @@ export default {
     afterLeave() {
       this.debug && console.log("timer left...");
     },
-  },
-  watch: {
-    expired(newValue, oldValue) {
-      if (!oldValue && newValue) {
-        this.endTimer();
-        this.gameOver();
-      }
-    },
-  },
-  beforeUnmount() {
-    this.debug && console.log(this.$options.name, "before destroy...");
-    this.endTimer();
   },
 };
 </script>
@@ -193,11 +189,11 @@ export default {
     stroke-width: 7px;
     stroke: #efefef;
     transition: fill 500ms ease-in-out, stroke 500m ease-in-out;
-    &.gain {
+    &.hit {
       fill: rgba(0, 255, 0, 1);
       stroke: transparent;
     }
-    &.loss {
+    &.miss {
       fill: rgba(255, 0, 0, 1);
       stroke: transparent;
     }
@@ -224,8 +220,8 @@ export default {
       color: lime;
     }
 
-    &.gain,
-    &.loss {
+    &.hit,
+    &.miss {
       color: transparent;
       stroke: transparent;
     }
@@ -245,11 +241,11 @@ export default {
     transition: color 50ms ease-in-out, transform 200ms linear;
     color: #111;
     font-weight: bold;
-    &.gain,
-    &.loss {
+    &.hit,
+    &.miss {
       color: #fff;
     }
-    &.loss {
+    &.miss {
       transform: scale(1.05, 1.05);
     }
   }

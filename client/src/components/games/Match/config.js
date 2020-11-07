@@ -20,7 +20,7 @@ export default {
     },
   },
   timer: {
-    debug: true,
+    debug: false,
     thresholds: {
       warn: 40,
       alert: 20,

@@ -5,10 +5,11 @@
     <button v-on:click="setScore(0)">0</button>
     <button v-on:click="setPlaying(true)">Set to Play</button>
     <Timer
+      :active="playing"
       :config="config.timer"
       :duration="duration"
-      :playing="playing"
       :score="score"
+      v-on:timer-expired="gameOver"
     />
   </div>
 </template>
