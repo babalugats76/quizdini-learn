@@ -65,109 +65,30 @@
 </template>
 
 <script>
-import { config, getters, mutations } from "./store";
-import { actions } from "./lib";
-
-/*import {
-  onBeforeMount,
-  onMounted,
-  onBeforeUpdate,
-  onUpdated,
-  onBeforeUnmount,
-  onUnmounted,
-  onActivated,
-  onDeactivated,
-  onErrorCaptured,
-} from "vue";*/
-
-/*Refer to previous code and this article
-https://medium.com/js-dojo/how-to-create-an-animated-countdown-timer-with-vue-89738903823f */
+/* See: https://tinyurl.com/y3dy82l8 */
+import { actions, useConfig, useTimer } from "./lib";
+import { toRefs } from "vue";
 
 const FULL_DASH_ARRAY = 283;
 
-const SEVERITY = {
-  ALERT: "alert",
-  WARN: "warn",
-  SUCCESS: "success",
-};
-
 export default {
-  /*setup() {
-    onBeforeMount(() => {
-      console.log("Before Mount!");
-    });
-    onMounted(() => {
-      console.log("Mounted!");
-    });
-    onBeforeUpdate(() => {
-      console.log("Before Update!");
-    });
-    onUpdated(() => {
-      console.log("Updated!");
-    });
-    onBeforeUnmount(() => {
-      console.log("Before Unmount!");
-    });
-    onUnmounted(() => {
-      console.log("Unmounted!");
-    });
-    onActivated(() => {
-      console.log("Activated!");
-    });
-    onDeactivated(() => {
-      console.log("Deactivated!");
-    });
-    onErrorCaptured(() => {
-      console.log("Error Captured!");
-    });
-  },*/
   name: "Timer",
-  data() {
+  props: ["config", "duration", "playing", "score"],
+  setup(props) {
+    const { duration, score } = toRefs(props);
     return {
-      elapsed: 0,
-      intervalId: null,
-      scoreClass: "",
-      scoring: false,
+      ...useTimer({
+        duration,
+        score,
+        interval: props.config.timeouts.interval,
+        warn: props.config.thresholds.warn,
+        alert: props.config.thresholds.alert,
+        debug: props.config.debug,
+      }),
+      ...useConfig(props.config),
     };
   },
   computed: {
-    debug() {
-      return config.timer.debug;
-    },
-    thresholds() {
-      return config.timer.thresholds;
-    },
-    timeouts() {
-      return config.timer.timeouts;
-    },
-    ...{
-      duration: getters.duration,
-      playing: getters.playing,
-      score: getters.score,
-    },
-    expired() {
-      return this.remaining <= 0;
-    },
-    formatted() {
-      const mins = Math.floor(this.remaining / 60000);
-      const secs = Math.floor((this.remaining % 60000) / 1000);
-      return secs < 10 ? `${mins}:0${secs}` : `${mins}:${secs}`;
-    },
-    progress() {
-      return (
-        Math.round((this.remaining / (this.duration * 1000)) * 10000) / 100
-      );
-    },
-    remaining() {
-      return this.duration * 1000 - this.elapsed;
-    },
-    severity() {
-      return this.progress <= this.thresholds.warn
-        ? this.progress <= this.thresholds.alert
-          ? SEVERITY.ALERT
-          : SEVERITY.WARN
-        : SEVERITY.SUCCESS;
-    },
     strokeDasharray() {
       const sofar =
         this.progress / 100 - (1 / this.duration) * (1 - this.progress / 100);
@@ -178,10 +99,9 @@ export default {
     ...{
       gameOver: actions.gameOver,
     },
-    ...mutations,
     beforeEnter() {
       this.debug && console.log("before entered...");
-      this.elapsed = 0;
+      this.setElapsed(0);
     },
     afterEnter() {
       this.debug && console.log("timer entered...");
@@ -190,43 +110,14 @@ export default {
     afterLeave() {
       this.debug && console.log("timer left...");
     },
-    startTimer() {
-      this.debug && console.log("timer starting...");
-      this.elapsed = 0;
-      this.intervalId = setInterval(
-        () => (this.elapsed += this.timeouts.interval),
-        this.timeouts.interval
-      );
-    },
-    endTimer() {
-      this.debug && console.log("timer ending...");
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
-    },
-    /* Handles toggling the ephemeral score change transition */
-    endScoreChange() {
-      this.debug && console.log("timer scoring end...");
-      this.scoring = false;
-      this.scoreClass = "";
-    },
   },
   watch: {
-    score(newVal, oldVal) {
-      this.debug && console.log("timer scoring:", oldVal, "-->", newVal);
-      this.scoring = true;
-      this.scoreClass = newVal > oldVal ? "hit" : "miss";
-    },
-    expired(newVal, oldVal) {
-      if (!oldVal && newVal) {
+    expired(newValue, oldValue) {
+      if (!oldValue && newValue) {
         this.endTimer();
         this.gameOver();
       }
     },
-  },
-  mounted() {
-    this.debug && console.log(this.$options.name, "mounted...");
   },
   beforeUnmount() {
     this.debug && console.log(this.$options.name, "before destroy...");
@@ -300,11 +191,11 @@ export default {
     stroke-width: 7px;
     stroke: #efefef;
     transition: fill 500ms ease-in-out, stroke 500m ease-in-out;
-    &.hit {
+    &.up {
       fill: rgba(0, 255, 0, 1);
       stroke: transparent;
     }
-    &.miss {
+    &.down {
       fill: rgba(255, 0, 0, 1);
       stroke: transparent;
     }
@@ -331,8 +222,8 @@ export default {
       color: lime;
     }
 
-    &.hit,
-    &.miss {
+    &.up,
+    &.down {
       color: transparent;
       stroke: transparent;
     }
@@ -352,11 +243,11 @@ export default {
     transition: color 50ms ease-in-out, transform 200ms linear;
     color: #111;
     font-weight: bold;
-    &.hit,
-    &.miss {
+    &.up,
+    &.down {
       color: #fff;
     }
-    &.miss {
+    &.down {
       transform: scale(1.05, 1.05);
     }
   }

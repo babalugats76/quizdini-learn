@@ -4,13 +4,18 @@
     <button v-on:click="setScore(1)">1</button>
     <button v-on:click="setScore(0)">0</button>
     <button v-on:click="setPlaying(true)">Set to Play</button>
-    <Timer />
+    <Timer
+      :config="config.timer"
+      :duration="duration"
+      :playing="playing"
+      :score="score"
+    />
   </div>
 </template>
 <script>
 /* eslint-disable no-unused-vars */
 import matchService from "@/services/match";
-import { state, getters, mutations } from "./store";
+import { config, state, getters, mutations } from "./store";
 import { actions } from "./lib";
 
 import Timer from "./Timer";
@@ -22,7 +27,8 @@ export default {
   },
   data() {
     return {
-      globalState: state,
+      state: state,
+      config: config,
     };
   },
   computed: {
