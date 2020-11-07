@@ -18,8 +18,6 @@ export default function useTimer({
   debug = false,
 }) {
   const timer = reactive({
-    score,
-    duration,
     scoring: false,
     elapsed: 0,
     scoreClass: "",
