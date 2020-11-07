@@ -66,8 +66,10 @@
 
 <script>
 /* See: https://tinyurl.com/y3dy82l8 */
-import { actions, useConfig, useTimer } from "./lib";
+
 import { toRefs } from "vue";
+import { actions } from "./lib";
+import useTimer from "../shared/use/timer";
 
 const FULL_DASH_ARRAY = 283;
 
@@ -85,7 +87,7 @@ export default {
         alert: props.config.thresholds.alert,
         debug: props.config.debug,
       }),
-      ...useConfig(props.config),
+      ...props.config,
     };
   },
   computed: {
@@ -191,11 +193,11 @@ export default {
     stroke-width: 7px;
     stroke: #efefef;
     transition: fill 500ms ease-in-out, stroke 500m ease-in-out;
-    &.up {
+    &.gain {
       fill: rgba(0, 255, 0, 1);
       stroke: transparent;
     }
-    &.down {
+    &.loss {
       fill: rgba(255, 0, 0, 1);
       stroke: transparent;
     }
@@ -222,8 +224,8 @@ export default {
       color: lime;
     }
 
-    &.up,
-    &.down {
+    &.gain,
+    &.loss {
       color: transparent;
       stroke: transparent;
     }
@@ -243,11 +245,11 @@ export default {
     transition: color 50ms ease-in-out, transform 200ms linear;
     color: #111;
     font-weight: bold;
-    &.up,
-    &.down {
+    &.gain,
+    &.loss {
       color: #fff;
     }
-    &.down {
+    &.loss {
       transform: scale(1.05, 1.05);
     }
   }

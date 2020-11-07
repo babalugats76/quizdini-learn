@@ -13,8 +13,7 @@
   </div>
 </template>
 <script>
-/* eslint-disable no-unused-vars */
-import matchService from "@/services/match";
+import { fetchMatch } from "@/api/match";
 import { config, state, getters, mutations } from "./store";
 import { actions } from "./lib";
 
@@ -42,7 +41,7 @@ export default {
     ...actions,
   },
   async created() {
-    const response = await matchService.fetch(this.matchId);
+    const response = await fetchMatch(this.matchId);
     this.load(response.data);
     this.deal();
     setTimeout(() => {
