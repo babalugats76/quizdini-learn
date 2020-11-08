@@ -22,6 +22,7 @@ export default function useTimer({
   emit = undefined,
 }) {
   const timer = reactive({
+    duration: duration, // to automatically unwrap .value
     elapsed: 0,
     intervalId: null,
     scoring: false,
@@ -42,9 +43,9 @@ export default function useTimer({
     }),
     progress: computed(
       () =>
-        Math.round((timer.remaining / (duration.value * 1000)) * 10000) / 100
+        Math.round((timer.remaining / (timer.duration * 1000)) * 10000) / 100
     ),
-    remaining: computed(() => duration.value * 1000 - timer.elapsed),
+    remaining: computed(() => timer.duration * 1000 - timer.elapsed),
   });
 
   function startTimer() {
