@@ -4,27 +4,20 @@
       enter: `${timeouts.enter}`,
       leave: `${timeouts.leave}`,
     }"
-    enter-active-class="fade-in-active"
-    enter-class="fade-in-start"
-    enter-to-class="fade-in-end"
-    leave-active-class="fade-out-active"
-    leave-class="fade-out-start"
-    leave-to-class="fade-out-end"
+    name="timer"
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @after-leave="afterLeave"
   >
     <div class="match-timer" v-show="active">
       <div class="timer">
-        <!-- leave-class="scoring-start" -->
         <transition
           appear
           :duration="{
             enter: `${timeouts.change}`,
             leave: `${timeouts.change}`,
           }"
-          leave-active-class="scoring-active"
-          leave-to-class="scoring-end"
+          name="scoring"
           @after-leave="endScoreChange"
         >
           <div class="timer__wrapper" v-show="!scoring">
@@ -136,38 +129,38 @@ export default {
   pointer-events: none;
 }
 
-.fade-in-active {
+.timer-enter-active {
   opacity: 0;
   transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.fade-in-start {
-  opacity: 0;
-}
-
-.fade-in-end {
-  opacity: 1;
-}
-
-.fade-out-active {
+.timer-leave-active {
   opacity: 1;
   transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.fade-out-start {
-  opacity: 1;
-}
-
-.fade-out-end {
+.timer-enter {
   opacity: 0;
 }
 
-.scoring-active {
+.timer-enter-to {
+  opacity: 1;
+}
+
+.timer-leave {
+  opacity: 1;
+}
+
+.timer-leave-to {
+  opacity: 0;
+}
+
+.scoring-leave-active {
   transform: scale(1, 1);
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.scoring-end {
+.scoring-leave-to {
   transform: scale(1.05, 1.05);
 }
 
