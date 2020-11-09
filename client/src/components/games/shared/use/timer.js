@@ -21,72 +21,72 @@ export default function useTimer({
   debug = false,
   emit = undefined,
 }) {
-  const timer = reactive({
-    duration: duration, // to automatically unwrap .value
+  const state = reactive({
+    // duration, // if you wanted to automatically unwrap .value
     elapsed: 0,
+    expired: computed(() => state.remaining <= 0),
+    formatted: computed(() => {
+      const mins = Math.floor(state.remaining / 60000);
+      const secs = Math.floor((state.remaining % 60000) / 1000);
+      return secs < 10 ? `${mins}:0${secs}` : `${mins}:${secs}`;
+    }),
     intervalId: null,
+    progress: computed(
+      () =>
+        Math.round((state.remaining / (duration.value * 1000)) * 10000) / 100
+    ),
+    remaining: computed(() => duration.value * 1000 - state.elapsed),
     scoring: false,
     scoringStatus: "",
     SCORING_STATUS,
     severity: computed(() =>
-      timer.progress <= warn
-        ? timer.progress <= alert
+      state.progress <= warn
+        ? state.progress <= alert
           ? SEVERITY.ALERT
           : SEVERITY.WARN
         : SEVERITY.SUCCESS
     ),
-    expired: computed(() => timer.remaining <= 0),
-    formatted: computed(() => {
-      const mins = Math.floor(timer.remaining / 60000);
-      const secs = Math.floor((timer.remaining % 60000) / 1000);
-      return secs < 10 ? `${mins}:0${secs}` : `${mins}:${secs}`;
-    }),
-    progress: computed(
-      () =>
-        Math.round((timer.remaining / (timer.duration * 1000)) * 10000) / 100
-    ),
-    remaining: computed(() => timer.duration * 1000 - timer.elapsed),
   });
 
   function startTimer() {
     debug && console.log("timer start...");
-    timer.elapsed = 0;
-    timer.intervalId = setInterval(() => {
-      timer.elapsed += interval;
+    state.elapsed = 0;
+    state.intervalId = setInterval(() => {
+      state.elapsed += interval;
     }, interval);
   }
 
   function setElapsed(val) {
-    timer.elapsed = val;
+    state.elapsed = val;
   }
 
   /* For toggling ephemeral score change transition */
   function endScoreChange() {
     debug && console.log("timer scoring end...");
-    timer.scoring = false;
-    timer.scoringStatus = "";
+    state.scoring = false;
+    state.scoringStatus = "";
   }
 
   function endTimer() {
     debug && console.log("timer end...");
-    if (timer.intervalId) {
-      clearInterval(timer.intervalId);
-      timer.intervalId = null;
+    if (state.intervalId) {
+      clearInterval(state.intervalId);
+      state.intervalId = null;
     }
   }
 
   watch(score, (newValue, oldValue) => {
-    debug && console.log("score changed: ", newValue, oldValue);
-    timer.scoring = true;
-    timer.scoringStatus =
+    debug && console.log("score changed: ", oldValue, "=>", newValue);
+    state.scoring = true;
+    state.scoringStatus =
       newValue > oldValue ? SCORING_STATUS.UP : SCORING_STATUS.DOWN;
   });
 
   watch(
-    () => timer.expired,
+    () => state.expired,
     (newValue, oldValue) => {
       if (!oldValue && newValue) {
-        debug && console.log("timer expired: ", newValue, oldValue);
+        debug && console.log("timer expired: ", newValue, "=>", oldValue);
         endTimer();
         emit("timer-expired");
       }
@@ -98,5 +98,5 @@ export default function useTimer({
     endTimer();
   });
 
-  return { ...toRefs(timer), startTimer, setElapsed, endScoreChange, endTimer };
+  return { ...toRefs(state), startTimer, setElapsed, endScoreChange, endTimer };
 }
