@@ -85,8 +85,8 @@ export default function useTimer({
   watch(
     () => state.expired,
     (newValue, oldValue) => {
-      if (!oldValue && newValue) {
-        debug && console.log("timer expired: ", newValue, "=>", oldValue);
+      if (newValue && !oldValue) {
+        debug && console.log("timer expired: ", oldValue, "=>", newValue);
         endTimer();
         emit("timer-expired");
       }
