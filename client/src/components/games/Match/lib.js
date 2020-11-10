@@ -2,28 +2,32 @@ import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { state, config } from "./store";
 
-const translate3d = (x, y, z) => ({
-  transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)",
-});
+function translate3d(x, y, z) {
+  return { transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)" };
+}
 
-const hitStyle = (startX, startY, startZ, endX, endY, endZ, duration) => ({
-  "--hit-start-tx": startX + "px",
-  "--hit-start-ty": startY + "px",
-  "--hit-start-tz": startZ + "px",
-  "--hit-end-tx": endX + "px",
-  "--hit-end-ty": endY + "px",
-  "--hit-end-tz": endZ + "px",
-  "--hit-duration": duration + "ms",
-  //  zIndex: 3,
-});
+function hitStyle(startX, startY, startZ, endX, endY, endZ, duration) {
+  return {
+    "--hit-start-tx": startX + "px",
+    "--hit-start-ty": startY + "px",
+    "--hit-start-tz": startZ + "px",
+    "--hit-end-tx": endX + "px",
+    "--hit-end-ty": endY + "px",
+    "--hit-end-tz": endZ + "px",
+    "--hit-duration": duration + "ms",
+    //  zIndex: 3,
+  };
+}
 
-const missStyle = (x, y, z) => ({
-  ...translate3d(x, y, z),
-  // transition: "transform 600ms cubic-bezier(0.45, 1.28, 0.39, 0.78)",
-  // zIndex: 2,
-});
+function missStyle(x, y, z) {
+  return {
+    ...translate3d(x, y, z),
+    // transition: "transform 600ms cubic-bezier(0.45, 1.28, 0.39, 0.78)",
+    // zIndex: 2,
+  };
+}
 
-const load = (data) => {
+function load(data) {
   console.log("loading data...");
   const {
     matchId: gameId,
@@ -38,9 +42,9 @@ const load = (data) => {
   state.itemsPerBoard = itemsPerBoard;
   state.matches = matches;
   state.title = title;
-};
+}
 
-const deal = () => {
+function deal() {
   console.log("dealing...");
 
   /* Shuffle all */
@@ -92,39 +96,39 @@ const deal = () => {
 
   state.terms = terms;
   state.definitions = defs; // only necessary to reshuffle 1/2
-};
+}
 
-const shuffle = () => {
+function shuffle() {
   console.log("shuffling...");
   state.terms = shuffleArray(state.terms);
   state.definitions = shuffleArray(state.definitions);
-};
+}
 
-const isMatch = (termId, defId) => {
+function isMatch(termId, defId) {
   const { answer } = state.terms.find((t) => t.id === termId) || {};
   const { content: question } =
     state.definitions.find((d) => d.id === defId) || {};
   return !!answer && !!question && answer === question;
-};
+}
 
-const drag = (payload) => {
+function onDrag(payload) {
   const { dragId, dragX, dragY } = payload || {};
   state.terms = updateObjInArray(state.terms, {
     id: dragId,
     style: state.moveStyle(dragX, dragY, 1),
     className: "drag",
   });
-};
+}
 
-const over = (payload) => {
+function onOver(payload) {
   const { dropId } = payload || {};
   state.definitions = state.definitions.map((d) => ({
     ...d,
     className: d.id === dropId && !d.matched ? "over" : "",
   }));
-};
+}
 
-const drop = (payload) => {
+function onDrop(payload) {
   const { dragId, dragX, dragY, dropId, dropX, dropY } = payload || {};
   const matched = dropId ? isMatch(dragId, dropId) : false;
 
@@ -158,21 +162,21 @@ const drop = (payload) => {
         }
       : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
   );
-};
+}
 
-export const gameOver = () => {
+function gameOver() {
   console.log("game over...");
   state.playing = false;
   state.showBoard = false;
-};
+}
 
 export const actions = {
   deal,
-  drag,
-  drop,
   gameOver,
   isMatch,
   load,
-  over,
+  onDrag,
+  onDrop,
+  onOver,
   shuffle,
 };

@@ -1,5 +1,6 @@
 export default {
-  dnd: {
+  board: {
+    debug: true,
     timeouts: {
       throttle: 33,
     },
@@ -20,7 +21,7 @@ export default {
     },
   },
   timer: {
-    debug: false,
+    debug: true,
     thresholds: {
       warn: 40,
       alert: 20,

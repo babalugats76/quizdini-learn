@@ -1,4 +1,4 @@
-import { computed, reactive, toRefs, watch, onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount, reactive, toRefs, watch } from "vue";
 
 const SEVERITY = {
   ALERT: "alert",
@@ -98,5 +98,5 @@ export default function useTimer({
     endTimer();
   });
 
-  return { ...toRefs(state), startTimer, setElapsed, endScoreChange, endTimer };
+  return { ...toRefs(state), startTimer, endTimer, setElapsed, endScoreChange };
 }
