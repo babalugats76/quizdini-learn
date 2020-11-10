@@ -19,14 +19,6 @@ function hitStyle(startX, startY, startZ, endX, endY, endZ, duration) {
   };
 }
 
-function missStyle(x, y, z) {
-  return {
-    ...translate3d(x, y, z),
-    // transition: "transform 600ms cubic-bezier(0.45, 1.28, 0.39, 0.78)",
-    // zIndex: 2,
-  };
-}
-
 function load(data) {
   console.log("loading data...");
   const {
@@ -115,7 +107,7 @@ function onDrag(payload) {
   const { dragId, dragX, dragY } = payload || {};
   state.terms = updateObjInArray(state.terms, {
     id: dragId,
-    style: state.moveStyle(dragX, dragY, 1),
+    style: translate3d(dragX, dragY, 1),
     className: "drag",
   });
 }
@@ -138,7 +130,7 @@ function onDrop(payload) {
     className: matched ? "hit" : "miss",
     style: matched
       ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.hitMs)
-      : missStyle(0, 0, 0),
+      : translate3d(0, 0, 0),
   });
 
   if (!dropId) {

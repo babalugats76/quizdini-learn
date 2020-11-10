@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import { Match as NewMatch } from "@/components/games";
+import { Match as NewMatch } from "@/components/game";
 
 import { Match, Matches } from "@/components/";
 const routes = [

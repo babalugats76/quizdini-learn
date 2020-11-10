@@ -1,12 +1,22 @@
 <template>
   <div class="match-game">
-    <Board
+    <DndBoard
       :active="playing"
+      :class="`match-board`"
       :config="config.board"
       v-on:drag="onDrag"
       v-on:over="onOver"
       v-on:drop="onDrop"
-    />
+    >
+      <Tile
+        :active="false"
+        content="Hello World!"
+        :disabled="false"
+        id="my-tile"
+        is="Draggable"
+        type="term"
+      />
+    </DndBoard>
     <Timer
       :active="playing"
       :config="config.timer"
@@ -22,13 +32,15 @@
 import { config, state, getters, mutations } from "./store";
 import { actions } from "./lib";
 
-import { Board } from "@/components/dndnew/";
+import DndBoard from "../DndBoard";
+import Tile from "./Tile";
 import Timer from "./Timer";
 
 export default {
   name: "Game",
   components: {
-    Board,
+    DndBoard,
+    Tile,
     Timer,
   },
   setup() {
@@ -61,7 +73,7 @@ export default {
   overflow: auto;
 }
 
-.board {
+.match-board {
   display: grid;
   grid-area: auto;
   /* 1 column */

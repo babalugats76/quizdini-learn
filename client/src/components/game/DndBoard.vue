@@ -6,17 +6,17 @@
 
 <script>
 import { ref, toRefs } from "vue";
-import useDnD from "@/use/dnd";
+import useDnd from "@/use/dnd";
 
 export default {
-  name: "Board",
+  name: "DndBoard",
   props: ["active", "config"],
   setup(props, { emit }) {
     const dndRef = ref(null);
     const { active } = toRefs(props);
     return {
       ...props.config,
-      ...useDnD({
+      ...useDnd({
         active,
         element: dndRef,
         ...props.config, // only works in flattened out test version
