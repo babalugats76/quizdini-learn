@@ -37,6 +37,8 @@ export const getters = {
   stats: () => state.stats,
   terms: () => state.terms,
   title: () => state.title,
+  unmatchedDefinitions: () => state.definitions.filter((d) => d.show),
+  unmatchedTerms: () => state.terms.filter((t) => t.show),
 };
 
 export const mutations = {

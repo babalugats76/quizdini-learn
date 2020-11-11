@@ -8,8 +8,9 @@
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @after-leave="afterLeave"
+    v-bind="$attrs"
   >
-    <div class="match-timer" v-show="active">
+    <div v-show="active">
       <div class="timer">
         <transition
           appear
@@ -66,6 +67,7 @@ import useTimer from "@/use/timer";
 const FULL_DASH_ARRAY = 283;
 
 export default {
+  inheritAttrs: false,
   name: "Timer",
   props: ["active", "config", "duration", "score"],
   setup(props, { emit }) {
@@ -118,17 +120,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.match-timer {
-  position: fixed;
-  width: 6em;
-  height: 6em;
-  bottom: 1em;
-  right: 1em;
-  z-index: 1000;
-  user-select: none;
-  pointer-events: none;
-}
-
 .timer-enter-active {
   opacity: 0;
   transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);

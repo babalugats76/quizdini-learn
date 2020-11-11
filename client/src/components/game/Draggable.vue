@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="classnames">
+  <div :id="id" :class="classes">
     <slot />
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     },
   },
   computed: {
-    classnames() {
+    classes() {
       return {
         draggable: true,
         "draggable--active": this.active,
@@ -37,7 +37,7 @@ export default {
 
 <style scoped lang="scss">
 .draggable {
-  transition: opacity 150ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
+  //transition: opacity 150ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
   z-index: 2;
 
   * {

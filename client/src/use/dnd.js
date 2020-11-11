@@ -90,13 +90,10 @@ export default function useDnD({
 
   function drag(e) {
     e.stopPropagation();
-    debug &&
-      console.log(
-        `${e.target.id ? `${e.type} (${e.target.id}) ` : `${e.type}`}...`
-      );
-
     /*** MOVE  ***/
     const { id: dragId, initialX, initialY, overId } = state.dragged;
+    debug &&
+      console.log(`${dragId ? `${e.type} (${dragId}) ` : `${e.type}`}...`);
     const x =
       e.type === "touchmove"
         ? e.touches[0].clientX - initialX
@@ -125,7 +122,7 @@ export default function useDnD({
      */
 
     if (overId !== dropId) {
-      debug && console.log(`${dragId} is over ${dropId}...`);
+      debug && dropId && console.log(`${dragId} is over ${dropId}...`);
       emit("over", { overId: dropId });
       state.dragged = {
         ...state.dragged,

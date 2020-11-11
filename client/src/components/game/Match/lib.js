@@ -129,7 +129,7 @@ function onDrop(payload) {
     matched: matched,
     className: matched ? "hit" : "miss",
     style: matched
-      ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.hitMs)
+      ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.timeouts.hit)
       : translate3d(0, 0, 0),
   });
 

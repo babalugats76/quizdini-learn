@@ -1,28 +1,57 @@
 <template>
-  <div class="match-game">
+  <div class="match__game">
     <DndBoard
       :active="playing"
-      :class="`match-board`"
+      class="match__board"
       :config="config.board"
       v-on:drag="onDrag"
       v-on:over="onOver"
       v-on:drop="onDrop"
     >
-      <Tile
-        :active="false"
-        content="Hello World!"
-        :disabled="false"
-        id="my-tile"
-        is="Draggable"
-        type="term"
-      />
+      <transition-group
+        :class="boardClasses('terms')"
+        :move-class="this.playing ? 'no-move-list' : 'slide'"
+        tag="div"
+      >
+        <Tile
+          v-for="t in unmatchedTerms"
+          :key="t.id"
+          :id="t.id"
+          :content="t.content"
+          :class="[t.className]"
+          :style="[t.style]"
+          :active="false"
+          :disabled="false"
+          is="Draggable"
+          type="term"
+        />
+      </transition-group>
+      <transition-group
+        :class="boardClasses('definitions')"
+        :move-class="this.playing ? 'no-move-list' : 'slide'"
+        tag="div"
+      >
+        <Tile
+          v-for="d in unmatchedDefinitions"
+          :key="d.id"
+          :id="d.id"
+          :content="d.content"
+          :class="[d.className]"
+          :style="[d.style]"
+          :active="false"
+          :disabled="false"
+          is="Droppable"
+          type="definition"
+        />
+      </transition-group>
     </DndBoard>
     <Timer
+      v-on:timer-expired="gameOver"
+      class="match__timer"
       :active="playing"
       :config="config.timer"
       :duration="duration"
       :score="score"
-      v-on:timer-expired="gameOver"
     />
   </div>
 </template>
@@ -54,35 +83,217 @@ export default {
   methods: {
     ...mutations,
     ...actions,
+    boardClasses(type) {
+      return {
+        "tile-board": true,
+        [`tile-board--${type}`]: type,
+        [`tile-board--${this.itemsPerBoard}`]: this.itemsPerBoard,
+        "tile-board--disabled": !this.playing,
+      };
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.match-game {
-  --board-bg-color: turquoise;
-  display: grid;
-  grid-area: auto;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  width: 100%;
-  height: 100%;
-  /*max-width: 1920px;*/
-  margin: 0 auto;
-  padding: 0;
-  overflow: auto;
+.match {
+  &__game {
+    --board-bg-color: turquoise;
+    display: grid;
+    grid-area: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    width: 100%;
+    height: 100%;
+    /*max-width: 1920px;*/
+    margin: 0 auto;
+    padding: 0;
+    overflow: auto;
+  }
+
+  &__board {
+    display: grid;
+    grid-area: auto;
+    /* 1 column */
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background-color: var(--board-bg-color);
+    opacity: 1;
+  }
+
+  &__timer {
+    position: fixed;
+    width: 6em;
+    height: 6em;
+    bottom: 1em;
+    right: 1em;
+    z-index: 1000;
+    user-select: none;
+    pointer-events: none;
+  }
 }
 
-.match-board {
-  display: grid;
-  grid-area: auto;
-  /* 1 column */
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
+/* Used in the shuffle */
+.no-move-list {
+  transition: none !important;
+}
+
+.slide {
+  /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
+  transition: transform 500ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
+}
+
+.tile-board {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center; /* vertical smoosh */
+  justify-content: center; /* horizontal smoosh */
   width: 100%;
-  height: 100%;
-  padding: 0;
-  background-color: var(--board-bg-color);
+  padding: 0.5em;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tile {
+  position: relative;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-items: center;
+  border-radius: 0.2em;
+  background-color: white;
+  color: black;
+  font-weight: 300;
+  user-select: none;
+  touch-action: none;
   opacity: 1;
+  &--term {
+    border: 0.2em solid transparent;
+    background-color: blue;
+    color: white;
+    font-weight: 500;
+    &.drag {
+      transition: border-color 500ms ease-in-out;
+      //,transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+      z-index: 500;
+      border-color: white;
+    }
+    &.miss {
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      z-index: 2;
+    }
+  }
+  &--definition {
+    background-color: white;
+    color: black;
+    font-weight: 300;
+    &.over {
+      background-color: yellow;
+    }
+  }
+}
+
+@media screen and (max-width: 47.99em) {
+  .match__game {
+    font-size: 87.5%; /* For browsers which don't support calc() */
+    font-size: calc(0.8125rem + ((1vw - 0.2em) * 0.2232));
+  }
+  .tile {
+    height: 2.33em;
+    min-width: 93px;
+    max-width: calc(100vw - 0.6em);
+    padding: 0.4em;
+    border-radius: 0.5em;
+    margin: 0.3em;
+    /*line-height: 1.4;*/
+    text-align: center;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 74.99em) and (min-width: 48em),
+  screen and (min-width: 75em) {
+  .tile-board {
+    padding: 0.5em;
+  }
+
+  .tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.67em;
+    padding: 0.6em;
+    border-radius: 0.5em;
+    margin: 0.2em;
+    line-height: 1.4;
+    text-align: center;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 74.99em) and (min-width: 48em) {
+  .match__game {
+    font-size: 95%; /* For browsers which don't support calc() */
+    font-size: calc(0.875rem + 0.463vw - 0.22224em);
+  }
+  .tile-board--4 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 1.8em) / 2);
+    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 3.6em) / 4);
+  }
+
+  .tile-board--6 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 2.2em) / 3);
+    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 3.6em) / 4);
+  }
+
+  .tile-board--9 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 2.2em) / 3);
+    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 4.4em) / 6);
+  }
+}
+
+@media screen and (min-width: 75em) {
+  .match {
+    &__game {
+      font-size: 110%; /* For browsers which don't support calc() */
+      /* 1em(16px) @ 75em(1200px) increasing to 2.5em(40px) @ 240em(3840px) */
+      font-size: calc(1rem + ((1vw - 0.75em) * 0.9091));
+    }
+    &__board {
+      /* 2 columns, i.e., 2 side-by-side boards */
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+  }
+
+  .tile-board--4 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 1.8em) / 2);
+    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 1.8em) / 2);
+  }
+
+  .tile-board--6 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 2.2em) / 3);
+    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 1.8em) / 2);
+  }
+
+  .tile-board--9 .tile {
+    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+    flex-basis: calc((100% - 2.2em) / 3);
+    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+    height: calc((90vh - 2.2em) / 3);
+  }
 }
 </style>

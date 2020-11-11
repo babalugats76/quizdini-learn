@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" :class="classnames">
+  <div :id="id" :class="classes">
     <slot />
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     },
   },
   computed: {
-    classnames() {
+    classes() {
       return {
         droppable: true,
         "droppable--active": this.active,
