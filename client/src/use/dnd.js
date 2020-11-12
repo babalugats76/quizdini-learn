@@ -1,10 +1,10 @@
-import { computed, reactive, toRefs, watch, onMounted } from "vue";
+import { computed, reactive, toRefs, watch, onMounted, unref } from "vue";
 import _ from "lodash";
 
 export default function useDnD({
   active,
   element,
-  throttleMs = 0,
+  throttleMs = 33,
   debug = false,
   emit,
 }) {
@@ -175,8 +175,8 @@ export default function useDnD({
   // the DOM element ref passed in is only available after initial render
   onMounted(() => {
     debug &&
-      console.log(`dnd mounted (${active.value ? "active" : "inactive"})...`);
-    active.value && addListeners(["mousedown", "touchstart"]);
+      console.log(`dnd mounted (${unref(active) ? "active" : "inactive"})...`);
+    unref(active.value) && addListeners(["mousedown", "touchstart"]);
   });
 
   watch(active, (newValue, oldValue) => {

@@ -19,7 +19,8 @@ export default {
       ...useDnd({
         active,
         element: dndRef,
-        ...props.config, // only works in flattened out test version
+        throttleMs: props.config.timeouts.throttle,
+        debug: props.config.debug,
         emit,
       }),
       dndRef,

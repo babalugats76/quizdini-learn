@@ -1,6 +1,6 @@
 export default {
   board: {
-    debug: true,
+    debug: false,
     timeouts: {
       throttle: 33,
     },
@@ -21,7 +21,7 @@ export default {
     },
   },
   timer: {
-    debug: true,
+    debug: false,
     thresholds: {
       warn: 40,
       alert: 20,

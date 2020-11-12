@@ -30,7 +30,7 @@ export default {
     this.deal();
     setTimeout(() => {
       this.shuffle();
-      this.setCanDnD(true);
+      this.setCanDnd(true);
       this.setPlaying(true);
     }, 1000);
   },

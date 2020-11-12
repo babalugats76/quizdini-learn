@@ -2,7 +2,7 @@ import { reactive } from "vue";
 import { default as matchConfig } from "./config";
 
 export const state = reactive({
-  canDnD: false,
+  canDnd: false,
   colorScheme: null,
   correct: 0,
   definitions: [],
@@ -14,6 +14,7 @@ export const state = reactive({
   playing: false,
   score: 0,
   showBoard: false,
+  shuffling: false,
   stats: [],
   terms: [],
   title: null,
@@ -22,7 +23,8 @@ export const state = reactive({
 export const config = matchConfig;
 
 export const getters = {
-  canDnD: () => state.canDnD,
+  animating: () => state.animating,
+  canDnd: () => state.canDnd,
   colorScheme: () => state.colorScheme,
   correct: () => state.correct,
   definitions: () => state.definitions,
@@ -34,6 +36,7 @@ export const getters = {
   playing: () => state.playing,
   score: () => state.score,
   showBoard: () => state.showBoard,
+  shuffling: () => state.shuffling,
   stats: () => state.stats,
   terms: () => state.terms,
   title: () => state.title,
@@ -42,7 +45,8 @@ export const getters = {
 };
 
 export const mutations = {
-  setCanDnD: (val) => (state.canDnD = val),
+  setAnimating: (val) => (state.animating = val),
+  setCanDnd: (val) => (state.canDnd = val),
   setColorScheme: (val) => (state.colorScheme = val),
   setCorrect: (val) => (state.correct = val),
   setDefinitions: (val) => (state.definitions = val),
@@ -54,6 +58,7 @@ export const mutations = {
   setPlaying: (val) => (state.playing = val),
   setScore: (val) => (state.score = val),
   setShowBoard: (val) => (state.showBoard = val),
+  setShuffling: (val) => (state.shuffling = val),
   setStats: (val) => (state.stats = val),
   setTerms: (val) => (state.terms = val),
   setTitle: (val) => (state.title = val),

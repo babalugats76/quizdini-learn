@@ -128,6 +128,7 @@ function onDrop(payload) {
     id: dragId,
     matched: matched,
     className: matched ? "hit" : "miss",
+    ...(matched && { matchId: dropId }),
     style: matched
       ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.timeouts.hit)
       : translate3d(0, 0, 0),
@@ -140,7 +141,7 @@ function onDrop(payload) {
   state.definitions = updateObjInArray(state.definitions, {
     id: dropId,
     className: matched ? "hit" : "",
-    ...(matched && { matched: true }),
+    ...(matched && { matched: true, matchId: dragId }),
   });
 
   const { content: term } = state.terms.find((t) => t.id === dragId) || {};
@@ -154,6 +155,21 @@ function onDrop(payload) {
         }
       : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
   );
+
+  if (matched) {
+    setTimeout(() => {
+      state.canDnd = false;
+      state.terms = updateObjInArray(state.terms, {
+        id: dragId,
+        show: false,
+      });
+
+      state.definitions = updateObjInArray(state.definitions, {
+        id: dropId,
+        show: false,
+      });
+    }, 0);
+  }
 }
 
 function gameOver() {

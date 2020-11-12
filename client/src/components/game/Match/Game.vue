@@ -1,7 +1,7 @@
 <template>
   <div class="match__game">
     <DndBoard
-      :active="playing"
+      :active="playing && !shuffling && canDnd"
       class="match__board"
       :config="config.board"
       v-on:drag="onDrag"
@@ -10,8 +10,14 @@
     >
       <transition-group
         :class="boardClasses('terms')"
-        :move-class="this.playing ? 'no-move-list' : 'slide'"
+        :css="true"
+        :duration="{
+          enter: `${config.tile.timeouts.enter}`,
+          leave: `${config.tile.timeouts.hit}`,
+        }"
+        :move-class="this.shuffling ? 'slide' : 'no-move-list'"
         tag="div"
+        @after-leave="onTermLeft"
       >
         <Tile
           v-for="t in unmatchedTerms"
@@ -28,7 +34,12 @@
       </transition-group>
       <transition-group
         :class="boardClasses('definitions')"
-        :move-class="this.playing ? 'no-move-list' : 'slide'"
+        :css="true"
+        :duration="{
+          enter: `${config.tile.timeouts.enter}`,
+          leave: `${config.tile.timeouts.hit}`,
+        }"
+        :move-class="this.shuffling ? 'slide' : 'no-move-list'"
         tag="div"
       >
         <Tile
@@ -91,11 +102,31 @@ export default {
         "tile-board--disabled": !this.playing,
       };
     },
+    onTermLeft(el) {
+      console.log(el.id, "leaving");
+      console.log("Unmatched Terms", this.unmatchedTerms.length);
+      if (this.unmatchedTerms.length) {
+        this.setShuffling(true);
+        this.shuffle();
+        setTimeout(() => {
+          this.setShuffling(false);
+          this.setCanDnd(true);
+        }, this.config.tile.timeouts.shuffle);
+      }
+      //el.style.display = "none";
+    },
+    /*onDefinitionLeft(el) {
+      el.style.display = "none";
+    },*/
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.terms-leave-active {
+  transform: scale(2, 2);
+}
+
 .match {
   &__game {
     --board-bg-color: turquoise;
@@ -133,6 +164,30 @@ export default {
     z-index: 1000;
     user-select: none;
     pointer-events: none;
+  }
+}
+
+@keyframes hit {
+  0% {
+    background-color: blue;
+    transform: translate3d(
+      var(--hit-start-tx),
+      var(--hit-start-ty),
+      var(--hit-start-tz)
+    );
+  }
+  20% {
+    background-color: yellow;
+    color: black;
+  }
+  100% {
+    background-color: green;
+    color: white;
+    transform: translate3d(
+      var(--hit-end-tx),
+      var(--hit-end-ty),
+      var(--hit-end-tz)
+    );
   }
 }
 
@@ -175,15 +230,22 @@ export default {
     background-color: blue;
     color: white;
     font-weight: 500;
+    &.hit {
+      animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      animation-name: hit;
+      animation-duration: var(--hit-duration, 2s);
+      animation-fill-mode: forwards;
+      z-index: 3;
+    }
     &.drag {
       transition: border-color 500ms ease-in-out;
-      //,transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+      //   transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+      // transform 0ms cubic-bezier(0, 0, 0.2, 1) !important;
       z-index: 500;
       border-color: white;
     }
     &.miss {
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
-      z-index: 2;
     }
   }
   &--definition {

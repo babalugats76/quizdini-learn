@@ -1,4 +1,4 @@
-import { computed, onBeforeUnmount, reactive, toRefs, watch } from "vue";
+import { computed, onBeforeUnmount, reactive, toRefs, unref, watch } from "vue";
 
 const SEVERITY = {
   ALERT: "alert",
@@ -22,7 +22,7 @@ export default function useTimer({
   emit = undefined,
 }) {
   const state = reactive({
-    // duration, // if you wanted to automatically unwrap .value
+    // duration, // to automatically unwrap .value; alternatively, use unref
     elapsed: 0,
     expired: computed(() => state.remaining <= 0),
     formatted: computed(() => {
@@ -33,9 +33,9 @@ export default function useTimer({
     intervalId: null,
     progress: computed(
       () =>
-        Math.round((state.remaining / (duration.value * 1000)) * 10000) / 100
+        Math.round((state.remaining / (unref(duration) * 1000)) * 10000) / 100
     ),
-    remaining: computed(() => duration.value * 1000 - state.elapsed),
+    remaining: computed(() => unref(duration) * 1000 - state.elapsed),
     scoring: false,
     scoringStatus: "",
     SCORING_STATUS,
