@@ -15,7 +15,7 @@
           enter: `${config.tile.timeouts.enter}`,
           leave: `${config.tile.timeouts.hit}`,
         }"
-        :move-class="this.shuffling ? 'slide' : 'no-move-list'"
+        :move-class="shuffling ? 'slide' : 'no-move-list'"
         tag="div"
         @after-leave="onTermLeft"
       >
@@ -39,7 +39,7 @@
           enter: `${config.tile.timeouts.enter}`,
           leave: `${config.tile.timeouts.hit}`,
         }"
-        :move-class="this.shuffling ? 'slide' : 'no-move-list'"
+        :move-class="shuffling ? 'slide' : 'no-move-list'"
         tag="div"
       >
         <Tile
