@@ -92,8 +92,13 @@ function deal() {
 
 function shuffle() {
   console.log("shuffling...");
+  state.shuffling = true;
   state.terms = shuffleArray(state.terms);
   state.definitions = shuffleArray(state.definitions);
+  setTimeout(() => {
+    state.shuffling = false;
+    state.canDnd = true;
+  }, config.tile.timeouts.shuffle);
 }
 
 function isMatch(termId, defId) {

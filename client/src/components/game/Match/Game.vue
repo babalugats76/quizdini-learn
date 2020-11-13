@@ -18,7 +18,7 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="terms"
         tag="div"
-        @after-leave="(el) => onTileExited(el, 'term')"
+        @after-leave="onTermLeft"
       >
         <Tile
           v-for="t in unmatchedTerms"
@@ -43,7 +43,6 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="definitions"
         tag="div"
-        @after-leave="(el) => onTileExited(el, 'definition')"
       >
         <Tile
           v-for="d in unmatchedDefinitions"
@@ -105,16 +104,23 @@ export default {
         "tile-board--disabled": !this.playing,
       };
     },
-    onTileExited(el, type) {
-      this.config.game.debug && console.log(type, el.id, "leaving...");
-      console.log("Unmatched Terms", this.unmatchedTerms.length);
-      if (type === "term" && this.unmatchedTerms.length) {
-        this.setShuffling(true);
+    onTermLeft(el) {
+      this.config.game.debug && console.log(`term  (${el.id}) leaving...`);
+      this.incrementProgress();
+    },
+  },
+  watch: {
+    progress(newValue, oldValue) {
+      if (
+        Math.floor(oldValue / this.itemsPerBoard) !==
+        Math.floor(newValue / this.itemsPerBoard)
+      ) {
+        // New Round
+        console.log("new round...", oldValue, "=>", newValue);
+        this.deal();
+        this.setCanDnd(true);
+      } else {
         this.shuffle();
-        setTimeout(() => {
-          this.setShuffling(false);
-          this.setCanDnd(true);
-        }, this.config.tile.timeouts.shuffle);
       }
     },
   },
