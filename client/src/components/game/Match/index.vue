@@ -29,9 +29,8 @@ export default {
     this.load(response.data);
     this.deal();
     setTimeout(() => {
-      this.shuffle();
-      this.setCanDnd(true);
       this.setPlaying(true);
+      this.setCanDnd(true);
     }, 1000);
   },
 };

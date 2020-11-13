@@ -168,7 +168,7 @@ function onDrop(payload) {
         id: dropId,
         show: false,
       });
-    }, 0);
+    }, config.tile.timeouts.hit);
   }
 }
 

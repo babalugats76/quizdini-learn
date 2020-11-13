@@ -165,7 +165,7 @@ export default function useDnD({
     state.dragged = {};
 
     const lsnrs =
-      e.type === "touchstart"
+      e.type === "touchend"
         ? ["touchmove", "touchend"]
         : ["mousemove", "mouseup"];
 

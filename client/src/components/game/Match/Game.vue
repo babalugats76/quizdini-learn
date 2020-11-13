@@ -13,11 +13,12 @@
         :css="true"
         :duration="{
           enter: `${config.tile.timeouts.enter}`,
-          leave: `${config.tile.timeouts.hit}`,
+          leave: `${config.tile.timeouts.leave}`,
         }"
         :move-class="shuffling ? 'slide' : 'no-move-list'"
+        name="terms"
         tag="div"
-        @after-leave="onTermLeft"
+        @after-leave="(el) => onTileExited(el, 'term')"
       >
         <Tile
           v-for="t in unmatchedTerms"
@@ -37,10 +38,12 @@
         :css="true"
         :duration="{
           enter: `${config.tile.timeouts.enter}`,
-          leave: `${config.tile.timeouts.hit}`,
+          leave: `${config.tile.timeouts.leave}`,
         }"
         :move-class="shuffling ? 'slide' : 'no-move-list'"
+        name="definitions"
         tag="div"
+        @after-leave="(el) => onTileExited(el, 'definition')"
       >
         <Tile
           v-for="d in unmatchedDefinitions"
@@ -102,10 +105,10 @@ export default {
         "tile-board--disabled": !this.playing,
       };
     },
-    onTermLeft(el) {
-      console.log(el.id, "leaving");
+    onTileExited(el, type) {
+      this.config.game.debug && console.log(type, el.id, "leaving...");
       console.log("Unmatched Terms", this.unmatchedTerms.length);
-      if (this.unmatchedTerms.length) {
+      if (type === "term" && this.unmatchedTerms.length) {
         this.setShuffling(true);
         this.shuffle();
         setTimeout(() => {
@@ -113,11 +116,7 @@ export default {
           this.setCanDnd(true);
         }, this.config.tile.timeouts.shuffle);
       }
-      //el.style.display = "none";
     },
-    /*onDefinitionLeft(el) {
-      el.style.display = "none";
-    },*/
   },
 };
 </script>
@@ -158,7 +157,7 @@ export default {
 
 .slide {
   /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
-  transition: transform 500ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
+  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
 }
 
 .match {

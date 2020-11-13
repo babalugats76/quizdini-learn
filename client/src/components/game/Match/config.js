@@ -6,6 +6,7 @@ export default {
     },
   },
   game: {
+    debug: true,
     timeouts: {
       enter: 1000,
       leave: 1000,
@@ -15,7 +16,7 @@ export default {
     timeouts: {
       enter: 800,
       hit: 800,
-      leave: 0,
+      leave: 500,
       miss: 800,
       shuffle: 500,
     },
