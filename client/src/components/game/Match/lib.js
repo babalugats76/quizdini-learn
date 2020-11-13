@@ -157,8 +157,8 @@ function onDrop(payload) {
   );
 
   if (matched) {
+    state.canDnd = false;
     setTimeout(() => {
-      state.canDnd = false;
       state.terms = updateObjInArray(state.terms, {
         id: dragId,
         show: false,

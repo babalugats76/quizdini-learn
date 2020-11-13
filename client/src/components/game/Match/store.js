@@ -23,7 +23,6 @@ export const state = reactive({
 export const config = matchConfig;
 
 export const getters = {
-  animating: () => state.animating,
   canDnd: () => state.canDnd,
   colorScheme: () => state.colorScheme,
   correct: () => state.correct,
@@ -45,7 +44,6 @@ export const getters = {
 };
 
 export const mutations = {
-  setAnimating: (val) => (state.animating = val),
   setCanDnd: (val) => (state.canDnd = val),
   setColorScheme: (val) => (state.colorScheme = val),
   setCorrect: (val) => (state.correct = val),

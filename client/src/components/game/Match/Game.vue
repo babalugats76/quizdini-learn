@@ -122,9 +122,43 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@keyframes hit {
+  0% {
+    background-color: blue;
+    transform: translate3d(
+      var(--hit-start-tx),
+      var(--hit-start-ty),
+      var(--hit-start-tz)
+    );
+  }
+  20% {
+    background-color: yellow;
+    color: black;
+  }
+  100% {
+    background-color: green;
+    color: white;
+    transform: translate3d(
+      var(--hit-end-tx),
+      var(--hit-end-ty),
+      var(--hit-end-tz)
+    );
+  }
+}
+
 .terms-leave-active {
   transform: scale(2, 2);
+}
+
+/* Used in the shuffle */
+.no-move-list {
+  transition: none !important;
+}
+
+.slide {
+  /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
+  transition: transform 500ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
 }
 
 .match {
@@ -167,61 +201,19 @@ export default {
   }
 }
 
-@keyframes hit {
-  0% {
-    background-color: blue;
-    transform: translate3d(
-      var(--hit-start-tx),
-      var(--hit-start-ty),
-      var(--hit-start-tz)
-    );
-  }
-  20% {
-    background-color: yellow;
-    color: black;
-  }
-  100% {
-    background-color: green;
-    color: white;
-    transform: translate3d(
-      var(--hit-end-tx),
-      var(--hit-end-ty),
-      var(--hit-end-tz)
-    );
-  }
-}
-
-/* Used in the shuffle */
-.no-move-list {
-  transition: none !important;
-}
-
-.slide {
-  /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
-  transition: transform 500ms cubic-bezier(0.75, 0.25, 0.17, 0.95);
-}
-
-.tile-board {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center; /* vertical smoosh */
-  justify-content: center; /* horizontal smoosh */
-  width: 100%;
-  padding: 0.5em;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .tile {
   position: relative;
   flex: 0 0 auto;
+  display: flex;
   align-items: center;
-  justify-items: center;
-  border-radius: 0.2em;
+  justify-content: center;
+  border-radius: 0.5em;
+  line-height: 1.4;
+  font-weight: 300;
   background-color: white;
   color: black;
-  font-weight: 300;
+  text-align: center;
+  overflow: hidden;
   user-select: none;
   touch-action: none;
   opacity: 1;
@@ -256,6 +248,34 @@ export default {
       background-color: yellow;
     }
   }
+  &__body {
+    --clamp-lines: 1;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    @supports (-webkit-line-clamp: 1) {
+      display: -webkit-box !important;
+      -webkit-line-clamp: var(--clamp-lines, 1);
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      word-break: normal !important;
+      overflow-wrap: anywhere !important;
+    }
+  }
+  &-board {
+    --tile-board-padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center; /* vertical smoosh */
+    justify-content: center; /* horizontal smoosh */
+    width: 100%;
+    padding: var(--tile-board-padding);
+    margin: 0 auto;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 47.99em) {
@@ -264,35 +284,23 @@ export default {
     font-size: calc(0.8125rem + ((1vw - 0.2em) * 0.2232));
   }
   .tile {
+    --tile-padding: 0.4em;
+    --tile-margin: 0.3em;
     height: 2.33em;
     min-width: 93px;
-    max-width: calc(100vw - 0.6em);
-    padding: 0.4em;
-    border-radius: 0.5em;
-    margin: 0.3em;
-    /*line-height: 1.4;*/
-    text-align: center;
-    overflow: hidden;
+    max-width: calc(100vw - 2 * var(--tile-margin));
+    padding: var(--tile-padding);
+    margin: var(--tile-margin);
   }
 }
 
 @media screen and (max-width: 74.99em) and (min-width: 48em),
   screen and (min-width: 75em) {
-  .tile-board {
-    padding: 0.5em;
-  }
-
   .tile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 4.67em;
-    padding: 0.6em;
-    border-radius: 0.5em;
-    margin: 0.2em;
-    line-height: 1.4;
-    text-align: center;
-    overflow: hidden;
+    --tile-padding: 0.6em;
+    --tile-margin: 0.2em;
+    padding: var(--tile-padding);
+    margin: var(--tile-margin);
   }
 }
 
@@ -301,25 +309,31 @@ export default {
     font-size: 95%; /* For browsers which don't support calc() */
     font-size: calc(0.875rem + 0.463vw - 0.22224em);
   }
-  .tile-board--4 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 1.8em) / 2);
-    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 3.6em) / 4);
-  }
 
-  .tile-board--6 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 2.2em) / 3);
-    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 3.6em) / 4);
-  }
-
-  .tile-board--9 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 2.2em) / 3);
-    /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 4.4em) / 6);
+  .tile {
+    min-height: 4.67em;
+    &__body {
+      --clamp-lines: 2;
+      font-size: 1.4em;
+    }
+    &-board--4 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 1.8em) / 2);
+      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 3.6em) / 4);
+    }
+    &-board--6 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 2.2em) / 3);
+      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 3.6em) / 4);
+    }
+    &-board--9 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 2.2em) / 3);
+      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 4.4em) / 6);
+    }
   }
 }
 
@@ -337,25 +351,29 @@ export default {
     }
   }
 
-  .tile-board--4 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 1.8em) / 2);
-    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 1.8em) / 2);
-  }
-
-  .tile-board--6 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 2.2em) / 3);
-    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 1.8em) / 2);
-  }
-
-  .tile-board--9 .tile {
-    /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-    flex-basis: calc((100% - 2.2em) / 3);
-    /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-    height: calc((90vh - 2.2em) / 3);
+  .tile {
+    min-height: 9.33em;
+    &__body {
+      --clamp-lines: 4;
+    }
+    &-board--4 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 1.8em) / 2);
+      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 1.8em) / 2);
+    }
+    &-board--6 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 2.2em) / 3);
+      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 1.8em) / 2);
+    }
+    &-board--9 .tile {
+      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
+      flex-basis: calc((100% - 2.2em) / 3);
+      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
+      height: calc((90vh - 2.2em) / 3);
+    }
   }
 }
 </style>
