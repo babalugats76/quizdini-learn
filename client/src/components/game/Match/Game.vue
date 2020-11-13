@@ -203,7 +203,6 @@ export default {
 
 .tile {
   position: relative;
-  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,7 +231,6 @@ export default {
     &.drag {
       transition: border-color 500ms ease-in-out;
       //   transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
-      // transform 0ms cubic-bezier(0, 0, 0.2, 1) !important;
       z-index: 500;
       border-color: white;
     }
@@ -269,8 +267,8 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-content: center; /* vertical smoosh */
-    justify-content: center; /* horizontal smoosh */
+    align-content: center;
+    justify-content: center;
     width: 100%;
     padding: var(--tile-board-padding);
     margin: 0 auto;
@@ -284,12 +282,11 @@ export default {
     font-size: calc(0.8125rem + ((1vw - 0.2em) * 0.2232));
   }
   .tile {
-    --tile-padding: 0.4em;
     --tile-margin: 0.3em;
     height: 2.33em;
     min-width: 93px;
     max-width: calc(100vw - 2 * var(--tile-margin));
-    padding: var(--tile-padding);
+    padding: 0.4em;
     margin: var(--tile-margin);
   }
 }
@@ -297,10 +294,33 @@ export default {
 @media screen and (max-width: 74.99em) and (min-width: 48em),
   screen and (min-width: 75em) {
   .tile {
-    --tile-padding: 0.6em;
-    --tile-margin: 0.2em;
-    padding: var(--tile-padding);
+    --tile-margin: 0.3em;
+    padding: 0.6em;
     margin: var(--tile-margin);
+    &-board--4 .tile {
+      --tile-columns: 2;
+      --tile-rows: 2;
+      flex-basis: calc(
+        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
+      );
+    }
+    &-board--6 .tile {
+      --tile-columns: 3;
+      --tile-rows: 2;
+      flex-basis: calc(
+        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
+      );
+    }
+    &-board--9 .tile {
+      --tile-columns: 3;
+      --tile-rows: 3;
+      flex-basis: calc(
+        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
+      );
+    }
+    &__body {
+      font-size: 1.4em;
+    }
   }
 }
 
@@ -312,25 +332,25 @@ export default {
 
   .tile {
     min-height: 4.67em;
+    &-board {
+      &:first-of-type {
+        padding-bottom: 0;
+      }
+      &:last-of-type {
+        padding-top: 0;
+      }
+    }
     &__body {
       --clamp-lines: 2;
-      font-size: 1.4em;
     }
     &-board--4 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 1.8em) / 2);
-      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 3.6em) / 4);
     }
     &-board--6 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 2.2em) / 3);
       /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 3.6em) / 4);
     }
     &-board--9 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 2.2em) / 3);
       /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 4.4em) / 6);
     }
@@ -353,24 +373,26 @@ export default {
 
   .tile {
     min-height: 9.33em;
+    &-board {
+      &:first-of-type {
+        padding-left: calc(var(--tile-board-padding) * 2);
+      }
+      &:last-of-type {
+        padding-right: calc(var(--tile-board-padding) * 2);
+      }
+    }
     &__body {
       --clamp-lines: 4;
     }
     &-board--4 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 1.8em) / 2);
       /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 1.8em) / 2);
     }
     &-board--6 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 2.2em) / 3);
       /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 1.8em) / 2);
     }
     &-board--9 .tile {
-      /* (100% parent - (hor. cont. padding * 2) - ((tile hor. margin * 2) * tiles per row) / tiles per row) */
-      flex-basis: calc((100% - 2.2em) / 3);
       /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
       height: calc((90vh - 2.2em) / 3);
     }
