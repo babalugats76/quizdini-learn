@@ -2,6 +2,16 @@ import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { state, config } from "./store";
 
+/*
+import useTimeout from '@/compose/useTimeout';
+
+const [, runHelloWorld] = useTimeout({
+  cb: () => {
+    console.log('Hello, World!');
+  },
+  ms: 10000,
+});*/
+
 function translate3d(x, y, z) {
   return { transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)" };
 }

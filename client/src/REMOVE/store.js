@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { default as matchConfig } from "./config";
+import { default as matchConfig } from "../components/game/Match/config";
 
 export const state = reactive({
   canDnd: false,

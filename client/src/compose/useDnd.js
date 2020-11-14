@@ -1,7 +1,7 @@
 import { computed, reactive, toRefs, watch, onMounted, unref } from "vue";
 import _ from "lodash";
 
-export default function useDnD({
+export default function useDnd({
   active,
   element,
   throttleMs = 33,

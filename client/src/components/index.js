@@ -1,3 +1,3 @@
-import Match from "./Match.vue";
-import Matches from "./Matches.vue";
+import { Match } from "./game/";
+import Matches from "./Matches";
 export { Match, Matches };

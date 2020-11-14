@@ -1,7 +1,8 @@
 <template>
   <div class="match__game">
+    <button v-if="!playing" @click="startGame">Start Game</button>
     <DndBoard
-      :active="playing && !shuffling && canDnd"
+      :active="canDnd"
       class="match__board"
       :config="config.board"
       v-on:drag="onDrag"
@@ -27,7 +28,11 @@
           :content="t.content"
           :class="[t.className]"
           :style="[t.style]"
-          :active="false"
+          :active="
+            t.className && t.className.split(' ').includes('drag')
+              ? true
+              : false
+          "
           :disabled="false"
           is="Draggable"
           type="term"
@@ -71,9 +76,9 @@
 
 <script>
 /* eslint-disable */
-import { config, state, getters, mutations } from "./store";
-import { actions } from "./lib";
-
+import { ref, toRefs } from "vue";
+import { default as config } from "./config";
+import useMatch from "./useMatch";
 import DndBoard from "../DndBoard";
 import Tile from "./Tile";
 import Timer from "./Timer";
@@ -85,17 +90,15 @@ export default {
     Tile,
     Timer,
   },
-  setup() {
+  props: ["match"],
+  setup(props) {
+    const { match } = toRefs(props);
     return {
       config,
+      ...useMatch(match),
     };
   },
-  computed: {
-    ...getters,
-  },
   methods: {
-    ...mutations,
-    ...actions,
     boardClasses(type) {
       return {
         "tile-board": true,
@@ -118,7 +121,7 @@ export default {
         // New Round
         console.log("new round...", oldValue, "=>", newValue);
         this.deal();
-        this.setCanDnd(true);
+        this.setInTransition(true);
       } else {
         this.shuffle();
       }
@@ -152,9 +155,9 @@ export default {
   }
 }
 
-.terms-leave-active {
+/*.terms-leave-active {
   transform: scale(2, 2);
-}
+}*/
 
 /* Used in the shuffle */
 .no-move-list {

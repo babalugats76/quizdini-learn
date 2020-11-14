@@ -1,11 +1,11 @@
 <template>
-  <Game />
+  <Game :match="match" />
 </template>
 <script>
 /* eslint-disable */
 import { fetchMatch } from "@/api/match";
-import { config, state, getters, mutations } from "./store";
-import { actions } from "./lib";
+import { default as config } from "./config";
+//import { actions } from "./lib";
 
 import Game from "./Game";
 
@@ -15,23 +15,23 @@ export default {
     Game,
   },
   computed: {
-    ...getters,
+    //...getters,
     matchId() {
       return this.$route.params.id;
     },
   },
+  data() {
+    return {
+      match: {},
+    };
+  },
   methods: {
-    ...mutations,
-    ...actions,
+    //  ...mutations,
+    //  ...actions,
   },
   async created() {
     const response = await fetchMatch(this.matchId);
-    this.load(response.data);
-    this.deal();
-    setTimeout(() => {
-      this.setPlaying(true);
-      this.setCanDnd(true);
-    }, 1000);
+    this.match = response.data;
   },
 };
 </script>
