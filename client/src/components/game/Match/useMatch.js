@@ -18,7 +18,11 @@ export default function useMatch(data, debug = true) {
 
   const state = reactive({
     canDnd: computed(
-      () => state.playing && !state.shuffling && !state.inTransition
+      () =>
+        state.playing &&
+        !state.shuffling &&
+        !state.inTransition &&
+        !!state.unmatchedTerms.length
     ),
     correct: 0,
     colorScheme: "",
@@ -215,6 +219,7 @@ export default function useMatch(data, debug = true) {
     console.log("game over...");
     state.playing = false;
     state.showBoard = false;
+    state.showSplash = true;
   }
 
   watch(data, (newValue, oldValue) => {

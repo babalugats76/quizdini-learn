@@ -121,7 +121,7 @@ export default {
         // New Round
         console.log("new round...", oldValue, "=>", newValue);
         this.deal();
-        this.setInTransition(true);
+        this.shuffle();
       } else {
         this.shuffle();
       }
