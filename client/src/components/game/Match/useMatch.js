@@ -1,13 +1,5 @@
 /* eslint-disable */
-import {
-  computed,
-  reactive,
-  toRefs,
-  watch,
-  isRef,
-  onMounted,
-  unref,
-} from "vue";
+import { computed, nextTick, toRefs, reactive, ref, watch } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
@@ -16,36 +8,33 @@ import useTimeout from "@/compose/useTimeout";
 export default function useMatch(data, debug = true) {
   const [, wrapInTimeout] = useTimeout();
 
+  const matchedCount = ref(0);
+
   const state = reactive({
+    activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
+    activeTerms: computed(() => state.terms.filter((t) => t.show)),
     canDnd: computed(
-      () =>
-        state.playing &&
-        !state.shuffling &&
-        !state.inTransition &&
-        !!state.unmatchedTerms.length
+      () => state.playing && !state.shuffling && !state.termIsExiting
     ),
     correct: 0,
     colorScheme: "",
     definitions: [],
     duration: 60,
     incorrect: 0,
-    inTransition: false,
     itemsPerBoard: 9,
     matches: [],
     matchId: "",
     playing: false,
-    progress: 0,
     score: 0,
     showBoard: false,
     showSplash: false,
     shuffling: false,
     stats: [],
+    termIsExiting: computed(() => {
+      return !!state.terms.filter((t) => t.matched && !t.exited).length;
+    }),
     terms: [],
     title: "",
-    unmatchedDefinitions: computed(() =>
-      state.definitions.filter((d) => d.show)
-    ),
-    unmatchedTerms: computed(() => state.terms.filter((t) => t.show)),
   });
 
   function translate3d(x, y, z) {
@@ -79,6 +68,15 @@ export default function useMatch(data, debug = true) {
       className: "drag",
     });
   }
+
+  function onOver(payload) {
+    const { dropId } = payload || {};
+    state.definitions = state.definitions.map((d) => ({
+      ...d,
+      className: d.id === dropId && !d.matched ? "over" : "",
+    }));
+  }
+
   function onDrop(payload) {
     const { dragId, dragX, dragY, dropId, dropX, dropY } = payload || {};
     const matched = dropId ? isMatch(dragId, dropId) : false;
@@ -116,7 +114,6 @@ export default function useMatch(data, debug = true) {
     );
 
     if (matched) {
-      state.inTransition = true;
       wrapInTimeout(config.tile.timeouts.hit, () => {
         state.terms = updateObjInArray(state.terms, {
           id: dragId,
@@ -130,13 +127,27 @@ export default function useMatch(data, debug = true) {
       });
     }
   }
-  function onOver(payload) {
-    const { dropId } = payload || {};
-    state.definitions = state.definitions.map((d) => ({
-      ...d,
-      className: d.id === dropId && !d.matched ? "over" : "",
-    }));
+
+  function onTileLeft(id, type) {
+    switch (type) {
+      case "term":
+        state.terms = updateObjInArray(state.terms, {
+          id,
+          exited: true,
+        });
+        state.playing && matchedCount.value++;
+        break;
+      case "definition":
+        state.definitions = updateObjInArray(state.definitions, {
+          id,
+          exited: true,
+        });
+        break;
+      default:
+        return;
+    }
   }
+
   function deal() {
     console.log("dealing...");
 
@@ -152,6 +163,7 @@ export default function useMatch(data, debug = true) {
     /* Add additional properties (used in game) */
     let matches = sliced.map((m) => ({
       ...m,
+      exited: false,
       matched: false,
       show: true,
     }));
@@ -199,19 +211,21 @@ export default function useMatch(data, debug = true) {
 
     wrapInTimeout(config.tile.timeouts.shuffle, () => {
       state.shuffling = false;
-      state.inTransition = false;
     });
   }
 
   function startGame() {
+    state.correct = 0;
+    state.incorrect = 0;
+    state.score = 0;
+    state.stats = [];
+    state.terms = [];
+    state.definitions = [];
+    matchedCount.value = 0;
     deal();
     wrapInTimeout(1000, () => {
-      state.correct = 0;
-      state.incorrect = 0;
-      state.stats = [];
-      state.progress = 0;
       state.playing = true;
-      state.inTransition = false;
+      nextTick(() => shuffle());
     });
   }
 
@@ -245,20 +259,35 @@ export default function useMatch(data, debug = true) {
     state.title = title;
   });
 
-  const incrementProgress = () => state.progress++;
+  watch(matchedCount, (newValue, oldValue) => {
+    debug &&
+      console.log(
+        "matched terms changed: ",
+        JSON.stringify(oldValue),
+        "=>",
+        JSON.stringify(newValue)
+      );
 
-  const setInTransition = (val) => (state.inTransition = val);
+    if (!newValue) return;
+
+    if (newValue === state.itemsPerBoard) {
+      deal();
+      matchedCount.value = 0;
+      nextTick(() => shuffle());
+    } else {
+      shuffle();
+    }
+  });
 
   return {
     ...toRefs(state),
     deal,
-    shuffle,
+    gameOver,
     onDrag,
     onDrop,
     onOver,
+    onTileLeft,
+    shuffle,
     startGame,
-    gameOver,
-    incrementProgress,
-    setInTransition,
   };
 }

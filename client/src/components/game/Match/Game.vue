@@ -19,10 +19,10 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="terms"
         tag="div"
-        @after-leave="onTermLeft"
+        @after-leave="(el) => tileAfterLeave(el, 'term')"
       >
         <Tile
-          v-for="t in unmatchedTerms"
+          v-for="t in activeTerms"
           :key="t.id"
           :id="t.id"
           :content="t.content"
@@ -48,9 +48,10 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="definitions"
         tag="div"
+        @after-leave="(el) => tileAfterLeave(el, 'definition')"
       >
         <Tile
-          v-for="d in unmatchedDefinitions"
+          v-for="d in activeDefinitions"
           :key="d.id"
           :id="d.id"
           :content="d.content"
@@ -107,24 +108,9 @@ export default {
         "tile-board--disabled": !this.playing,
       };
     },
-    onTermLeft(el) {
-      this.config.game.debug && console.log(`term  (${el.id}) leaving...`);
-      this.incrementProgress();
-    },
-  },
-  watch: {
-    progress(newValue, oldValue) {
-      if (
-        Math.floor(oldValue / this.itemsPerBoard) !==
-        Math.floor(newValue / this.itemsPerBoard)
-      ) {
-        // New Round
-        console.log("new round...", oldValue, "=>", newValue);
-        this.deal();
-        this.shuffle();
-      } else {
-        this.shuffle();
-      }
+    tileAfterLeave(el, type) {
+      this.config.game.debug && console.log(`${type} (${el.id}) leaving...`);
+      this.onTileLeft(el.id, type);
     },
   },
 };
