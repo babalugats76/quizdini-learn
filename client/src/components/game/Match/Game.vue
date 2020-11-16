@@ -1,6 +1,8 @@
 <template>
+  <button v-if="!playing && matches.length" @click="startGame">
+    Start Game
+  </button>
   <div class="match__game">
-    <button v-if="!playing" @click="startGame">Start Game</button>
     <DndBoard
       :active="canDnd"
       class="match__board"
@@ -8,6 +10,7 @@
       v-on:drag="onDrag"
       v-on:over="onOver"
       v-on:drop="onDrop"
+      v-if="playing"
     >
       <transition-group
         :class="boardClasses('terms')"

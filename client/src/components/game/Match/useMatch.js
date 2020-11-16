@@ -6,8 +6,23 @@ import { default as config } from "./config";
 import useTimeout from "@/compose/useTimeout";
 
 export default function useMatch(data, debug = true) {
-  const [, wrapInTimeout] = useTimeout();
+  const [, hideMatch] = useTimeout(
+    config.tile.timeouts.hit,
+    (dragId, dropId) => () => {
+      state.terms = updateObjInArray(state.terms, {
+        id: dragId,
+        show: false,
+      });
 
+      state.definitions = updateObjInArray(state.definitions, {
+        id: dropId,
+        show: false,
+      });
+    }
+  );
+  const [, endShuffle] = useTimeout(config.tile.timeouts.shuffle, () => {
+    state.shuffling = false;
+  });
   const matchedCount = ref(0);
 
   const state = reactive({
@@ -91,9 +106,7 @@ export default function useMatch(data, debug = true) {
         : translate3d(0, 0, 0),
     });
 
-    if (!dropId) {
-      return;
-    }
+    if (!dropId) return;
 
     state.definitions = updateObjInArray(state.definitions, {
       id: dropId,
@@ -113,19 +126,7 @@ export default function useMatch(data, debug = true) {
         : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
     );
 
-    if (matched) {
-      wrapInTimeout(config.tile.timeouts.hit, () => {
-        state.terms = updateObjInArray(state.terms, {
-          id: dragId,
-          show: false,
-        });
-
-        state.definitions = updateObjInArray(state.definitions, {
-          id: dropId,
-          show: false,
-        });
-      });
-    }
+    matched && hideMatch(dragId, dropId);
   }
 
   function onTileLeft(id, type) {
@@ -208,24 +209,22 @@ export default function useMatch(data, debug = true) {
     state.shuffling = true;
     state.terms = shuffleArray(state.terms);
     state.definitions = shuffleArray(state.definitions);
-
-    wrapInTimeout(config.tile.timeouts.shuffle, () => {
-      state.shuffling = false;
-    });
+    endShuffle();
   }
 
   function startGame() {
+    state.playing = false;
     state.correct = 0;
     state.incorrect = 0;
     state.score = 0;
     state.stats = [];
-    state.terms = [];
-    state.definitions = [];
+    //state.terms = [];
+    //state.definitions = [];
     matchedCount.value = 0;
     deal();
-    wrapInTimeout(1000, () => {
+    nextTick(() => {
+      shuffle();
       state.playing = true;
-      nextTick(() => shuffle());
     });
   }
 
@@ -253,6 +252,7 @@ export default function useMatch(data, debug = true) {
 
     state.colorScheme = colorScheme;
     state.duration = duration;
+    state.duration = 5;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = matches;
@@ -268,7 +268,7 @@ export default function useMatch(data, debug = true) {
         JSON.stringify(newValue)
       );
 
-    if (!newValue) return;
+    if (newValue <= 0) return;
 
     if (newValue === state.itemsPerBoard) {
       deal();
