@@ -10,7 +10,6 @@
       v-on:drag="onDrag"
       v-on:over="onOver"
       v-on:drop="onDrop"
-      v-if="playing"
     >
       <transition-group
         :class="boardClasses('terms')"
@@ -113,13 +112,16 @@ export default {
     },
     tileAfterLeave(el, type) {
       this.config.game.debug && console.log(`${type} (${el.id}) leaving...`);
-      this.onTileLeft(el.id, type);
+      this.playing && this.onTileLeft(el.id, type);
     },
   },
 };
 </script>
 
 <style lang="scss">
+$tile-margin: 0.3em;
+$tile-board-padding: 0.5em;
+
 @keyframes hit {
   0% {
     background-color: blue;
@@ -227,7 +229,7 @@ export default {
     }
     &.drag {
       transition: border-color 500ms ease-in-out;
-      //   transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
+      // transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
       z-index: 500;
       border-color: white;
     }
@@ -260,14 +262,13 @@ export default {
     }
   }
   &-board {
-    --tile-board-padding: 0.5em;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
     width: 100%;
-    padding: var(--tile-board-padding);
+    padding: #{$tile-board-padding};
     margin: 0 auto;
     text-align: center;
   }
@@ -275,45 +276,35 @@ export default {
 
 @media screen and (max-width: 47.99em) {
   .match__game {
-    font-size: 87.5%; /* For browsers which don't support calc() */
+    // For browsers which don't support calc()
+    font-size: 87.5%;
     font-size: calc(0.8125rem + ((1vw - 0.2em) * 0.2232));
   }
   .tile {
-    --tile-margin: 0.3em;
     height: 2.33em;
     min-width: 93px;
-    max-width: calc(100vw - 2 * var(--tile-margin));
+    max-width: calc(100vw - #{2 * $tile-margin});
     padding: 0.4em;
-    margin: var(--tile-margin);
+    margin: #{$tile-margin};
   }
 }
 
 @media screen and (max-width: 74.99em) and (min-width: 48em),
   screen and (min-width: 75em) {
   .tile {
-    --tile-margin: 0.3em;
     padding: 0.6em;
-    margin: var(--tile-margin);
+    margin: #{$tile-margin};
     &-board--4 .tile {
-      --tile-columns: 2;
-      --tile-rows: 2;
-      flex-basis: calc(
-        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
-      );
+      // half the width of the container, minus margin and 1px (rounding)
+      flex-basis: calc(100% / 2 - (1px + #{$tile-margin * 2}));
     }
     &-board--6 .tile {
-      --tile-columns: 3;
-      --tile-rows: 2;
-      flex-basis: calc(
-        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
-      );
+      // third the width of the container, minus margin and 1px (rounding)
+      flex-basis: calc(100% / 3 - (1px + #{$tile-margin * 2}));
     }
     &-board--9 .tile {
-      --tile-columns: 3;
-      --tile-rows: 3;
-      flex-basis: calc(
-        100% / var(--tile-columns) - (1px + 2 * var(--tile-margin))
-      );
+      // third the width of the container, minus margin and 1px (rounding)
+      flex-basis: calc(100% / 3 - (1px + #{$tile-margin * 2}));
     }
     &__body {
       font-size: 1.4em;
@@ -323,7 +314,8 @@ export default {
 
 @media screen and (max-width: 74.99em) and (min-width: 48em) {
   .match__game {
-    font-size: 95%; /* For browsers which don't support calc() */
+    // For browsers which don't support calc()
+    font-size: 95%;
     font-size: calc(0.875rem + 0.463vw - 0.22224em);
   }
 
@@ -340,16 +332,14 @@ export default {
     &__body {
       --clamp-lines: 2;
     }
-    &-board--4 .tile {
-      height: calc((90vh - 3.6em) / 4);
-    }
+    // quarter the height of the container, minus margin and 1px (rounding)
+    &-board--4 .tile,
     &-board--6 .tile {
-      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-      height: calc((90vh - 3.6em) / 4);
+      height: calc(90vh / 4 - (1px + #{$tile-margin * 2}));
     }
+    // sixth the height of the container, minus margin and 1px (rounding)
     &-board--9 .tile {
-      /* (90% vh - (vert. cont. padding * 4) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-      height: calc((90vh - 4.4em) / 6);
+      height: calc(90vh / 6 - (1px + #{$tile-margin * 2}));
     }
   }
 }
@@ -357,12 +347,13 @@ export default {
 @media screen and (min-width: 75em) {
   .match {
     &__game {
-      font-size: 110%; /* For browsers which don't support calc() */
-      /* 1em(16px) @ 75em(1200px) increasing to 2.5em(40px) @ 240em(3840px) */
+      // For browsers which don't support calc()
+      font-size: 110%;
+      // 1em(16px) @ 75em(1200px) increasing to 2.5em(40px) @ 240em(3840px)
       font-size: calc(1rem + ((1vw - 0.75em) * 0.9091));
     }
     &__board {
-      /* 2 columns, i.e., 2 side-by-side boards */
+      // 2 columns, i.e., 2 side-by-side boards
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
     }
@@ -372,26 +363,23 @@ export default {
     min-height: 9.33em;
     &-board {
       &:first-of-type {
-        padding-left: calc(var(--tile-board-padding) * 2);
+        padding-left: #{$tile-board-padding * 2};
       }
       &:last-of-type {
-        padding-right: calc(var(--tile-board-padding) * 2);
+        padding-right: #{$tile-board-padding * 2};
       }
     }
     &__body {
       --clamp-lines: 4;
     }
-    &-board--4 .tile {
-      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-      height: calc((90vh - 1.8em) / 2);
-    }
+    // half the height of the container, minus margin and 1px (rounding)
+    &-board--4 .tile,
     &-board--6 .tile {
-      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-      height: calc((90vh - 1.8em) / 2);
+      height: calc(90vh / 2 - (1px + #{$tile-margin * 2}));
     }
+    // third the height of the container, minus margin and 1px (rounding)
     &-board--9 .tile {
-      /* (90% vh - (vert. cont. padding * 2) - ((tile vert. margin * 2) * tiles per col) / tiles per col) */
-      height: calc((90vh - 2.2em) / 3);
+      height: calc(90vh / 3 - (1px + #{$tile-margin * 2}));
     }
   }
 }

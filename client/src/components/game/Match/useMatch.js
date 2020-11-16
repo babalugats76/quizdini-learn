@@ -85,10 +85,10 @@ export default function useMatch(data, debug = true) {
   }
 
   function onOver(payload) {
-    const { dropId } = payload || {};
+    const { overId } = payload || {};
     state.definitions = state.definitions.map((d) => ({
       ...d,
-      className: d.id === dropId && !d.matched ? "over" : "",
+      className: d.id === overId && !d.matched ? "over" : "",
     }));
   }
 
@@ -218,8 +218,8 @@ export default function useMatch(data, debug = true) {
     state.incorrect = 0;
     state.score = 0;
     state.stats = [];
-    //state.terms = [];
-    //state.definitions = [];
+    state.terms = [];
+    state.definitions = [];
     matchedCount.value = 0;
     deal();
     nextTick(() => {
@@ -233,6 +233,8 @@ export default function useMatch(data, debug = true) {
     state.playing = false;
     state.showBoard = false;
     state.showSplash = true;
+    state.terms = [];
+    state.definitions = [];
   }
 
   watch(data, (newValue, oldValue) => {
@@ -252,7 +254,6 @@ export default function useMatch(data, debug = true) {
 
     state.colorScheme = colorScheme;
     state.duration = duration;
-    state.duration = 5;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = matches;
