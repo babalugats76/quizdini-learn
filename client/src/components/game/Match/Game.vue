@@ -328,8 +328,8 @@ $tile-colors: (
     color: #711cff;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
-    letter-spacing: 0px;
-    font-size: 0.95em; // Just a tad small than terms
+    letter-spacing: normal;
+    font-size: 1em;
     &.over {
       background-color: yellow;
     }
