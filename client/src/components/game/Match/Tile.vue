@@ -1,7 +1,7 @@
 <template>
   <component
     :active="active"
-    :class="classnames"
+    :class="classes"
     :disabled="disabled"
     :id="id"
     :is="is"
@@ -26,6 +26,10 @@ export default {
       type: Boolean,
       required: true,
       default: false,
+    },
+    color: {
+      type: String,
+      required: false,
     },
     content: {
       type: String,
@@ -52,10 +56,11 @@ export default {
     },
   },
   computed: {
-    classnames() {
+    classes() {
       return {
         tile: true,
         [`tile--${this.type}`]: this.type,
+        [this.color]: this.color,
       };
     },
   },

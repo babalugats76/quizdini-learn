@@ -1,5 +1,13 @@
 /* eslint-disable */
-import { computed, nextTick, toRefs, reactive, ref, watch } from "vue";
+import {
+  computed,
+  nextTick,
+  toRefs,
+  reactive,
+  ref,
+  watch,
+  popScopeId,
+} from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
@@ -51,6 +59,18 @@ export default function useMatch(data, debug = true) {
     terms: [],
     title: "",
   });
+
+  function addColor(array = [], colorScheme = "") {
+    console.log("add color called...");
+    const { [colorScheme.toLowerCase()]: theme = "" } = config.game.themes;
+    if (!theme) return array;
+    let colors = shuffleArray(theme.colors.slice());
+    return array.map((i) => {
+      const c = colors.pop();
+      console.log("choose color", c);
+      return { ...i, color: c };
+    });
+  }
 
   function translate3d(x, y, z) {
     return { transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)" };
@@ -198,7 +218,7 @@ export default function useMatch(data, debug = true) {
     });
 
     /* Add Color (terms only) */
-    //terms = addColor(terms, state.colorScheme); // add colors (terms only)
+    terms = addColor(terms, state.colorScheme); // add colors (terms only)
 
     state.terms = terms;
     state.definitions = defs; // only necessary to reshuffle 1/2
@@ -281,6 +301,7 @@ export default function useMatch(data, debug = true) {
   });
 
   return {
+    config,
     ...toRefs(state),
     deal,
     gameOver,

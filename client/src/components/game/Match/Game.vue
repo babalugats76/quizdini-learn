@@ -30,12 +30,9 @@
           :content="t.content"
           :class="[t.className]"
           :style="[t.style]"
-          :active="
-            t.className && t.className.split(' ').includes('drag')
-              ? true
-              : false
-          "
+          :active="t.className === 'drag'"
           :disabled="false"
+          :color="t.color"
           is="Draggable"
           type="term"
         />
@@ -80,7 +77,6 @@
 <script>
 /* eslint-disable */
 import { ref, toRefs } from "vue";
-import { default as config } from "./config";
 import useMatch from "./useMatch";
 import DndBoard from "../DndBoard";
 import Tile from "./Tile";
@@ -97,7 +93,6 @@ export default {
   setup(props) {
     const { match } = toRefs(props);
     return {
-      config,
       ...useMatch(match),
     };
   },
@@ -119,8 +114,91 @@ export default {
 </script>
 
 <style lang="scss">
-$tile-margin: 0.3em;
-$tile-board-padding: 0.5em;
+$tile-margin: 0.4em;
+$tile-board-padding: 0.75em;
+
+$tile-colors: (
+  "red": (
+    "background": #e6194b,
+    "color": #ffffff,
+  ),
+  "green": (
+    "background": #3cb44b,
+    "color": #ffffff,
+  ),
+  "yellow": (
+    "background": #ffe119,
+    "color": #2e2f16,
+  ),
+  "blue": (
+    "background": #4363d8,
+    "color": #ffffff,
+  ),
+  "orange": (
+    "background": #f58231,
+    "color": #ffffff,
+  ),
+  "purple": (
+    "background": #911eb4,
+    "color": #ffffff,
+  ),
+  "light-blue": (
+    "background": #46f0f0,
+    "color": #2e2f16,
+  ),
+  "fuchsia": (
+    "background": #f032e6,
+    "color": #ffffff,
+  ),
+  "lime": (
+    "background": #bcf60c,
+    "color": #2e2f16,
+  ),
+  "pink": (
+    "background": #fabebe,
+    "color": #2e2f16,
+  ),
+  "teal": (
+    "background": #008080,
+    "color": #ffffff,
+  ),
+  "mauve": (
+    "background": #e6beff,
+    "color": #2e2f16,
+  ),
+  "brown": (
+    "background": #9a6324,
+    "color": #ffffff,
+  ),
+  "cream": (
+    "background": #fffac8,
+    "color": #2e2f16,
+  ),
+  "maroon": (
+    "background": #800000,
+    "color": #ffffff,
+  ),
+  "apple": (
+    "background": #aaffc3,
+    "color": #2e2f16,
+  ),
+  "olive": (
+    "background": #808000,
+    "color": #ffffff,
+  ),
+  "light-orange": (
+    "background": #ffd8b1,
+    "color": #2e2f16,
+  ),
+  "navy": (
+    "background": #000075,
+    "color": #ffffff,
+  ),
+  "gray": (
+    "background": #808080,
+    "color": #ffffff,
+  ),
+);
 
 @keyframes hit {
   0% {
@@ -163,6 +241,7 @@ $tile-board-padding: 0.5em;
 .match {
   &__game {
     --board-bg-color: turquoise;
+    font-family: "Inter", sans-serif;
     display: grid;
     grid-area: auto;
     grid-template-columns: 1fr;
@@ -207,7 +286,6 @@ $tile-board-padding: 0.5em;
   justify-content: center;
   border-radius: 0.5em;
   line-height: 1.4;
-  font-weight: 300;
   background-color: white;
   color: black;
   text-align: center;
@@ -215,11 +293,19 @@ $tile-board-padding: 0.5em;
   user-select: none;
   touch-action: none;
   opacity: 1;
+  @each $color, $values in $tile-colors {
+    &.#{$color} {
+      background-color: map-get($values, "background");
+      color: map-get($values, "color");
+    }
+  }
   &--term {
     border: 0.2em solid transparent;
-    background-color: blue;
+    background-color: #001399;
     color: white;
-    font-weight: 500;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
     &.hit {
       animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
       animation-name: hit;
@@ -239,8 +325,11 @@ $tile-board-padding: 0.5em;
   }
   &--definition {
     background-color: white;
-    color: black;
-    font-weight: 300;
+    color: #711cff;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    letter-spacing: 0px;
+    font-size: 0.95em; // Just a tad small than terms
     &.over {
       background-color: yellow;
     }
@@ -249,8 +338,9 @@ $tile-board-padding: 0.5em;
     --clamp-lines: 1;
     width: 100%;
     font-size: 1em;
-    font-weight: 400;
-    letter-spacing: 1px;
+    font-family: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
     @supports (-webkit-line-clamp: 1) {
       display: -webkit-box !important;
       -webkit-line-clamp: var(--clamp-lines, 1);
@@ -271,6 +361,12 @@ $tile-board-padding: 0.5em;
     padding: #{$tile-board-padding};
     margin: 0 auto;
     text-align: center;
+    &--terms {
+      background-color: #711cff;
+    }
+    &--definitions {
+      background-color: #01e7e4;
+    }
   }
 }
 
@@ -284,7 +380,7 @@ $tile-board-padding: 0.5em;
     height: 2.33em;
     min-width: 93px;
     max-width: calc(100vw - #{2 * $tile-margin});
-    padding: 0.4em;
+    padding: 0.6em;
     margin: #{$tile-margin};
   }
 }
@@ -307,7 +403,7 @@ $tile-board-padding: 0.5em;
       flex-basis: calc(100% / 3 - (1px + #{$tile-margin * 2}));
     }
     &__body {
-      font-size: 1.4em;
+      font-size: 1.3em;
     }
   }
 }
@@ -363,10 +459,10 @@ $tile-board-padding: 0.5em;
     min-height: 9.33em;
     &-board {
       &:first-of-type {
-        padding-left: #{$tile-board-padding * 2};
+        padding-left: #{$tile-board-padding};
       }
       &:last-of-type {
-        padding-right: #{$tile-board-padding * 2};
+        padding-right: #{$tile-board-padding};
       }
     }
     &__body {

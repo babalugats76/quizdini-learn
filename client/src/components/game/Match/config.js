@@ -11,6 +11,32 @@ export default {
       enter: 1000,
       leave: 1000,
     },
+    themes: {
+      rainbow: {
+        colors: [
+          "red",
+          "green",
+          "yellow",
+          "blue",
+          "orange",
+          "purple",
+          "light-blue",
+          "fuchsia",
+          "lime",
+          "pink",
+          "teal",
+          "mauve",
+          "brown",
+          "cream",
+          "maroon",
+          "apple",
+          "olive",
+          "light-orange",
+          "navy",
+          "gray",
+        ],
+      },
+    },
   },
   tile: {
     timeouts: {

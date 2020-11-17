@@ -220,7 +220,7 @@ export default {
     align-items: center;
     top: 0;
     font-size: 2em;
-    font-family: monospace;
+    //font-family: monospace;
     transform: scale(1, 1);
     transition: color 50ms ease-in-out, transform 200ms linear;
     color: #111;
