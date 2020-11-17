@@ -325,7 +325,8 @@ $tile-colors: (
   }
   &--definition {
     background-color: white;
-    color: #711cff;
+    //color: #711cff;
+    color: #2e2f16;
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
     letter-spacing: normal;
