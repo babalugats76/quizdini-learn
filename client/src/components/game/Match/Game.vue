@@ -128,7 +128,7 @@ $tile-colors: (
   ),
   "yellow": (
     "background": #ffe119,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "blue": (
     "background": #4363d8,
@@ -144,7 +144,7 @@ $tile-colors: (
   ),
   "light-blue": (
     "background": #46f0f0,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "fuchsia": (
     "background": #f032e6,
@@ -152,11 +152,11 @@ $tile-colors: (
   ),
   "lime": (
     "background": #bcf60c,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "pink": (
     "background": #fabebe,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "teal": (
     "background": #008080,
@@ -164,7 +164,7 @@ $tile-colors: (
   ),
   "mauve": (
     "background": #e6beff,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "brown": (
     "background": #9a6324,
@@ -172,7 +172,7 @@ $tile-colors: (
   ),
   "cream": (
     "background": #fffac8,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "maroon": (
     "background": #800000,
@@ -180,7 +180,7 @@ $tile-colors: (
   ),
   "apple": (
     "background": #aaffc3,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "olive": (
     "background": #808000,
@@ -188,7 +188,7 @@ $tile-colors: (
   ),
   "light-orange": (
     "background": #ffd8b1,
-    "color": #2e2f16,
+    "color": #444521,
   ),
   "navy": (
     "background": #000075,
@@ -326,9 +326,9 @@ $tile-colors: (
   &--definition {
     background-color: white;
     //color: #711cff;
-    color: #2e2f16;
+    color: #444521;
     font-family: "Montserrat", sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: normal;
     font-size: 1em;
     &.over {
