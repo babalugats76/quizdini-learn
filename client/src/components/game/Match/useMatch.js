@@ -181,6 +181,8 @@ export default function useMatch(data, debug = true) {
       Math.min(state.itemsPerBoard, shuffled.length)
     );
 
+    /* Analyze font characteristics */
+
     /* Add additional properties (used in game) */
     let matches = sliced.map((m) => ({
       ...m,

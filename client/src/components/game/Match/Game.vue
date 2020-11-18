@@ -114,8 +114,8 @@ export default {
 </script>
 
 <style lang="scss">
-$tile-margin: 0.4em;
-$tile-board-padding: 0.75em;
+$tile-margin: 0.5em;
+$tile-board-padding: 1em;
 
 $tile-colors: (
   "red": (
