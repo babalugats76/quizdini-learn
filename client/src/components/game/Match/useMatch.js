@@ -301,16 +301,16 @@ export default function useMatch(data, debug = true) {
     console.log(JSON.stringify(x, null, 4));
 
     const MIN = 1,
-      MAX = 13,
+      MAX = 10,
       MAX_SF = 3,
-      MIN_SF = 0.82;
+      MIN_SF = 1;
     let tsf =
-      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[0], x[1] / 2) +
+      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[0], x[1]) +
       (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
     tsf = Math.max(MIN_SF, Math.min(tsf, MAX_SF)).toFixed(2);
 
     let dsf =
-      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[2], x[3] / 2) +
+      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[2], x[3]) +
       (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
     dsf = Math.max(MIN_SF, Math.min(dsf, MAX_SF)).toFixed(2);
 
