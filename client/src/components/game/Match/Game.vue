@@ -1,6 +1,6 @@
 <template>
   <button v-if="!playing && matches.length" @click="startGame">
-    Start Game
+    Start Game {{ textScaling.term }} {{ textScaling.definition }}
   </button>
   <div class="match__game">
     <DndBoard
@@ -21,6 +21,7 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="terms"
         tag="div"
+        :style="{ '--text-scale-factor': `${textScaling.term}` }"
         @after-leave="(el) => tileAfterLeave(el, 'term')"
       >
         <Tile
@@ -47,6 +48,7 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="definitions"
         tag="div"
+        :style="{ '--text-scale-factor': `${textScaling.definition}` }"
         @after-leave="(el) => tileAfterLeave(el, 'definition')"
       >
         <Tile
@@ -241,8 +243,6 @@ $tile-colors: (
 .match {
   &__game {
     --board-bg-color: turquoise;
-    --term-scale-factor: 1;
-    --definition-scale-factor: 1;
     font-family: "Inter", sans-serif;
     display: grid;
     grid-area: auto;
@@ -325,9 +325,6 @@ $tile-colors: (
     &.miss {
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
     }
-    #{$prefix}__body {
-      font-size: calc(1.3em * var(--term-scale-factor));
-    }
   }
   &--definition {
     background-color: white;
@@ -339,9 +336,6 @@ $tile-colors: (
     font-size: 1em;
     &.over {
       background-color: yellow;
-    }
-    #{$prefix}__body {
-      font-size: calc(1.3em * var(--definition-scale-factor));
     }
   }
   &__body {
@@ -413,7 +407,7 @@ $tile-colors: (
       flex-basis: calc(100% / 3 - (1px + #{$tile-margin * 2}));
     }
     &__body {
-      font-size: 1.3em;
+      font-size: calc(1em * var(--text-scale-factor));
     }
   }
 }

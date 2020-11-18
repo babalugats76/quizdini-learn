@@ -24,8 +24,7 @@ export default function useMatch(data, debug = true) {
     state.shuffling = false;
   });
   const matchedCount = ref(0);
-  const termScaleFactor = ref(1);
-  const defScaleFactor = ref(1);
+  const textScaling = ref({ term: 1, definition: 1 });
 
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
@@ -298,27 +297,20 @@ export default function useMatch(data, debug = true) {
         ];
       }, []);
 
-    console.log(JSON.stringify(x, null, 4));
+    // console.log(JSON.stringify(x, null, 4));
 
-    const MIN = 1,
-      MAX = 20,
-      MAX_SF = 3,
-      MIN_SF = 0.9;
-    let tsf =
-      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[0], x[1]) +
-      (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
-    tsf = Math.max(MIN_SF, Math.min(tsf, MAX_SF)).toFixed(2);
+    const max = 4,
+      min = 1.25,
+      m = 0.64;
 
-    let dsf =
-      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[2], x[3]) +
-      (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
-    dsf = Math.max(MIN_SF, Math.min(dsf, MAX_SF)).toFixed(2);
+    textScaling.value = {
+      term: (max * Math.pow(m, Math.max(x[0], x[1] / 1.5)) + min).toFixed(2),
+      definition: (max * Math.pow(m, Math.max(x[2], x[3] / 1.5)) + min).toFixed(
+        2
+      ),
+    };
 
-    console.log("term scale factor is =>", tsf);
-    termScaleFactor.value = tsf;
-
-    console.log("def scale factor is =>", dsf);
-    defScaleFactor.value = dsf;
+    console.log(JSON.stringify(textScaling.value, null, 4));
 
     state.colorScheme = colorScheme;
     state.duration = duration;
@@ -359,6 +351,6 @@ export default function useMatch(data, debug = true) {
     onTileLeft,
     shuffle,
     startGame,
-    termScaleFactor,
+    textScaling,
   };
 }
