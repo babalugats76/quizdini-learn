@@ -302,9 +302,9 @@ export default function useMatch(data, debug = true) {
 
     // console.log(JSON.stringify(x, null, 4));
 
-    const max = 3.8,
-      min = 1.22,
-      m = 0.64;
+    const max = 3.5,
+      min = 1.2,
+      m = 0.75;
 
     textScaling.value = {
       term: (max * Math.pow(m, Math.max(x[0], x[1] / 1.5)) + min).toFixed(2),
