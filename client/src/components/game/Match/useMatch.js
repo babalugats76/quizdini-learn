@@ -265,6 +265,9 @@ export default function useMatch(data, debug = true) {
       title = "",
     } = newValue;
 
+    /***
+     *
+     */
     const parse = (parser, encoded) => {
       const regex = /<[^>]*>/gi;
       const dom = parser.parseFromString(
@@ -299,8 +302,8 @@ export default function useMatch(data, debug = true) {
 
     // console.log(JSON.stringify(x, null, 4));
 
-    const max = 4,
-      min = 1.25,
+    const max = 3.8,
+      min = 1.22,
       m = 0.64;
 
     textScaling.value = {
