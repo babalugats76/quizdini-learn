@@ -301,9 +301,9 @@ export default function useMatch(data, debug = true) {
     console.log(JSON.stringify(x, null, 4));
 
     const MIN = 1,
-      MAX = 12,
+      MAX = 13,
       MAX_SF = 3,
-      MIN_SF = 1;
+      MIN_SF = 0.82;
     let tsf =
       ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[0], x[1] / 2) +
       (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
