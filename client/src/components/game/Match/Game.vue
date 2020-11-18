@@ -241,6 +241,8 @@ $tile-colors: (
 .match {
   &__game {
     --board-bg-color: turquoise;
+    --term-scale-factor: 1;
+    --definition-scale-factor: 1;
     font-family: "Inter", sans-serif;
     display: grid;
     grid-area: auto;
@@ -280,6 +282,7 @@ $tile-colors: (
 }
 
 .tile {
+  $prefix: &;
   position: relative;
   display: flex;
   align-items: center;
@@ -322,6 +325,9 @@ $tile-colors: (
     &.miss {
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
     }
+    #{$prefix}__body {
+      font-size: calc(1.3em * var(--term-scale-factor));
+    }
   }
   &--definition {
     background-color: white;
@@ -333,6 +339,9 @@ $tile-colors: (
     font-size: 1em;
     &.over {
       background-color: yellow;
+    }
+    #{$prefix}__body {
+      font-size: calc(1.3em * var(--definition-scale-factor));
     }
   }
   &__body {

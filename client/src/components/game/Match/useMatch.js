@@ -1,13 +1,5 @@
 /* eslint-disable */
-import {
-  computed,
-  nextTick,
-  toRefs,
-  reactive,
-  ref,
-  watch,
-  popScopeId,
-} from "vue";
+import { computed, nextTick, toRefs, reactive, ref, watch } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
@@ -32,6 +24,8 @@ export default function useMatch(data, debug = true) {
     state.shuffling = false;
   });
   const matchedCount = ref(0);
+  const termScaleFactor = ref(1);
+  const defScaleFactor = ref(1);
 
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
@@ -181,8 +175,6 @@ export default function useMatch(data, debug = true) {
       Math.min(state.itemsPerBoard, shuffled.length)
     );
 
-    /* Analyze font characteristics */
-
     /* Add additional properties (used in game) */
     let matches = sliced.map((m) => ({
       ...m,
@@ -274,6 +266,60 @@ export default function useMatch(data, debug = true) {
       title = "",
     } = newValue;
 
+    const parse = (parser, encoded) => {
+      const regex = /<[^>]*>/gi;
+      const dom = parser.parseFromString(
+        "<!DOCTYPE html><body>" + encoded,
+        "text/html"
+      );
+      return dom.body.textContent.replace(regex, "");
+    };
+
+    /* Analyze font characteristics */
+    const parser = new DOMParser();
+
+    let x = matches
+      .map((el) => {
+        const t = parse(parser, el.term),
+          d = parse(parser, el.definition);
+        return [
+          t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          t.length,
+          d.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          d.length,
+        ];
+      })
+      .reduce((a, c) => {
+        return [
+          a[0] > c[0] ? a[0] : c[0],
+          a[1] > c[1] ? a[1] : c[1],
+          a[2] > c[2] ? a[2] : c[2],
+          a[3] > c[3] ? a[3] : c[3],
+        ];
+      }, []);
+
+    console.log(JSON.stringify(x, null, 4));
+
+    const MIN = 1,
+      MAX = 14,
+      MAX_SF = 3,
+      MIN_SF = 0.95;
+    let tsf =
+      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[0], x[1] / 2) +
+      (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
+    tsf = Math.max(MIN_SF, Math.min(tsf, MAX_SF)).toFixed(2);
+
+    let dsf =
+      ((MIN - MAX_SF) / (MAX - MIN_SF)) * Math.max(x[2], x[3] / 2) +
+      (MAX_SF - (MIN * (MIN - MAX_SF)) / (MAX - MIN_SF));
+    dsf = Math.max(MIN_SF, Math.min(dsf, MAX_SF)).toFixed(2);
+
+    console.log("term scale factor is =>", tsf);
+    termScaleFactor.value = tsf;
+
+    console.log("def scale factor is =>", dsf);
+    defScaleFactor.value = dsf;
+
     state.colorScheme = colorScheme;
     state.duration = duration;
     state.matchId = matchId;
@@ -313,5 +359,6 @@ export default function useMatch(data, debug = true) {
     onTileLeft,
     shuffle,
     startGame,
+    termScaleFactor,
   };
 }
