@@ -172,10 +172,6 @@ export default function useMatch(data, debug = true) {
         "<!DOCTYPE html><body>" + encoded,
         "text/html"
       );
-      console.log(
-        dom.body.textContent,
-        dom.body.textContent.replace(regex, "")
-      );
       return dom.body.textContent.replace(regex, "");
     };
 
@@ -200,6 +196,8 @@ export default function useMatch(data, debug = true) {
           a[3] > c[3] ? a[3] : c[3],
         ];
       }, []);
+
+    console.log(JSON.stringify(meta, null, 4));
 
     const { growth: m, min, max } = config.tile.scaling.text || {};
 
