@@ -17,10 +17,10 @@ export default {
       },
       rainbow: {
         // prettier-ignore
-        colors: ["red", "green", "yellow", "blue", "orange", 
-                 "purple", "light-blue", "fuchsia", "lime", "pink", 
-                 "teal", "mauve", "brown", "cream", "maroon",
-                 "apple", "olive", "light-orange", "navy", "gray"],
+        colors: ["apple","blue","brown","cream","fuchsia",
+                 "gray","green","light-blue","light-orange","lime",
+                 "maroon","mauve","navy","olive","orange",
+                 "pink","purple","red","teal","yellow"],
       },
     },
   },
