@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { computed, nextTick, toRefs, reactive, ref, watch } from "vue";
-import shortid from "shortid";
-import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
-import { default as config } from "./config";
-import useTimeout from "@/compose/useTimeout";
+import { computed, nextTick, toRefs, reactive, ref, watch } from 'vue';
+import shortid from 'shortid';
+import { shuffleArray, updateObjInArray, upsertArray } from '@/utils/common';
+import { default as config } from './config';
+import useTimeout from '@/compose/useTimeout';
 
 export default function useMatch(data, debug = true) {
   const [, hideMatch] = useTimeout(
@@ -33,13 +33,13 @@ export default function useMatch(data, debug = true) {
       () => state.playing && !state.shuffling && !state.termIsExiting
     ),
     correct: 0,
-    colorScheme: "",
+    colorScheme: '',
     definitions: [],
     duration: 60,
     incorrect: 0,
     itemsPerBoard: 9,
     matches: [],
-    matchId: "",
+    matchId: '',
     playing: false,
     score: 0,
     showBoard: false,
@@ -50,33 +50,36 @@ export default function useMatch(data, debug = true) {
       return !!state.terms.filter((t) => t.matched && !t.exited).length;
     }),
     terms: [],
-    title: "",
+    title: '',
   });
 
-  function addColor(array = [], colorScheme = "") {
-    console.log("add color called...");
-    const { [colorScheme.toLowerCase()]: theme = "" } = config.game.themes;
-    if (!theme) return array;
+  function addColor(array = [], colorScheme = '') {
+    const { [colorScheme.toLowerCase()]: theme = '' } = config.game.themes;
+    if (!theme)
+      return array.map((i) => ({
+        ...i,
+        color: config.game.themes.default.colors[0],
+      }));
     let colors = shuffleArray(theme.colors.slice());
     return array.map((i) => {
       const c = colors.pop();
-      console.log("choose color", c);
       return { ...i, color: c };
     });
   }
 
   function translate3d(x, y, z) {
-    return { transform: "translate3d(" + x + "px, " + y + "px, " + z + "px)" };
+    return { transform: 'translate3d(' + x + 'px, ' + y + 'px, ' + z + 'px)' };
   }
+
   function hitStyle(startX, startY, startZ, endX, endY, endZ, duration) {
     return {
-      "--hit-start-tx": startX + "px",
-      "--hit-start-ty": startY + "px",
-      "--hit-start-tz": startZ + "px",
-      "--hit-end-tx": endX + "px",
-      "--hit-end-ty": endY + "px",
-      "--hit-end-tz": endZ + "px",
-      "--hit-duration": duration + "ms",
+      '--hit-start-tx': startX + 'px',
+      '--hit-start-ty': startY + 'px',
+      '--hit-start-tz': startZ + 'px',
+      '--hit-end-tx': endX + 'px',
+      '--hit-end-ty': endY + 'px',
+      '--hit-end-tz': endZ + 'px',
+      '--hit-duration': duration + 'ms',
       //  zIndex: 3,
     };
   }
@@ -93,7 +96,7 @@ export default function useMatch(data, debug = true) {
     state.terms = updateObjInArray(state.terms, {
       id: dragId,
       style: translate3d(dragX, dragY, 1),
-      className: "drag",
+      className: 'drag',
     });
   }
 
@@ -101,7 +104,7 @@ export default function useMatch(data, debug = true) {
     const { overId } = payload || {};
     state.definitions = state.definitions.map((d) => ({
       ...d,
-      className: d.id === overId && !d.matched ? "over" : "",
+      className: d.id === overId && !d.matched ? 'over' : '',
     }));
   }
 
@@ -112,7 +115,7 @@ export default function useMatch(data, debug = true) {
     state.terms = updateObjInArray(state.terms, {
       id: dragId,
       matched: matched,
-      className: matched ? "hit" : "miss",
+      className: matched ? 'hit' : 'miss',
       ...(matched && { matchId: dropId }),
       style: matched
         ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.timeouts.hit)
@@ -123,13 +126,13 @@ export default function useMatch(data, debug = true) {
 
     state.definitions = updateObjInArray(state.definitions, {
       id: dropId,
-      className: matched ? "hit" : "",
+      className: matched ? 'hit' : '',
       ...(matched && { matched: true, matchId: dragId }),
     });
 
     const { content: term } = state.terms.find((t) => t.id === dragId) || {};
     state.score = Math.max(matched ? state.score + 1 : state.score - 1, 0);
-    state.stats = upsertArray(state.stats, { term }, "term", (s) =>
+    state.stats = upsertArray(state.stats, { term }, 'term', (s) =>
       s
         ? {
             term: term,
@@ -144,14 +147,14 @@ export default function useMatch(data, debug = true) {
 
   function onTileLeft(id, type) {
     switch (type) {
-      case "term":
+      case 'term':
         state.terms = updateObjInArray(state.terms, {
           id,
           exited: true,
         });
         state.playing && matchedCount.value++;
         break;
-      case "definition":
+      case 'definition':
         state.definitions = updateObjInArray(state.definitions, {
           id,
           exited: true,
@@ -163,7 +166,7 @@ export default function useMatch(data, debug = true) {
   }
 
   function deal() {
-    console.log("dealing...");
+    console.log('dealing...');
 
     /* Shuffle all */
     const shuffled = shuffleArray(state.matches);
@@ -218,7 +221,7 @@ export default function useMatch(data, debug = true) {
   }
 
   function shuffle() {
-    console.log("shuffling...");
+    console.log('shuffling...');
     state.shuffling = true;
     state.terms = shuffleArray(state.terms);
     state.definitions = shuffleArray(state.definitions);
@@ -242,7 +245,7 @@ export default function useMatch(data, debug = true) {
   }
 
   function gameOver() {
-    console.log("game over...");
+    console.log('game over...');
     state.playing = false;
     state.showBoard = false;
     state.showSplash = true;
@@ -253,16 +256,16 @@ export default function useMatch(data, debug = true) {
   watch(data, (newValue, oldValue) => {
     debug &&
       console.log(
-        "data changed: ",
+        'data changed: ',
         JSON.stringify(oldValue),
-        "=>",
+        '=>',
         JSON.stringify(newValue)
       );
     const {
       matchId,
       matches = [],
-      options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
-      title = "",
+      options: { duration = 60, colorScheme = '', itemsPerBoard = 9 } = {},
+      title = '',
     } = newValue;
 
     /***
@@ -271,10 +274,10 @@ export default function useMatch(data, debug = true) {
     const parse = (parser, encoded) => {
       const regex = /<[^>]*>/gi;
       const dom = parser.parseFromString(
-        "<!DOCTYPE html><body>" + encoded,
-        "text/html"
+        '<!DOCTYPE html><body>' + encoded,
+        'text/html'
       );
-      return dom.body.textContent.replace(regex, "");
+      return dom.body.textContent.replace(regex, '');
     };
 
     /* Analyze font characteristics */
@@ -285,9 +288,9 @@ export default function useMatch(data, debug = true) {
         const t = parse(parser, el.term),
           d = parse(parser, el.definition);
         return [
-          t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          t.split(' ').reduce((a, c) => (a > c.length ? a : c.length), 0),
           t.length,
-          d.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          d.split(' ').reduce((a, c) => (a > c.length ? a : c.length), 0),
           d.length,
         ];
       })
@@ -307,15 +310,17 @@ export default function useMatch(data, debug = true) {
       m = 0.75;
 
     textScaling.value = {
-      term: (max * Math.pow(m, Math.max(x[0], x[1] / 1.5)) + min).toFixed(2),
-      definition: (max * Math.pow(m, Math.max(x[2], x[3] / 1.5)) + min).toFixed(
-        2
-      ),
+      terms: (max * Math.pow(m, Math.max(x[0], x[1] / 1.5)) + min).toFixed(2),
+      definitions: (
+        max * Math.pow(m, Math.max(x[2], x[3] / 1.5)) +
+        min
+      ).toFixed(2),
     };
 
     console.log(JSON.stringify(textScaling.value, null, 4));
 
-    state.colorScheme = colorScheme;
+    state.colorScheme = colorScheme.toLowerCase();
+    //state.colorScheme = 'yo';
     state.duration = duration;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
@@ -326,9 +331,9 @@ export default function useMatch(data, debug = true) {
   watch(matchedCount, (newValue, oldValue) => {
     debug &&
       console.log(
-        "matched terms changed: ",
+        'matched terms changed: ',
         JSON.stringify(oldValue),
-        "=>",
+        '=>',
         JSON.stringify(newValue)
       );
 

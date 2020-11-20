@@ -1,0 +1,16 @@
+@mixin bgColor($color) {
+  --bg-opacity: 1;
+  background-color: $color;
+  background-color: rgba(
+    red($color),
+    green($color),
+    blue($color),
+    var(--bg-opacity)
+  );
+}
+
+@mixin textColor($color) {
+  color: $color;
+  color: rgba(red($color), green($color), blue($color), var(--text-opacity));
+  --text-opacity: 1;
+}

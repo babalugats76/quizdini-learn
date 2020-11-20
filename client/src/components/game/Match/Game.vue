@@ -1,6 +1,6 @@
 <template>
   <button v-if="!playing && matches.length" @click="startGame">
-    Start Game {{ textScaling.term }} {{ textScaling.definition }}
+    Start Game {{ textScaling.terms }} {{ textScaling.definitions }}
   </button>
   <div class="match__game">
     <DndBoard
@@ -21,7 +21,7 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="terms"
         tag="div"
-        :style="{ '--text-scale-factor': `${textScaling.term}` }"
+        :style="boardStyles('terms')"
         @after-leave="(el) => tileAfterLeave(el, 'term')"
       >
         <Tile
@@ -48,7 +48,7 @@
         :move-class="shuffling ? 'slide' : 'no-move-list'"
         name="definitions"
         tag="div"
-        :style="{ '--text-scale-factor': `${textScaling.definition}` }"
+        :style="boardStyles('definitions')"
         @after-leave="(el) => tileAfterLeave(el, 'definition')"
       >
         <Tile
@@ -99,12 +99,20 @@ export default {
     };
   },
   methods: {
-    boardClasses(type) {
+    boardClasses(name) {
       return {
         "tile-board": true,
-        [`tile-board--${type}`]: type,
+        [`tile-board--${name}`]: name,
         [`tile-board--${this.itemsPerBoard}`]: this.itemsPerBoard,
+        [`tile-board--${this.colorScheme}`]: this.colorScheme,
         "tile-board--disabled": !this.playing,
+      };
+    },
+    boardStyles(name) {
+      return {
+        ...(this.textScaling[name] && {
+          "--text-scale-factor": `${this.textScaling[name]}`,
+        }),
       };
     },
     tileAfterLeave(el, type) {
@@ -118,7 +126,6 @@ export default {
 <style lang="scss">
 $tile-margin: 0.5em;
 $tile-board-padding: 1em;
-
 $tile-colors: (
   "red": (
     "background": #e6194b,
@@ -198,6 +205,10 @@ $tile-colors: (
   ),
   "gray": (
     "background": #808080,
+    "color": #ffffff,
+  ),
+  "zaffre": (
+    "background": #001399,
     "color": #ffffff,
   ),
 );
@@ -298,14 +309,14 @@ $tile-colors: (
   opacity: 1;
   @each $color, $values in $tile-colors {
     &.#{$color} {
-      background-color: map-get($values, "background");
-      color: map-get($values, "color");
+      @include bgColor(map-get($values, "background"));
+      @include textColor(map-get($values, "color"));
     }
   }
   &--term {
     border: 0.2em solid transparent;
-    background-color: #001399;
-    color: white;
+    // background-color: #001399;
+    // color: white;
     font-family: "Montserrat", sans-serif;
     font-weight: 800;
     letter-spacing: 1px;

@@ -12,6 +12,9 @@ export default {
       leave: 1000,
     },
     themes: {
+      default: {
+        colors: ["zaffre"],
+      },
       rainbow: {
         colors: [
           "red",

@@ -1,4 +1,12 @@
+const path = require("path");
 module.exports = {
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "~styles/variables.scss"; @import "~styles/mixins.scss";`,
+      },
+    },
+  },
   devServer: {
     proxy: {
       "^/api": {
@@ -12,6 +20,7 @@ module.exports = {
       args[0].title = "Quizdini Games!";
       return args;
     });
+    config.resolve.alias.set("styles", path.resolve(__dirname, "src/styles"));
   },
 
   outputDir: "../server/public",
