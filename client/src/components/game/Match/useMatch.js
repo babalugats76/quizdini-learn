@@ -169,10 +169,10 @@ export default function useMatch(data, debug = true) {
     const parse = (parser, encoded) => {
       const regex = /<[^>]*>/gi;
       const dom = parser.parseFromString(
-        "<!DOCTYPE html><body>" + encoded,
+        "<!DOCTYPE html><body>" + encoded.replace(regex, ""),
         "text/html"
       );
-      return dom.body.textContent.replace(regex, "");
+      return dom.body.textContent;
     };
 
     const parser = new DOMParser();
