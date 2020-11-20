@@ -24,7 +24,6 @@ export default function useMatch(data, debug = true) {
     state.shuffling = false;
   });
   const matchedCount = ref(0);
-  const textScaling = ref({ term: 1, definition: 1 });
 
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
@@ -50,6 +49,7 @@ export default function useMatch(data, debug = true) {
       return !!state.terms.filter((t) => t.matched && !t.exited).length;
     }),
     terms: [],
+    textScaling: { terms: 1, definitions: 1 },
     title: "",
   });
 
@@ -165,6 +165,54 @@ export default function useMatch(data, debug = true) {
     }
   }
 
+  function analyzeMatches(matches) {
+    const parse = (parser, encoded) => {
+      const regex = /<[^>]*>/gi;
+      const dom = parser.parseFromString(
+        "<!DOCTYPE html><body>" + encoded,
+        "text/html"
+      );
+      return dom.body.textContent.replace(regex, "");
+    };
+
+    const parser = new DOMParser();
+
+    const meta = matches
+      .map((el) => {
+        const t = parse(parser, el.term),
+          d = parse(parser, el.definition);
+        return [
+          t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          t.length,
+          d.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
+          d.length,
+        ];
+      })
+      .reduce((a, c) => {
+        return [
+          a[0] > c[0] ? a[0] : c[0],
+          a[1] > c[1] ? a[1] : c[1],
+          a[2] > c[2] ? a[2] : c[2],
+          a[3] > c[3] ? a[3] : c[3],
+        ];
+      }, []);
+
+    const { growth: m, min, max } = config.tile.scaling.text || {};
+
+    state.textScaling = {
+      terms: (
+        max * Math.pow(m, Math.max(meta[0], meta[1] / 1.5)) +
+        min
+      ).toFixed(2),
+      definitions: (
+        max * Math.pow(m, Math.max(meta[2], meta[3] / 1.5)) +
+        min
+      ).toFixed(2),
+    };
+
+    debug && console.log(JSON.stringify(state.textScaling, null, 4));
+  }
+
   function deal() {
     console.log("dealing...");
 
@@ -268,59 +316,9 @@ export default function useMatch(data, debug = true) {
       title = "",
     } = newValue;
 
-    /***
-     *
-     */
-    const parse = (parser, encoded) => {
-      const regex = /<[^>]*>/gi;
-      const dom = parser.parseFromString(
-        "<!DOCTYPE html><body>" + encoded,
-        "text/html"
-      );
-      return dom.body.textContent.replace(regex, "");
-    };
-
-    /* Analyze font characteristics */
-    const parser = new DOMParser();
-
-    let x = matches
-      .map((el) => {
-        const t = parse(parser, el.term),
-          d = parse(parser, el.definition);
-        return [
-          t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
-          t.length,
-          d.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
-          d.length,
-        ];
-      })
-      .reduce((a, c) => {
-        return [
-          a[0] > c[0] ? a[0] : c[0],
-          a[1] > c[1] ? a[1] : c[1],
-          a[2] > c[2] ? a[2] : c[2],
-          a[3] > c[3] ? a[3] : c[3],
-        ];
-      }, []);
-
-    // console.log(JSON.stringify(x, null, 4));
-
-    const max = 3.5,
-      min = 1.2,
-      m = 0.75;
-
-    textScaling.value = {
-      terms: (max * Math.pow(m, Math.max(x[0], x[1] / 1.5)) + min).toFixed(2),
-      definitions: (
-        max * Math.pow(m, Math.max(x[2], x[3] / 1.5)) +
-        min
-      ).toFixed(2),
-    };
-
-    console.log(JSON.stringify(textScaling.value, null, 4));
+    analyzeMatches(matches);
 
     state.colorScheme = colorScheme.toLowerCase();
-    //state.colorScheme = 'yo';
     state.duration = duration;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
@@ -359,6 +357,5 @@ export default function useMatch(data, debug = true) {
     onTileLeft,
     shuffle,
     startGame,
-    textScaling,
   };
 }
