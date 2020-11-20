@@ -181,6 +181,10 @@ export default function useMatch(data, debug = true) {
       .map((el) => {
         const t = parse(parser, el.term),
           d = parse(parser, el.definition);
+        console.log("parsed term", t);
+        console.log("split term", JSON.stringify(t.split(" "), null, 2));
+        console.log("parsed def", d);
+        console.log("split def", JSON.stringify(d.split(" "), null, 2));
         return [
           t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
           t.length,
