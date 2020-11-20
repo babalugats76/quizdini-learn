@@ -172,6 +172,10 @@ export default function useMatch(data, debug = true) {
         "<!DOCTYPE html><body>" + encoded,
         "text/html"
       );
+      console.log(
+        dom.body.textContent,
+        dom.body.textContent.replace(regex, "")
+      );
       return dom.body.textContent.replace(regex, "");
     };
 
