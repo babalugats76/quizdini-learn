@@ -1,6 +1,5 @@
-const { NativeError } = require("mongoose");
-
 module.exports = {
+  printWidth: 80,
   proseWrap: "never",
   trailingComma: "es5",
   tabWidth: 2,
