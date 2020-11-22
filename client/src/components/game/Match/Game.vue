@@ -1,6 +1,6 @@
 <template>
   <button v-if="!playing && matches.length" @click="startGame">
-    Start Game {{ textScaling.terms }} {{ textScaling.definitions }}
+    Start Game
   </button>
   <div class="match__game">
     <DndBoard

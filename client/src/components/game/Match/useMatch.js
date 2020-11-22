@@ -53,6 +53,40 @@ export default function useMatch(data, debug = true) {
     title: "",
   });
 
+  function processMatches(matches) {
+    const parse = (parser, encoded) => {
+      const regex = /<[^>]*>/gi;
+      // important to apply regex *before* encoding
+      const dom = parser.parseFromString(
+        "<!DOCTYPE html><body>" + encoded.replace(regex, ""),
+        "text/html"
+      );
+      return dom.body.textContent;
+    };
+
+    const parser = new DOMParser();
+
+    /* Add additional properties (used in game) */
+    return matches.map((m) => {
+      const t = parse(parser, m.term),
+        d = parse(parser, m.definition);
+      return {
+        ...m,
+        exited: false,
+        matched: false,
+        show: true,
+        termLength: t.length,
+        termMaxWordLength: t
+          .split(" ")
+          .reduce((a, c) => (a > c.length ? a : c.length), 0),
+        defLength: d.length,
+        defMaxWordLength: d
+          .split(" ")
+          .reduce((a, c) => (a > c.length ? a : c.length), 0),
+      };
+    });
+  }
+
   function addColor(array = [], colorScheme = "") {
     const { [colorScheme.toLowerCase()]: theme = "" } = config.game.themes;
     if (!theme)
@@ -165,48 +199,19 @@ export default function useMatch(data, debug = true) {
     }
   }
 
-  function analyzeMatches(matches) {
-    const parse = (parser, encoded) => {
-      const regex = /<[^>]*>/gi;
-      // important to apply regex *before* encoding
-      const dom = parser.parseFromString(
-        "<!DOCTYPE html><body>" + encoded.replace(regex, ""),
-        "text/html"
-      );
-      return dom.body.textContent;
-    };
-
-    const parser = new DOMParser();
-
-    const meta = matches
-      .map((el) => {
-        const t = parse(parser, el.term),
-          d = parse(parser, el.definition);
-        console.log("term", el.term);
-        console.log("parsed term", t);
-        console.log("split term", JSON.stringify(t.split(" "), null, 2));
-        console.log("definition", el.definition);
-        console.log("parsed def", d);
-        console.log("split def", JSON.stringify(d.split(" "), null, 2));
-        return [
-          t.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
-          t.length,
-          d.split(" ").reduce((a, c) => (a > c.length ? a : c.length), 0),
-          d.length,
-        ];
-      })
-      .reduce((a, c) => {
-        return [
-          a[0] > c[0] ? a[0] : c[0],
-          a[1] > c[1] ? a[1] : c[1],
-          a[2] > c[2] ? a[2] : c[2],
-          a[3] > c[3] ? a[3] : c[3],
-        ];
-      }, []);
+  function analyzeContent(matches) {
+    const meta = matches.reduce((a, m) => {
+      return [
+        a[0] > m.termMaxWordLength ? a[0] : m.termMaxWordLength,
+        a[1] > m.termLength ? a[1] : m.termLength,
+        a[2] > m.defMaxWordLength ? a[2] : m.defMaxWordLength,
+        a[3] > m.defLength ? a[3] : m.defLength,
+      ];
+    }, []);
 
     console.log(JSON.stringify(meta, null, 4));
 
-    const { growth: m, min, max } = config.tile.scaling.text || {};
+    const { growth: m, min, max } = config.tile.text.scaling || {};
 
     state.textScaling = {
       terms: (
@@ -225,56 +230,64 @@ export default function useMatch(data, debug = true) {
   function deal() {
     console.log("dealing...");
 
-    /* Shuffle all */
-    const shuffled = shuffleArray(state.matches);
-
     /* Pick # of items needed, e.g., itemsPerBoard  */
-    const sliced = shuffled.slice(
+    const sliced = state.matches.slice(
       0,
-      Math.min(state.itemsPerBoard, shuffled.length)
+      Math.min(state.itemsPerBoard, state.matches.length)
     );
 
-    /* Add additional properties (used in game) */
-    let matches = sliced.map((m) => ({
-      ...m,
-      exited: false,
-      matched: false,
-      show: true,
-    }));
+    /* Analyze match subset's content; set text scaling, etc. */
+    analyzeContent(sliced);
 
-    /* Generate terms; add id; map properties; shuffle */
-    let terms = shuffleArray(
-      matches.map((m) => {
-        const { term, definition, ...rest } = m; // destructure
+    /* Generate id; map prop; strip out defs & metadata */
+    state.terms = shuffleArray(
+      addColor(
+        sliced.map((m) => {
+          // eslint-disable-next-line no-unused-vars
+          const {
+            term,
+            termLength, // map and remove metadata props
+            termMaxWordLength,
+            definition,
+            defLength,
+            defMaxWordLength,
+            ...rest
+          } = m;
+          return {
+            ...rest,
+            id: shortid.generate(), // key
+            length: termLength,
+            maxWordLength: termMaxWordLength,
+            content: term,
+            answer: definition,
+          };
+        }),
+        state.colorScheme
+      )
+    );
+
+    /* Generate id; map prop; strip out terms & metadata */
+    state.definitions = shuffleArray(
+      sliced.map((m) => {
+        // eslint-disable-next-line no-unused-vars
+        const {
+          term,
+          termLength, // map and remove metadata props
+          termMaxWordLength,
+          definition,
+          defLength,
+          defMaxWordLength,
+          ...rest
+        } = m;
         return {
           ...rest,
-          content: term,
-          answer: definition,
           id: shortid.generate(), // key
+          length: defLength,
+          maxWordLength: defMaxWordLength,
+          content: definition,
         };
       })
     );
-
-    /* Clone definitons (from terms) */
-    let defs = [...matches];
-
-    /* Modify definitions; add id, map/exclude properties */
-    defs = defs.map((d) => {
-      // eslint-disable-next-line no-unused-vars
-      const { term, definition, ...rest } = d; // destructure
-      return {
-        // map and drop term
-        ...rest,
-        content: definition,
-        id: shortid.generate(), // key
-      };
-    });
-
-    /* Add Color (terms only) */
-    terms = addColor(terms, state.colorScheme); // add colors (terms only)
-
-    state.terms = terms;
-    state.definitions = defs; // only necessary to reshuffle 1/2
   }
 
   function shuffle() {
@@ -325,13 +338,11 @@ export default function useMatch(data, debug = true) {
       title = "",
     } = newValue;
 
-    analyzeMatches(matches);
-
     state.colorScheme = colorScheme.toLowerCase();
     state.duration = duration;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
-    state.matches = matches;
+    state.matches = processMatches(matches);
     state.title = title;
   });
 
