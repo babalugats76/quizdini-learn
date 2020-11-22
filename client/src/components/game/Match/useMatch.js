@@ -168,6 +168,7 @@ export default function useMatch(data, debug = true) {
   function analyzeMatches(matches) {
     const parse = (parser, encoded) => {
       const regex = /<[^>]*>/gi;
+      // important to apply regex *before* encoding
       const dom = parser.parseFromString(
         "<!DOCTYPE html><body>" + encoded.replace(regex, ""),
         "text/html"

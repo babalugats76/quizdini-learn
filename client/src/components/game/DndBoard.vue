@@ -1,5 +1,5 @@
 <template>
-  <div class="dnd-board" ref="dndRef">
+  <div :class="classes" ref="dndRef">
     <slot />
   </div>
 </template>
@@ -25,6 +25,14 @@ export default {
       }),
       dndRef,
     };
+  },
+  computed: {
+    classes() {
+      return {
+        "dnd-board": true,
+        "dnd-board--active": this.active,
+      };
+    },
   },
 };
 </script>

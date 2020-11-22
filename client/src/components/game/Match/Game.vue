@@ -213,6 +213,33 @@ $tile-colors: (
   ),
 );
 
+@keyframes drag {
+  0% {
+    --bg-opacity: 1;
+    --text-opacity: 1;
+  }
+
+  25% {
+    --bg-opacity: 0.94;
+    --text-opacity: 0.92;
+  }
+
+  50% {
+    --bg-opacity: 0.91;
+    --text-opacity: 0.89;
+  }
+
+  75% {
+    --bg-opacity: 0.88;
+    --text-opacity: 0.86;
+  }
+
+  100% {
+    --bg-opacity: 0.85;
+    --text-opacity: 0.83;
+  }
+}
+
 @keyframes hit {
   0% {
     background-color: blue;
@@ -234,6 +261,33 @@ $tile-colors: (
       var(--hit-end-ty),
       var(--hit-end-tz)
     );
+  }
+}
+
+@keyframes miss {
+  0% {
+    --bg-opacity: 0.85;
+    --text-opacity: 0.83;
+  }
+
+  25% {
+    --bg-opacity: 0.88;
+    --text-opacity: 0.86;
+  }
+
+  50% {
+    --bg-opacity: 0.91;
+    --text-opacity: 0.89;
+  }
+
+  75% {
+    --bg-opacity: 0.94;
+    --text-opacity: 0.92;
+  }
+
+  100% {
+    --bg-opacity: 1;
+    --text-opacity: 1;
   }
 }
 
@@ -298,6 +352,7 @@ $tile-colors: (
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 0.25em solid transparent;
   border-radius: 0.5em;
   line-height: 1.4;
   background-color: white;
@@ -309,17 +364,21 @@ $tile-colors: (
   opacity: 1;
   @each $color, $values in $tile-colors {
     &.#{$color} {
-      @include bgColor(map-get($values, "background"));
+      @include bgColor(lighten(map-get($values, "background"), 5%));
+      @include textColor(map-get($values, "color"));
+    }
+    &.drag.#{$color} {
+      @include bgColor(darken(map-get($values, "background"), 5%));
       @include textColor(map-get($values, "color"));
     }
   }
   &--term {
-    border: 0.2em solid transparent;
-    // background-color: #001399;
-    // color: white;
     font-family: "Montserrat", sans-serif;
     font-weight: 800;
-    letter-spacing: 1px;
+    letter-spacing: 0.0625rem;
+    transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
+      border-color 200ms ease-in-out;
+    opacity: 1;
     &.hit {
       animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
       animation-name: hit;
@@ -327,26 +386,36 @@ $tile-colors: (
       animation-fill-mode: forwards;
       z-index: 3;
     }
+    &:not(.drag) {
+      --bg-opacity: 0.95;
+      --text-opacity: 1;
+    }
     &.drag {
-      transition: border-color 500ms ease-in-out;
-      // transform 33ms cubic-bezier(0, 0, 0.2, 1) !important;
       z-index: 500;
       border-color: white;
+      opacity: 0.8;
     }
     &.miss {
-      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      opacity: 1;
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
+        color 200ms ease-in-out, opacity 500ms ease-in-out,
+        border-color 200ms ease-in-out;
     }
   }
   &--definition {
-    background-color: white;
-    //color: #711cff;
-    color: #444521;
+    @include bgColor(#ffffff);
+    @include textColor(lighten(#444521, 3));
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     letter-spacing: normal;
     font-size: 1em;
+    opacity: 1;
+    transition: color 200m ease-in-out, opacity 500ms ease-in-out,
+      border-color 200ms ease-in-out;
+
     &.over {
-      background-color: yellow;
+      @include textColor(darken(#444521, 10));
+      @include borderColor(#e3b505);
     }
   }
   &__body {
@@ -364,6 +433,7 @@ $tile-colors: (
       text-overflow: ellipsis !important;
       word-break: normal !important;
       overflow-wrap: anywhere !important;
+      hyphens: auto;
     }
   }
   &-board {

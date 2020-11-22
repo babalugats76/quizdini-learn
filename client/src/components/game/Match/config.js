@@ -19,7 +19,7 @@ export default {
   },
   tile: {
     scaling: {
-      text: { growth: 0.64, min: 1.25, max: 3.25 },
+      text: { growth: 0.25, min: 1.25, max: 3.25 },
     },
     timeouts: { enter: 800, hit: 800, leave: 500, miss: 800, shuffle: 500 },
   },
