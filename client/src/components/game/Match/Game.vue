@@ -302,7 +302,7 @@ $tile-colors: (
 
 .slide {
   /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
-  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78);
+  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important;
 }
 
 .match {
@@ -410,7 +410,7 @@ $tile-colors: (
     letter-spacing: normal;
     font-size: 1em;
     opacity: 1;
-    transition: color 200m ease-in-out, opacity 500ms ease-in-out,
+    transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
       border-color 200ms ease-in-out;
 
     &.over {

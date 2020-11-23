@@ -66,28 +66,40 @@ export default function useMatch(data, debug = true) {
 
     const parser = new DOMParser();
 
-    /* Add additional properties (used in game) */
     return matches.map((m) => {
       const t = parse(parser, m.term),
         d = parse(parser, m.definition);
       return {
-        ...m,
-        exited: false,
-        matched: false,
-        show: true,
-        termLength: t.length,
-        termMaxWordLength: t
-          .split(" ")
-          .reduce((a, c) => (a > c.length ? a : c.length), 0),
-        defLength: d.length,
-        defMaxWordLength: d
-          .split(" ")
-          .reduce((a, c) => (a > c.length ? a : c.length), 0),
+        term: {
+          answer: m.definition,
+          content: m.term,
+          exited: false,
+          hasHtml: t.length !== m.term.length,
+          id: shortid.generate(),
+          length: t.length,
+          matched: false,
+          maxWordLength: t
+            .split(" ")
+            .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          show: true,
+        },
+        definition: {
+          content: m.definition,
+          exited: false,
+          hasHtml: d.length !== m.definition.length,
+          id: shortid.generate(),
+          length: d.length,
+          matched: false,
+          maxWordLength: d
+            .split(" ")
+            .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          show: true,
+        },
       };
     });
   }
 
-  function addColor(array = [], colorScheme = "") {
+  function addColors(array = [], colorScheme = "") {
     const { [colorScheme.toLowerCase()]: theme = "" } = config.game.themes;
     if (!theme)
       return array.map((i) => ({
@@ -202,10 +214,10 @@ export default function useMatch(data, debug = true) {
   function analyzeContent(matches) {
     const meta = matches.reduce((a, m) => {
       return [
-        a[0] > m.termMaxWordLength ? a[0] : m.termMaxWordLength,
-        a[1] > m.termLength ? a[1] : m.termLength,
-        a[2] > m.defMaxWordLength ? a[2] : m.defMaxWordLength,
-        a[3] > m.defLength ? a[3] : m.defLength,
+        a[0] > m.term.maxWordLength ? a[0] : m.term.maxWordLength,
+        a[1] > m.term.length ? a[1] : m.term.length,
+        a[2] > m.definition.maxWordLength ? a[2] : m.definition.maxWordLength,
+        a[3] > m.definition.length ? a[3] : m.definition.length,
       ];
     }, []);
 
@@ -229,65 +241,17 @@ export default function useMatch(data, debug = true) {
 
   function deal() {
     console.log("dealing...");
-
-    /* Pick # of items needed, e.g., itemsPerBoard  */
-    const sliced = state.matches.slice(
+    state.matches = shuffleArray(state.matches);
+    const hand = state.matches.slice(
       0,
       Math.min(state.itemsPerBoard, state.matches.length)
     );
-
-    /* Analyze match subset's content; set text scaling, etc. */
-    analyzeContent(sliced);
-
-    /* Generate id; map prop; strip out defs & metadata */
-    state.terms = shuffleArray(
-      addColor(
-        sliced.map((m) => {
-          // eslint-disable-next-line no-unused-vars
-          const {
-            term,
-            termLength, // map and remove metadata props
-            termMaxWordLength,
-            definition,
-            defLength,
-            defMaxWordLength,
-            ...rest
-          } = m;
-          return {
-            ...rest,
-            id: shortid.generate(), // key
-            length: termLength,
-            maxWordLength: termMaxWordLength,
-            content: term,
-            answer: definition,
-          };
-        }),
-        state.colorScheme
-      )
+    analyzeContent(hand);
+    state.terms = addColors(
+      hand.map((m) => m.term),
+      state.colorScheme
     );
-
-    /* Generate id; map prop; strip out terms & metadata */
-    state.definitions = shuffleArray(
-      sliced.map((m) => {
-        // eslint-disable-next-line no-unused-vars
-        const {
-          term,
-          termLength, // map and remove metadata props
-          termMaxWordLength,
-          definition,
-          defLength,
-          defMaxWordLength,
-          ...rest
-        } = m;
-        return {
-          ...rest,
-          id: shortid.generate(), // key
-          length: defLength,
-          maxWordLength: defMaxWordLength,
-          content: definition,
-        };
-      })
-    );
+    state.definitions = shuffleArray(hand.map((m) => m.definition));
   }
 
   function shuffle() {
