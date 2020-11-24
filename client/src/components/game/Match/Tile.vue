@@ -1,13 +1,13 @@
 <template>
   <component
     :active="active"
-    :class="classes"
+    :class="tileClasses"
     :disabled="disabled"
     :id="id"
     :is="is"
     :style="style"
   >
-    <div class="tile__body" v-html="content" />
+    <div :class="bodyClasses" v-html="content" />
   </component>
 </template>
 
@@ -47,6 +47,10 @@ export default {
       type: String,
       required: true,
     },
+    maxWordLength: {
+      type: Number,
+      required: false,
+    },
     style: {
       required: false,
     },
@@ -56,7 +60,13 @@ export default {
     },
   },
   computed: {
-    classes() {
+    bodyClasses() {
+      return {
+        tile__body: true,
+        [`tile__body--has-long-word`]: this.maxWordLength >= 11,
+      };
+    },
+    tileClasses() {
       return {
         tile: true,
         [`tile--${this.type}`]: this.type,

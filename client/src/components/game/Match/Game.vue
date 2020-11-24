@@ -34,6 +34,7 @@
           :active="t.className === 'drag'"
           :disabled="false"
           :color="t.color"
+          :maxWordLength="t.maxWordLength"
           is="Draggable"
           type="term"
         />
@@ -60,6 +61,7 @@
           :style="[d.style]"
           :active="false"
           :disabled="false"
+          :maxWordLength="d.maxWordLength"
           is="Droppable"
           type="definition"
         />
@@ -451,11 +453,11 @@ $tile-colors: (
     text-align: center;
     &--terms {
       background-color: #711cff;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
     &--definitions {
       background-color: #01e7e4;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
   }
 }
@@ -494,6 +496,9 @@ $tile-colors: (
     }
     &__body {
       font-size: calc(1em * var(--text-scale-factor));
+    }
+    &__body--has-long-word {
+      font-size: calc(1em * var(--text-scale-factor) * 0.85);
     }
   }
 }
