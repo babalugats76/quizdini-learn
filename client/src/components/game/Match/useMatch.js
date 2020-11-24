@@ -1,29 +1,22 @@
 /* eslint-disable */
-import { computed, nextTick, toRefs, reactive, ref, watch } from "vue";
+import { computed, nextTick, toRef, toRefs, reactive, ref, watch } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
 import useTimeout from "@/compose/useTimeout";
 
 export default function useMatch(data, debug = true) {
-  const [, hideMatch] = useTimeout(
-    config.tile.timeouts.hit,
-    (dragId, dropId) => () => {
-      state.terms = updateObjInArray(state.terms, {
-        id: dragId,
-        show: false,
-      });
-
-      state.definitions = updateObjInArray(state.definitions, {
-        id: dropId,
-        show: false,
-      });
-    }
-  );
+  const [, hideMatched] = useTimeout(config.tile.timeouts.hit, () => {
+    state.terms = state.terms.map((t) =>
+      t.matched && t.show ? { ...t, show: false } : t
+    );
+    state.definitions = state.definitions.map((d) =>
+      d.matched && d.show ? { ...d, show: false } : d
+    );
+  });
   const [, endShuffle] = useTimeout(config.tile.timeouts.shuffle, () => {
     state.shuffling = false;
   });
-  const matchedCount = ref(0);
 
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
@@ -35,6 +28,9 @@ export default function useMatch(data, debug = true) {
     colorScheme: "",
     definitions: [],
     duration: 60,
+    exited: computed(() =>
+      state.terms.reduce((a, v) => (v.exited ? (a += 1) : a), 0)
+    ),
     incorrect: 0,
     itemsPerBoard: 9,
     matches: [],
@@ -52,6 +48,8 @@ export default function useMatch(data, debug = true) {
     textScaling: { terms: 1, definitions: 1 },
     title: "",
   });
+
+  const exitedRef = toRef(state, "exited");
 
   function processMatches(matches) {
     const parse = (parser, encoded) => {
@@ -188,17 +186,13 @@ export default function useMatch(data, debug = true) {
         : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
     );
 
-    matched && hideMatch(dragId, dropId);
+    matched && hideMatched();
   }
 
   function onTileLeft(id, type) {
     switch (type) {
       case "term":
-        state.terms = updateObjInArray(state.terms, {
-          id,
-          exited: true,
-        });
-        state.playing && matchedCount.value++;
+        state.terms = updateObjInArray(state.terms, { id, exited: true });
         break;
       case "definition":
         state.definitions = updateObjInArray(state.definitions, {
@@ -270,7 +264,6 @@ export default function useMatch(data, debug = true) {
     state.stats = [];
     state.terms = [];
     state.definitions = [];
-    matchedCount.value = 0;
     deal();
     nextTick(() => {
       shuffle();
@@ -310,20 +303,19 @@ export default function useMatch(data, debug = true) {
     state.title = title;
   });
 
-  watch(matchedCount, (newValue, oldValue) => {
+  watch(exitedRef, (newValue, oldValue) => {
     debug &&
       console.log(
-        "matched terms changed: ",
+        "exited changed: ",
         JSON.stringify(oldValue),
         "=>",
         JSON.stringify(newValue)
       );
 
-    if (newValue <= 0) return;
+    if (newValue <= oldValue) return;
 
     if (newValue === state.itemsPerBoard) {
       deal();
-      matchedCount.value = 0;
       nextTick(() => shuffle());
     } else {
       shuffle();

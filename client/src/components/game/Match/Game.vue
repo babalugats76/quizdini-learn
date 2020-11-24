@@ -367,17 +367,13 @@ $tile-colors: (
       @include bgColor(lighten(map-get($values, "background"), 5%));
       @include textColor(map-get($values, "color"));
     }
-    &.drag.#{$color} {
-      @include bgColor(darken(map-get($values, "background"), 5%));
-      @include textColor(map-get($values, "color"));
-    }
   }
   &--term {
     font-family: "Montserrat", sans-serif;
     font-weight: 800;
     letter-spacing: 0.0625rem;
     transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
-      border-color 200ms ease-in-out;
+      border-color 100ms ease-in-out;
     opacity: 1;
     &.hit {
       animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
@@ -387,19 +383,24 @@ $tile-colors: (
       z-index: 3;
     }
     &:not(.drag) {
-      --bg-opacity: 0.95;
-      --text-opacity: 1;
+      filter: grayscale(5%);
     }
     &.drag {
       z-index: 500;
-      border-color: white;
-      opacity: 0.8;
+      @include bgColor(darken(#711cff, 15%), 0.5);
+      @include textColor(#ffffff);
+      @include borderColor(#ffffff, 1);
+      box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
+      filter: sepia(100%) constrast(80%) saturate(200%)
+        drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.13));
+      /*@include textColor(darken(#444521, 50%));*/
+      /* @include textColor(lighten(#444521, 3), .8);*/
     }
     &.miss {
       opacity: 1;
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
         color 200ms ease-in-out, opacity 500ms ease-in-out,
-        border-color 200ms ease-in-out;
+        border-color 100ms ease-in-out;
     }
   }
   &--definition {
@@ -411,11 +412,13 @@ $tile-colors: (
     font-size: 1em;
     opacity: 1;
     transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
-      border-color 200ms ease-in-out;
+      border-color 100ms ease-in-out;
 
     &.over {
-      @include textColor(darken(#444521, 10));
-      @include borderColor(#e3b505);
+      @include borderColor(#e11cff, 0.75);
+      @include borderColor(#711cff, 0.85);
+      @include bgColor(#ffffff, 1);
+      @include textColor(#711cff, 1);
     }
   }
   &__body {
@@ -448,9 +451,11 @@ $tile-colors: (
     text-align: center;
     &--terms {
       background-color: #711cff;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
     &--definitions {
       background-color: #01e7e4;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
   }
 }

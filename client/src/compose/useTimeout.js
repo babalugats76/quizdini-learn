@@ -1,13 +1,13 @@
 /* eslint-disable */
 import { getCurrentInstance, onUnmounted, unref } from "vue";
-export default function useTimeout(ms, cb) {
+export default function useTimeout(ms, fn) {
   const currentInstance = getCurrentInstance();
   let timeout = null;
 
   function initiateTimeout() {
     clear();
     timeout = setTimeout(() => {
-      ((arguments && cb(...arguments)) || cb)();
+      ((arguments && fn(...arguments)) || fn)();
     }, unref(ms));
   }
 
