@@ -46,7 +46,15 @@ export default {
       required: true,
       default: false,
     },
+    dragging: {
+      type: Boolean,
+      required: false,
+    },
     hasHtml: {
+      type: Boolean,
+      required: false,
+    },
+    hit: {
       type: Boolean,
       required: false,
     },
@@ -63,6 +71,14 @@ export default {
     },
     maxWordLength: {
       type: Number,
+      required: false,
+    },
+    miss: {
+      type: Boolean,
+      required: false,
+    },
+    over: {
+      type: Boolean,
       required: false,
     },
     style: {
@@ -85,6 +101,10 @@ export default {
         tile: true,
         [`tile--${this.type}`]: this.type,
         [this.color]: this.color,
+        drag: this.dragging,
+        over: this.over,
+        hit: this.hit,
+        miss: this.miss,
       };
     },
   },

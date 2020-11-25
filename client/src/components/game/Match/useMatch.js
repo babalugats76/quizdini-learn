@@ -72,26 +72,35 @@ export default function useMatch(data, debug = true) {
         term: {
           answer: m.definition,
           content: m.term,
+          dragging: false,
           exited: false,
           hasHtml: t.length !== m.term.length,
+          hit: false,
           id: shortid.generate(),
           length: t.length,
           matched: false,
+          matchId: "",
           maxWordLength: t
             .split(" ")
             .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          miss: false,
+          over: false,
           show: true,
         },
         definition: {
           content: m.definition,
           exited: false,
           hasHtml: d.length !== m.definition.length,
+          hit: false,
           id: shortid.generate(),
           length: d.length,
           matched: false,
+          matchId: "",
           maxWordLength: d
             .split(" ")
             .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          miss: false,
+          over: false,
           show: true,
         },
       };
@@ -140,16 +149,19 @@ export default function useMatch(data, debug = true) {
     const { dragId, dragX, dragY } = payload || {};
     state.terms = updateObjInArray(state.terms, {
       id: dragId,
+      dragging: true,
+      hit: false,
+      miss: false,
       style: translate3d(dragX, dragY, 1),
-      className: "drag",
     });
   }
 
   function onOver(payload) {
-    const { overId } = payload || {};
+    const { dragId, dropId } = payload || {};
+    state.terms = state.terms.map((t) => ({ ...t, over: t.id === dragId }));
     state.definitions = state.definitions.map((d) => ({
       ...d,
-      className: d.id === overId && !d.matched ? "over" : "",
+      over: d.id === dropId,
     }));
   }
 
@@ -159,9 +171,12 @@ export default function useMatch(data, debug = true) {
 
     state.terms = updateObjInArray(state.terms, {
       id: dragId,
-      matched: matched,
-      className: matched ? "hit" : "miss",
-      ...(matched && { matchId: dropId }),
+      dragging: false,
+      hit: matched,
+      miss: !matched,
+      matched,
+      matchId: matched ? dropId : "",
+      over: matched,
       style: matched
         ? hitStyle(dragX, dragY, 1, dropX, dropY, 1, config.tile.timeouts.hit)
         : translate3d(0, 0, 0),
@@ -173,8 +188,11 @@ export default function useMatch(data, debug = true) {
 
     state.definitions = updateObjInArray(state.definitions, {
       id: dropId,
-      className: matched ? "hit" : "",
-      ...(matched && { matched: true, matchId: dragId }),
+      hit: matched,
+      miss: !matched,
+      matched,
+      matchId: matched ? dragId : "",
+      over: matched,
     });
 
     const { content: term } = state.terms.find((t) => t.id === dragId) || {};

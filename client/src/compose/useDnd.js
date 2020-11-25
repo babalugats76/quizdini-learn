@@ -123,7 +123,7 @@ export default function useDnd({
 
     if (overId !== dropId) {
       debug && dropId && console.log(`${dragId} is over ${dropId}...`);
-      emit("over", { overId: dropId });
+      emit("over", { dragId, dropId });
       state.dragged = {
         ...state.dragged,
         overId: dropId,
