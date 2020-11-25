@@ -143,7 +143,7 @@ $tile-colors: (
   ),
   "yellow": (
     "background": #ffe119,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "blue": (
     "background": #4363d8,
@@ -159,7 +159,7 @@ $tile-colors: (
   ),
   "light-blue": (
     "background": #46f0f0,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "fuchsia": (
     "background": #f032e6,
@@ -167,11 +167,11 @@ $tile-colors: (
   ),
   "lime": (
     "background": #bcf60c,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "pink": (
     "background": #fabebe,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "teal": (
     "background": #008080,
@@ -179,7 +179,7 @@ $tile-colors: (
   ),
   "mauve": (
     "background": #e6beff,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "brown": (
     "background": #9a6324,
@@ -187,7 +187,7 @@ $tile-colors: (
   ),
   "cream": (
     "background": #fffac8,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "maroon": (
     "background": #800000,
@@ -195,7 +195,7 @@ $tile-colors: (
   ),
   "apple": (
     "background": #aaffc3,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "olive": (
     "background": #808000,
@@ -203,7 +203,7 @@ $tile-colors: (
   ),
   "light-orange": (
     "background": #ffd8b1,
-    "color": #3f3d31,
+    "color": #515328,
   ),
   "navy": (
     "background": #000075,
@@ -388,9 +388,9 @@ $tile-colors: (
       animation-fill-mode: forwards;
       z-index: 3;
     }
-    &:not(.drag) {
+    /*&:not(.drag) {
       filter: grayscale(5%);
-    }
+    }*/
     &.drag {
       z-index: 500;
       @include bgColor(darken(#711cff, 15%), 0.5);
@@ -411,7 +411,7 @@ $tile-colors: (
   }
   &--definition {
     @include bgColor(#ffffff);
-    @include textColor(lighten(#3f3d31, 3));
+    @include textColor(#515328);
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     letter-spacing: normal;
@@ -443,6 +443,7 @@ $tile-colors: (
       word-break: normal !important;
       overflow-wrap: anywhere !important;
       hyphens: auto;
+      -webkit-hyphens: auto;
     }
   }
   &-board {
@@ -502,7 +503,7 @@ $tile-colors: (
       font-size: calc(1em * var(--text-scale-factor));
     }
     &__body--has-long-word {
-      font-size: calc(1em * var(--text-scale-factor) * 0.85);
+      font-size: calc(1em * var(--text-scale-factor) * 0.9);
     }
   }
 }
