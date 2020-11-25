@@ -143,7 +143,7 @@ $tile-colors: (
   ),
   "yellow": (
     "background": #ffe119,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "blue": (
     "background": #4363d8,
@@ -159,7 +159,7 @@ $tile-colors: (
   ),
   "light-blue": (
     "background": #46f0f0,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "fuchsia": (
     "background": #f032e6,
@@ -167,11 +167,11 @@ $tile-colors: (
   ),
   "lime": (
     "background": #bcf60c,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "pink": (
     "background": #fabebe,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "teal": (
     "background": #008080,
@@ -179,7 +179,7 @@ $tile-colors: (
   ),
   "mauve": (
     "background": #e6beff,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "brown": (
     "background": #9a6324,
@@ -187,7 +187,7 @@ $tile-colors: (
   ),
   "cream": (
     "background": #fffac8,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "maroon": (
     "background": #800000,
@@ -195,7 +195,7 @@ $tile-colors: (
   ),
   "apple": (
     "background": #aaffc3,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "olive": (
     "background": #808000,
@@ -203,7 +203,7 @@ $tile-colors: (
   ),
   "light-orange": (
     "background": #ffd8b1,
-    "color": #515328,
+    "color": #3f3d31,
   ),
   "navy": (
     "background": #000075,
