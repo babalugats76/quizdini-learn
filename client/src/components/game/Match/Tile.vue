@@ -7,7 +7,13 @@
     :is="is"
     :style="style"
   >
-    <div :class="bodyClasses" v-html="content" />
+    <div
+      :class="bodyClasses"
+      :data-has-html="hasHtml"
+      :data-length="length"
+      :data-max-word-length="maxWordLength"
+      v-html="content"
+    />
   </component>
 </template>
 
@@ -40,12 +46,20 @@ export default {
       required: true,
       default: false,
     },
+    hasHtml: {
+      type: Boolean,
+      required: false,
+    },
     id: {
       required: false,
     },
     is: {
       type: String,
       required: true,
+    },
+    length: {
+      type: Number,
+      required: false,
     },
     maxWordLength: {
       type: Number,

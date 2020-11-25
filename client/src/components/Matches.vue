@@ -36,7 +36,7 @@ export default {
     async fetchData() {
       // API GET
       try {
-        const res = await axios.get("/api/matches/", {
+        const res = await axios.get("/api/matches", {
           timeout: 30000,
         });
         return res.data;

@@ -1,9 +1,10 @@
 /* eslint-disable */
-import { computed, nextTick, toRef, toRefs, reactive, ref, watch } from "vue";
+import { computed, nextTick, toRef, toRefs, reactive, watch } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
 import useTimeout from "@/compose/useTimeout";
+import { postPing } from "@/api/ping";
 
 export default function useMatch(data, debug = true) {
   const [, hideMatched] = useTimeout(config.tile.timeouts.hit, () => {
@@ -168,6 +169,8 @@ export default function useMatch(data, debug = true) {
 
     if (!dropId) return;
 
+    matched ? state.correct++ : state.incorrect++;
+
     state.definitions = updateObjInArray(state.definitions, {
       id: dropId,
       className: matched ? "hit" : "",
@@ -271,13 +274,22 @@ export default function useMatch(data, debug = true) {
     });
   }
 
-  function gameOver() {
+  async function gameOver() {
     console.log("game over...");
     state.playing = false;
     state.showBoard = false;
     state.showSplash = true;
     state.terms = [];
     state.definitions = [];
+    const response = await postPing({
+      correct: state.correct,
+      data: state.stats,
+      gameId: state.matchId,
+      gameType: "M",
+      incorrect: state.incorrect,
+      score: state.score,
+    });
+    debug && JSON.stringify(response.data, null, 4);
   }
 
   watch(data, (newValue, oldValue) => {

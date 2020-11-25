@@ -34,6 +34,8 @@
           :active="t.className === 'drag'"
           :disabled="false"
           :color="t.color"
+          :hasHtml="t.hasHtml"
+          :length="t.length"
           :maxWordLength="t.maxWordLength"
           is="Draggable"
           type="term"
@@ -61,6 +63,8 @@
           :style="[d.style]"
           :active="false"
           :disabled="false"
+          :hasHtml="d.hasHtml"
+          :length="d.length"
           :maxWordLength="d.maxWordLength"
           is="Droppable"
           type="definition"
@@ -139,7 +143,7 @@ $tile-colors: (
   ),
   "yellow": (
     "background": #ffe119,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "blue": (
     "background": #4363d8,
@@ -155,7 +159,7 @@ $tile-colors: (
   ),
   "light-blue": (
     "background": #46f0f0,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "fuchsia": (
     "background": #f032e6,
@@ -163,11 +167,11 @@ $tile-colors: (
   ),
   "lime": (
     "background": #bcf60c,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "pink": (
     "background": #fabebe,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "teal": (
     "background": #008080,
@@ -175,7 +179,7 @@ $tile-colors: (
   ),
   "mauve": (
     "background": #e6beff,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "brown": (
     "background": #9a6324,
@@ -183,7 +187,7 @@ $tile-colors: (
   ),
   "cream": (
     "background": #fffac8,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "maroon": (
     "background": #800000,
@@ -191,7 +195,7 @@ $tile-colors: (
   ),
   "apple": (
     "background": #aaffc3,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "olive": (
     "background": #808000,
@@ -199,7 +203,7 @@ $tile-colors: (
   ),
   "light-orange": (
     "background": #ffd8b1,
-    "color": #444521,
+    "color": #3f3d31,
   ),
   "navy": (
     "background": #000075,
@@ -395,8 +399,8 @@ $tile-colors: (
       box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
       filter: sepia(100%) constrast(80%) saturate(200%)
         drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.13));
-      /*@include textColor(darken(#444521, 50%));*/
-      /* @include textColor(lighten(#444521, 3), .8);*/
+      /*@include textColor(darken(#3f3d31, 50%));*/
+      /* @include textColor(lighten(#3f3d31, 3), .8);*/
     }
     &.miss {
       opacity: 1;
@@ -407,7 +411,7 @@ $tile-colors: (
   }
   &--definition {
     @include bgColor(#ffffff);
-    @include textColor(lighten(#444521, 3));
+    @include textColor(lighten(#3f3d31, 3));
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     letter-spacing: normal;
