@@ -157,8 +157,11 @@ export default function useMatch(data, debug = true) {
   }
 
   function onOver(payload) {
-    const { dragId, dropId } = payload || {};
-    state.terms = state.terms.map((t) => ({ ...t, over: t.id === dragId }));
+    const { dragId, dropId, over } = payload || {};
+    state.terms = state.terms.map((t) => ({
+      ...t,
+      over: t.id === dragId && over,
+    }));
     state.definitions = state.definitions.map((d) => ({
       ...d,
       over: d.id === dropId,

@@ -1,7 +1,7 @@
 // prettier-ignore
 export default {
   board: {
-    debug: false,
+    debug: true,
     timeouts: { throttle: 33 },
   },
   game: {

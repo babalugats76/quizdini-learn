@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { computed, reactive, toRefs, watch, onMounted, unref } from "vue";
 import _ from "lodash";
 
@@ -119,11 +120,13 @@ export default function useDnd({
      * if "over item" is different than before
      * overId = previous value
      * dropId = current value
+     * overMode = previous in/out state
+     * over = current in/out state
      */
 
     if (overId !== dropId) {
       debug && dropId && console.log(`${dragId} is over ${dropId}...`);
-      emit("over", { dragId, dropId });
+      emit("over", { dragId, dropId, over: !!dropId });
       state.dragged = {
         ...state.dragged,
         overId: dropId,

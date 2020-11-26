@@ -373,6 +373,8 @@ $tile-colors: (
   user-select: none;
   touch-action: none;
   opacity: 1;
+  transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
+    border-color 100ms ease-in-out;
   @each $color, $values in $tile-colors {
     &.#{$color} {
       @include bgColor(lighten(map-get($values, "background"), 5%));
@@ -383,8 +385,6 @@ $tile-colors: (
     font-family: "Montserrat", sans-serif;
     font-weight: 800;
     letter-spacing: 0.0625rem;
-    transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
-      border-color 100ms ease-in-out;
     opacity: 1;
     &.hit {
       animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
@@ -412,6 +412,12 @@ $tile-colors: (
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
         color 200ms ease-in-out, opacity 500ms ease-in-out,
         border-color 100ms ease-in-out;
+    }
+    &.over {
+      @include borderColor(#e11cff, 0.75);
+      @include borderColor(#711cff, 0.85);
+      @include bgColor(#ffffff, 1);
+      @include textColor(#711cff, 1);
     }
   }
   &--definition {
