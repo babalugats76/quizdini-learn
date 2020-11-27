@@ -498,7 +498,7 @@ $tile-colors: (
       font-size: calc(1em * var(--text-scale-factor));
     }
     &__body--has-long-word {
-      font-size: calc(1em * var(--text-scale-factor) * 0.9);
+      font-size: calc(1em * var(--text-scale-factor) * 0.85);
     }
   }
 }
