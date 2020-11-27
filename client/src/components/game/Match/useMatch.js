@@ -245,11 +245,11 @@ export default function useMatch(data, debug = true) {
 
     state.textScaling = {
       terms: (
-        max * Math.pow(m, m * Math.max(meta[0], meta[1] / 1.5)) +
+        max * Math.pow(m, m * Math.max(meta[0], meta[1] / 2.5)) +
         min
       ).toFixed(2),
       definitions: (
-        max * Math.pow(m, m * Math.max(meta[2], meta[3] / 1.5)) +
+        max * Math.pow(m, m * Math.max(meta[2], meta[3] / 2.5)) +
         min
       ).toFixed(2),
     };
