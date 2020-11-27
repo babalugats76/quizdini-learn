@@ -21,7 +21,7 @@ export default {
     text: {
       scaling: { growth: 0.25, min: 1.25, max: 3.25 },
     },
-    timeouts: { enter: 800, hit: 800, leave: 500, miss: 800, shuffle: 500 },
+    timeouts: { enter: 800, hit: 1000, leave: 500, miss: 800, shuffle: 500 },
   },
   timer: {
     debug: false,

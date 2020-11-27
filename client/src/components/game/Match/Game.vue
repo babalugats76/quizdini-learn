@@ -224,49 +224,22 @@ $tile-colors: (
   ),
 );
 
-@keyframes drag {
-  0% {
+@keyframes hit {
+  from {
     --bg-opacity: 1;
     --text-opacity: 1;
-  }
-
-  25% {
-    --bg-opacity: 0.94;
-    --text-opacity: 0.92;
-  }
-
-  50% {
-    --bg-opacity: 0.91;
-    --text-opacity: 0.89;
-  }
-
-  75% {
-    --bg-opacity: 0.88;
-    --text-opacity: 0.86;
-  }
-
-  100% {
-    --bg-opacity: 0.85;
-    --text-opacity: 0.83;
-  }
-}
-
-@keyframes hit {
-  0% {
-    background-color: blue;
+    --border-opacity: 1;
+    background-color: var(--bg-start-color);
+    color: var(--text-start-color);
     transform: translate3d(
       var(--hit-start-tx),
       var(--hit-start-ty),
       var(--hit-start-tz)
     );
   }
-  20% {
-    background-color: yellow;
-    color: black;
-  }
-  100% {
-    background-color: green;
-    color: white;
+  to {
+    background-color: var(--bg-end-color);
+    color: var(--text-end-color);
     transform: translate3d(
       var(--hit-end-tx),
       var(--hit-end-ty),
@@ -275,7 +248,7 @@ $tile-colors: (
   }
 }
 
-@keyframes miss {
+/*@keyframes miss {
   0% {
     --bg-opacity: 0.85;
     --text-opacity: 0.83;
@@ -300,11 +273,19 @@ $tile-colors: (
     --bg-opacity: 1;
     --text-opacity: 1;
   }
+}*/
+
+.definitions-leave-active {
+  opacity: 1 !important;
 }
 
-/*.terms-leave-active {
-  transform: scale(2, 2);
-}*/
+.definitions-leave-from {
+  opacity: 1 !important;
+}
+
+.definitions-leave-to {
+  opacity: 0 !important;
+}
 
 /* Used in the shuffle */
 .no-move-list {
@@ -313,7 +294,8 @@ $tile-colors: (
 
 .slide {
   /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
-  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important;
+  /*transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important; */
+  transition: transform 400ms cubic-bezier(0.46, 0, 0.37, 1) 100ms !important;
 }
 
 .match {
@@ -373,8 +355,8 @@ $tile-colors: (
   user-select: none;
   touch-action: none;
   opacity: 1;
-  transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
-    border-color 100ms ease-in-out;
+  transition: background-color 100ms linear, color 200ms ease-in-out,
+    opacity 200ms ease-in-out, border-color 100ms ease-in-out;
   @each $color, $values in $tile-colors {
     &.#{$color} {
       @include bgColor(lighten(map-get($values, "background"), 5%));
@@ -386,38 +368,40 @@ $tile-colors: (
     font-weight: 800;
     letter-spacing: 0.0625rem;
     opacity: 1;
+    &.miss {
+      opacity: 1;
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
+        color 200ms ease-in-out, opacity 200ms ease-in-out,
+        border-color 100ms ease-in-out;
+    }
     &.hit {
-      animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
+      --bg-start-color: #fcf300;
+      --bg-end-color: #29bf12;
+      --text-start-color: #fdfdfd;
+      --text-end-color: #ffffff;
+      opacity: 1;
+      animation-timing-function: cubic-bezier(0.46, 0, 0.37, 1);
       animation-name: hit;
       animation-duration: var(--hit-duration, 2s);
       animation-fill-mode: forwards;
       z-index: 3;
     }
-    /*&:not(.drag) {
-      filter: grayscale(5%);
-    }*/
+    &.over {
+      --bg-opacity: 0.88;
+    }
     &.drag {
       z-index: 500;
-      @include bgColor(darken(#711cff, 15%), 0.5);
-      @include textColor(#ffffff);
-      @include borderColor(#ffffff, 1);
       box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
-      filter: sepia(100%) constrast(80%) saturate(200%)
-        drop-shadow(0px 3px 15px rgba(0, 0, 0, 0.13));
-      /*@include textColor(darken(#3f3d31, 50%));*/
-      /* @include textColor(lighten(#3f3d31, 3), .8);*/
+      @include borderColor(#ffffff);
+      filter: saturate(200%);
     }
-    &.miss {
+    &.terms-leave-active,
+    &.terms-leave-from {
       opacity: 1;
-      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
-        color 200ms ease-in-out, opacity 500ms ease-in-out,
-        border-color 100ms ease-in-out;
+      transition: opacity 500ms ease-out;
     }
-    &.over {
-      @include borderColor(#e11cff, 0.75);
-      @include borderColor(#711cff, 0.85);
-      @include bgColor(#ffffff, 1);
-      @include textColor(#711cff, 1);
+    &.terms-leave-to {
+      opacity: 0;
     }
   }
   &--definition {
@@ -428,14 +412,14 @@ $tile-colors: (
     letter-spacing: normal;
     font-size: 1em;
     opacity: 1;
-    transition: color 200ms ease-in-out, opacity 500ms ease-in-out,
-      border-color 100ms ease-in-out;
+    transition: background-color 100ms linear, color 100ms ease-in-out,
+      opacity 500ms ease-in-out, border-color 100ms ease-in-out;
 
     &.over {
-      @include borderColor(#e11cff, 0.75);
-      @include borderColor(#711cff, 0.85);
-      @include bgColor(#ffffff, 1);
-      @include textColor(#711cff, 1);
+      //@include bgColor(#ff784f);
+      //@include borderColor(#ff784f);
+      //color: white;
+      //filter: contrast(120%) saturate(200%) brightness(200%);
     }
   }
   &__body {

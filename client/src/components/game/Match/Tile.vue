@@ -101,10 +101,10 @@ export default {
         tile: true,
         [`tile--${this.type}`]: this.type,
         [this.color]: this.color,
-        drag: this.dragging,
-        over: this.over,
         hit: this.hit,
         miss: this.miss,
+        drag: this.dragging,
+        over: this.over,
       };
     },
   },
