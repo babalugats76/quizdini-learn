@@ -392,7 +392,7 @@ $tile-colors: (
     &.terms-leave-active,
     &.terms-leave-from {
       opacity: 0;
-      transition: opacity 300ms ease 100ms;
+      transition: opacity 400ms ease;
     }
     &.terms-leave-to {
       opacity: 0;
@@ -419,7 +419,7 @@ $tile-colors: (
     &.definitions-leave-active,
     &.definitions-leave-from {
       opacity: 1;
-      transition: opacity 400ms ease 300ms;
+      transition: opacity 400ms ease 400ms;
     }
     &.definitions-leave-to {
       opacity: 0;
