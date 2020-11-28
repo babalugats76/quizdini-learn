@@ -248,33 +248,6 @@ $tile-colors: (
   }
 }
 
-/*@keyframes miss {
-  0% {
-    --bg-opacity: 0.85;
-    --text-opacity: 0.83;
-  }
-
-  25% {
-    --bg-opacity: 0.88;
-    --text-opacity: 0.86;
-  }
-
-  50% {
-    --bg-opacity: 0.91;
-    --text-opacity: 0.89;
-  }
-
-  75% {
-    --bg-opacity: 0.94;
-    --text-opacity: 0.92;
-  }
-
-  100% {
-    --bg-opacity: 1;
-    --text-opacity: 1;
-  }
-}*/
-
 .definitions-leave-active {
   opacity: 1 !important;
 }
@@ -295,7 +268,7 @@ $tile-colors: (
 .slide {
   /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
   /*transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important; */
-  transition: transform 400ms cubic-bezier(0.46, 0, 0.37, 1) 100ms !important;
+  transition: transform 600ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important;
 }
 
 .match {
@@ -355,8 +328,8 @@ $tile-colors: (
   user-select: none;
   touch-action: none;
   opacity: 1;
-  transition: background-color 100ms linear, color 200ms ease-in-out,
-    opacity 200ms ease-in-out, border-color 100ms ease-in-out;
+  transition: filter 300ms ease, background-color 300ms ease,
+    color 300ms ease-in-out, opacity 300ms ease, border-color 300ms ease;
   @each $color, $values in $tile-colors {
     &.#{$color} {
       @include bgColor(lighten(map-get($values, "background"), 5%));
@@ -364,7 +337,7 @@ $tile-colors: (
     }
   }
   &::after {
-    content: "";
+    content: " ";
     position: absolute;
     top: -0.25em;
     left: -0.25em;
@@ -375,8 +348,8 @@ $tile-colors: (
     border-radius: 0.5em;
     opacity: 0;
     z-index: auto;
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
-    transition: all 100ms ease-in-out;
+    box-shadow: 0px 0px 15px -3px rgba(255, 255, 255, 0.15);
+    transition: all 300ms ease;
   }
   &--term {
     font-family: "Montserrat", sans-serif;
@@ -385,17 +358,18 @@ $tile-colors: (
     opacity: 1;
     &.miss {
       opacity: 1;
+      filter: saturate(100%);
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
-        color 200ms ease-in-out, opacity 200ms ease-in-out,
-        border-color 100ms ease-in-out;
+        filter 300ms ease, background-color 300ms ease, color 300ms ease-in-out,
+        opacity 300ms ease, border-color 300ms ease;
     }
     &.hit {
-      --bg-start-color: #fcf300;
-      --bg-end-color: #29bf12;
+      --bg-end-color: #00cc00;
+      --bg-start-color: #ccff33;
       --text-start-color: #fdfdfd;
       --text-end-color: #ffffff;
       opacity: 1;
-      animation-timing-function: cubic-bezier(0.46, 0, 0.37, 1);
+      animation-timing-function: cubic-bezier(0.45, 1.28, 0.39, 0.78);
       animation-name: hit;
       animation-duration: var(--hit-duration, 2s);
       animation-fill-mode: forwards;
@@ -403,25 +377,25 @@ $tile-colors: (
     }
     &.over {
       --bg-opacity: 0.88;
+      &::after {
+        box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.15);
+      }
     }
     &.drag {
       z-index: 500;
-      filter: saturate(200%);
-    }
-    &.drag,
-    &:hover {
-      @include borderColor(#ffffff);
+      filter: saturate(110%);
+      @include borderColor(#fdfdfd, 1);
+      &::after {
+        opacity: 1;
+      }
     }
     &.terms-leave-active,
     &.terms-leave-from {
-      opacity: 1;
-      transition: opacity 500ms ease-out;
+      opacity: 0;
+      transition: opacity 300ms ease 100ms;
     }
     &.terms-leave-to {
       opacity: 0;
-    }
-    &:hover::after {
-      opacity: 1;
     }
   }
   &--definition {
@@ -432,14 +406,23 @@ $tile-colors: (
     letter-spacing: normal;
     font-size: 1em;
     opacity: 1;
-    transition: background-color 100ms linear, color 100ms ease-in-out,
-      opacity 500ms ease-in-out, border-color 100ms ease-in-out;
+    transition: filter 250ms ease-in-out, background-color 250ms ease-in-out,
+      color 250ms ease-in-out, opacity 250ms ease-in-out,
+      border-color 250ms ease-in-out;
 
     &.over {
       //@include bgColor(#ff784f);
       //@include borderColor(#ff784f);
       //color: white;
       //filter: contrast(120%) saturate(200%) brightness(200%);
+    }
+    &.definitions-leave-active,
+    &.definitions-leave-from {
+      opacity: 1;
+      transition: opacity 400ms ease 300ms;
+    }
+    &.definitions-leave-to {
+      opacity: 0;
     }
   }
   &__body {
