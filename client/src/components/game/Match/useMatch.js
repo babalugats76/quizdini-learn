@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { computed, nextTick, toRef, toRefs, reactive, watch } from "vue";
+import { computed, nextTick, toRefs, reactive, watch } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
@@ -49,8 +49,6 @@ export default function useMatch(data, debug = true) {
     textScaling: { terms: 1, definitions: 1 },
     title: "",
   });
-
-  const exitedRef = toRef(state, "exited");
 
   function processMatches(matches) {
     const parse = (parser, encoded) => {
@@ -313,20 +311,20 @@ export default function useMatch(data, debug = true) {
     debug && JSON.stringify(response.data, null, 4);
   }
 
-  watch(data, (newValue, oldValue) => {
+  watch(data, (newData, oldData) => {
     debug &&
       console.log(
         "data changed: ",
-        JSON.stringify(oldValue),
+        JSON.stringify(oldData),
         "=>",
-        JSON.stringify(newValue)
+        JSON.stringify(newData)
       );
     const {
       matchId,
       matches = [],
       options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
       title = "",
-    } = newValue;
+    } = newData;
 
     state.colorScheme = colorScheme.toLowerCase();
     state.duration = duration;
@@ -336,24 +334,27 @@ export default function useMatch(data, debug = true) {
     state.title = title;
   });
 
-  watch(exitedRef, (newValue, oldValue) => {
-    debug &&
-      console.log(
-        "exited changed: ",
-        JSON.stringify(oldValue),
-        "=>",
-        JSON.stringify(newValue)
-      );
+  watch(
+    () => state.exited,
+    (newExited, oldExited) => {
+      debug &&
+        console.log(
+          "exited changed: ",
+          JSON.stringify(oldExited),
+          "=>",
+          JSON.stringify(newExited)
+        );
 
-    if (newValue <= oldValue) return;
+      if (newExited <= oldExited) return;
 
-    if (newValue === state.itemsPerBoard) {
-      deal();
-      nextTick(() => shuffle());
-    } else {
-      shuffle();
+      if (newExited === state.itemsPerBoard) {
+        deal();
+        nextTick(() => shuffle());
+      } else {
+        shuffle();
+      }
     }
-  });
+  );
 
   return {
     config,
