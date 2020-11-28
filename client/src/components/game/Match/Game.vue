@@ -351,7 +351,7 @@ $tile-colors: (
   background-color: white;
   color: black;
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
   user-select: none;
   touch-action: none;
   opacity: 1;
@@ -362,6 +362,21 @@ $tile-colors: (
       @include bgColor(lighten(map-get($values, "background"), 5%));
       @include textColor(map-get($values, "color"));
     }
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: -0.25em;
+    left: -0.25em;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    border: 0.25em solid transparent;
+    border-radius: 0.5em;
+    opacity: 0;
+    z-index: auto;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
+    transition: all 100ms ease-in-out;
   }
   &--term {
     font-family: "Montserrat", sans-serif;
@@ -391,9 +406,11 @@ $tile-colors: (
     }
     &.drag {
       z-index: 500;
-      box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.13);
-      @include borderColor(#ffffff);
       filter: saturate(200%);
+    }
+    &.drag,
+    &:hover {
+      @include borderColor(#ffffff);
     }
     &.terms-leave-active,
     &.terms-leave-from {
@@ -402,6 +419,9 @@ $tile-colors: (
     }
     &.terms-leave-to {
       opacity: 0;
+    }
+    &:hover::after {
+      opacity: 1;
     }
   }
   &--definition {
@@ -474,6 +494,9 @@ $tile-colors: (
     max-width: calc(100vw - #{2 * $tile-margin});
     padding: 0.6em;
     margin: #{$tile-margin};
+    &::after {
+      //padding: 0.6em;
+    }
   }
 }
 
@@ -482,6 +505,9 @@ $tile-colors: (
   .tile {
     padding: 0.6em;
     margin: #{$tile-margin};
+    &::after {
+      //padding: 0.6em;
+    }
     &-board--4 .tile {
       // half the width of the container, minus margin and 1px (rounding)
       flex-basis: calc(100% / 2 - (1px + #{$tile-margin * 2}));
