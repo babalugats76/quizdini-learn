@@ -105,6 +105,7 @@ export default {
   props: ["match"],
   setup(props) {
     const { match } = toRefs(props);
+    console.log(typeof match);
     return {
       ...useMatch(match),
     };

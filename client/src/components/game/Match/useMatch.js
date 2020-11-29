@@ -1,5 +1,13 @@
-/* eslint-disable */
-import { computed, nextTick, toRefs, reactive, watch } from "vue";
+// /* eslint-disable */
+import {
+  computed,
+  nextTick,
+  toRefs,
+  reactive,
+  unref,
+  watch,
+  watchEffect,
+} from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
@@ -237,7 +245,7 @@ export default function useMatch(data, debug = true) {
       ];
     }, []);
 
-    console.log(JSON.stringify(meta, null, 4));
+    debug && console.log(JSON.stringify(meta, null, 4));
 
     const { growth: m, min, max } = config.tile.text.scaling || {};
 
@@ -311,20 +319,13 @@ export default function useMatch(data, debug = true) {
     debug && JSON.stringify(response.data, null, 4);
   }
 
-  watch(data, (newData, oldData) => {
-    debug &&
-      console.log(
-        "data changed: ",
-        JSON.stringify(oldData),
-        "=>",
-        JSON.stringify(newData)
-      );
+  watchEffect(() => {
     const {
       matchId,
       matches = [],
       options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
       title = "",
-    } = newData;
+    } = unref(data);
 
     state.colorScheme = colorScheme.toLowerCase();
     state.duration = duration;

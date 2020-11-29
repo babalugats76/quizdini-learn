@@ -1,37 +1,54 @@
 <template>
-  <Game :match="match" />
+  <transition mode="out-in" name="match-transition">
+    <Loader key="1" v-if="showLoader" />
+    <Game key="2" v-else :match="match" />
+  </transition>
 </template>
 <script>
 /* eslint-disable */
+import { watchEffect, ref, unref } from "vue";
+import { useRoute } from "vue-router";
 import { fetchMatch } from "@/api/match";
+import useLoader from "@/compose/useLoader";
 import { default as config } from "./config";
 //import { actions } from "./lib";
 
 import Game from "./Game";
+import Loader from "./Loader";
 
 export default {
   name: "Match",
   components: {
     Game,
+    Loader,
   },
   computed: {
-    //...getters,
     matchId() {
-      return this.$route.params.id;
+      const { matchId = null } = this.match || {};
+      return matchId;
+      // return this.$route.params.id;
     },
   },
-  data() {
+  setup() {
+    const x = ref("");
+    const route = useRoute();
+    const {
+      data: match,
+      error,
+      inError,
+      initialized,
+      loading,
+      success,
+    } = useLoader({
+      callback: fetchMatch(route.params.id),
+      immediate: true,
+      deps: [() => route.params],
+    });
     return {
-      match: {},
+      x,
+      match,
+      showLoader: loading,
     };
-  },
-  methods: {
-    //  ...mutations,
-    //  ...actions,
-  },
-  async created() {
-    const response = await fetchMatch(this.matchId);
-    this.match = response.data;
   },
 };
 </script>
