@@ -1,4 +1,12 @@
-import { computed, onBeforeUnmount, reactive, toRefs, unref, watch } from "vue";
+import {
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  reactive,
+  toRefs,
+  unref,
+  watch,
+} from "vue";
 
 const SEVERITY = {
   ALERT: "alert",
@@ -23,6 +31,7 @@ export default function useTimer({
 }) {
   const state = reactive({
     // duration, // to automatically unwrap .value; alternatively, use unref
+    active: false,
     elapsed: 0,
     expired: computed(() => state.remaining <= 0),
     formatted: computed(() => {
@@ -50,6 +59,7 @@ export default function useTimer({
 
   function startTimer() {
     debug && console.log("timer start...");
+    state.active = true;
     state.elapsed = 0;
     state.intervalId = setInterval(() => {
       state.elapsed += interval;
@@ -69,6 +79,7 @@ export default function useTimer({
 
   function endTimer() {
     debug && console.log("timer end...");
+    state.active = false;
     if (state.intervalId) {
       clearInterval(state.intervalId);
       state.intervalId = null;
@@ -92,6 +103,10 @@ export default function useTimer({
       }
     }
   );
+
+  onMounted(() => {
+    debug && console.log("timer mounted...");
+  });
 
   onBeforeUnmount(() => {
     debug && console.log("timer cleaning up...");

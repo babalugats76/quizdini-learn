@@ -1,4 +1,4 @@
-// /* eslint-disable */
+/* eslint-disable */
 import {
   computed,
   nextTick,
@@ -287,17 +287,19 @@ export default function useMatch(data, debug = true) {
   }
 
   function startGame() {
-    state.playing = false;
     state.correct = 0;
+    state.definitions = [];
     state.incorrect = 0;
+    state.playing = false;
     state.score = 0;
+    state.showBoard = false;
     state.stats = [];
     state.terms = [];
-    state.definitions = [];
     deal();
     nextTick(() => {
       shuffle();
       state.playing = true;
+      state.showBoard = true;
     });
   }
 
@@ -305,7 +307,7 @@ export default function useMatch(data, debug = true) {
     console.log("game over...");
     state.playing = false;
     state.showBoard = false;
-    state.showSplash = true;
+    // state.showSplash = true;
     state.terms = [];
     state.definitions = [];
     const response = await postPing({
@@ -328,7 +330,7 @@ export default function useMatch(data, debug = true) {
     } = unref(data);
 
     state.colorScheme = colorScheme.toLowerCase();
-    state.duration = duration;
+    state.duration = 5;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);

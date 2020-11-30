@@ -1,5 +1,5 @@
 <template>
-  <transition mode="out-in" name="match-transition">
+  <transition :duration="1000" mode="out-in" name="mt">
     <Loader key="1" v-if="showLoader" />
     <Game key="2" v-else :match="match" />
   </transition>
@@ -52,7 +52,28 @@ export default {
   },
 };
 </script>
+
 <style scoped lang="scss">
+.mt-enter-active,
+.mt-enter-from {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mt-enter-to {
+  opacity: 1;
+}
+
+.mt-leave-active,
+.mt-leave-from {
+  opacity: 1;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mt-leave-to {
+  opacity: 0;
+}
+
 .full-page {
   height: 100%;
   font-family: "Inter", sans-serif;

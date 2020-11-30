@@ -1,90 +1,96 @@
 <template>
-  <button v-if="!playing && matches.length" @click="startGame">
-    Start Game
-  </button>
-  <div class="match__game">
-    <DndBoard
-      :active="canDnd"
-      class="match__board"
-      :config="config.board"
-      v-on:drag="onDrag"
-      v-on:over="onOver"
-      v-on:drop="onDrop"
-    >
-      <transition-group
-        :class="boardClasses('terms')"
-        :css="true"
-        :duration="{
-          enter: `${config.tile.timeouts.enter}`,
-          leave: `${config.tile.timeouts.leave}`,
-        }"
-        :move-class="shuffling ? 'slide' : 'no-move-list'"
-        name="terms"
-        tag="div"
-        :style="boardStyles('terms')"
-        @after-leave="(el) => tileAfterLeave(el, 'term')"
+  <transition
+    :css="true"
+    :duration="1000"
+    mode="out-in"
+    name="mg"
+    @before-enter="beforeEnter"
+  >
+    <Splash key="1" v-if="!showBoard" v-on:start="startGame" />
+    <div key="2" v-else class="match__game">
+      <DndBoard
+        :active="canDnd"
+        class="match__board"
+        :config="config.board"
+        v-on:drag="onDrag"
+        v-on:over="onOver"
+        v-on:drop="onDrop"
       >
-        <Tile
-          v-for="t in activeTerms"
-          :key="t.id"
-          :id="t.id"
-          :content="t.content"
-          :style="[t.style]"
-          :active="t.dragging"
-          :disabled="false"
-          :color="t.color"
-          :dragging="t.dragging"
-          :hasHtml="t.hasHtml"
-          :hit="t.hit"
-          :length="t.length"
-          :maxWordLength="t.maxWordLength"
-          :miss="t.miss"
-          :over="t.over"
-          is="Draggable"
-          type="term"
-        />
-      </transition-group>
-      <transition-group
-        :class="boardClasses('definitions')"
-        :css="true"
-        :duration="{
-          enter: `${config.tile.timeouts.enter}`,
-          leave: `${config.tile.timeouts.leave}`,
-        }"
-        :move-class="shuffling ? 'slide' : 'no-move-list'"
-        name="definitions"
-        tag="div"
-        :style="boardStyles('definitions')"
-        @after-leave="(el) => tileAfterLeave(el, 'definition')"
-      >
-        <Tile
-          v-for="d in activeDefinitions"
-          :key="d.id"
-          :id="d.id"
-          :content="d.content"
-          :style="[d.style]"
-          :active="false"
-          :disabled="false"
-          :hasHtml="d.hasHtml"
-          :hit="d.hit"
-          :length="d.length"
-          :maxWordLength="d.maxWordLength"
-          :miss="d.miss"
-          :over="d.over"
-          is="Droppable"
-          type="definition"
-        />
-      </transition-group>
-    </DndBoard>
-    <Timer
-      v-on:timer-expired="gameOver"
-      class="match__timer"
-      :active="playing"
-      :config="config.timer"
-      :duration="duration"
-      :score="score"
-    />
-  </div>
+        <transition-group
+          :class="boardClasses('terms')"
+          :css="true"
+          :duration="{
+            enter: `${config.tile.timeouts.enter}`,
+            leave: `${config.tile.timeouts.leave}`,
+          }"
+          :move-class="shuffling ? 'slide' : 'no-move-list'"
+          name="terms"
+          tag="div"
+          :style="boardStyles('terms')"
+          @after-leave="(el) => tileAfterLeave(el, 'term')"
+        >
+          <Tile
+            v-for="t in activeTerms"
+            :key="t.id"
+            :id="t.id"
+            :content="t.content"
+            :style="[t.style]"
+            :active="t.dragging"
+            :disabled="false"
+            :color="t.color"
+            :dragging="t.dragging"
+            :hasHtml="t.hasHtml"
+            :hit="t.hit"
+            :length="t.length"
+            :maxWordLength="t.maxWordLength"
+            :miss="t.miss"
+            :over="t.over"
+            is="Draggable"
+            type="term"
+          />
+        </transition-group>
+        <transition-group
+          :class="boardClasses('definitions')"
+          :css="true"
+          :duration="{
+            enter: `${config.tile.timeouts.enter}`,
+            leave: `${config.tile.timeouts.leave}`,
+          }"
+          :move-class="shuffling ? 'slide' : 'no-move-list'"
+          name="definitions"
+          tag="div"
+          :style="boardStyles('definitions')"
+          @after-leave="(el) => tileAfterLeave(el, 'definition')"
+        >
+          <Tile
+            v-for="d in activeDefinitions"
+            :key="d.id"
+            :id="d.id"
+            :content="d.content"
+            :style="[d.style]"
+            :active="false"
+            :disabled="false"
+            :hasHtml="d.hasHtml"
+            :hit="d.hit"
+            :length="d.length"
+            :maxWordLength="d.maxWordLength"
+            :miss="d.miss"
+            :over="d.over"
+            is="Droppable"
+            type="definition"
+          />
+        </transition-group>
+      </DndBoard>
+      <Timer
+        v-on:timer-expired="gameOver"
+        class="match__timer"
+        :config="config.timer"
+        :duration="duration"
+        :score="score"
+        :playing="playing"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -92,6 +98,7 @@
 import { ref, toRefs } from "vue";
 import useMatch from "./useMatch";
 import DndBoard from "../DndBoard";
+import Splash from "./Splash";
 import Tile from "./Tile";
 import Timer from "./Timer";
 
@@ -99,6 +106,7 @@ export default {
   name: "Game",
   components: {
     DndBoard,
+    Splash,
     Tile,
     Timer,
   },
@@ -111,6 +119,9 @@ export default {
     };
   },
   methods: {
+    beforeEnter() {
+      this.debug && console.log("game transition before entered...");
+    },
     boardClasses(name) {
       return {
         "tile-board": true,
@@ -136,6 +147,26 @@ export default {
 </script>
 
 <style lang="scss">
+.mg-enter-active,
+.mg-enter-from {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mg-enter-to {
+  opacity: 1;
+}
+
+.mg-leave-active,
+.mg-leave-from {
+  opacity: 1;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mg-leave-to {
+  opacity: 0;
+}
+
 $tile-margin: 0.5em;
 $tile-board-padding: 1em;
 $tile-colors: (

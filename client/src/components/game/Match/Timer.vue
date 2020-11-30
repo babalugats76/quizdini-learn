@@ -1,5 +1,6 @@
 <template>
   <transition
+    appear
     :duration="{
       enter: `${timeouts.enter}`,
       leave: `${timeouts.leave}`,
@@ -9,11 +10,11 @@
     @after-enter="afterEnter"
     @after-leave="afterLeave"
     v-bind="$attrs"
+    mode="in-out"
   >
-    <div v-show="active">
+    <div>
       <div class="timer">
         <transition
-          appear
           :duration="{
             enter: `${timeouts.change}`,
             leave: `${timeouts.change}`,
@@ -69,7 +70,7 @@ const FULL_DASH_ARRAY = 283;
 export default {
   inheritAttrs: false,
   name: "Timer",
-  props: ["active", "config", "duration", "score"],
+  props: ["config", "duration", "playing", "score"],
   setup(props, { emit }) {
     /* Pass props that change to composable via reference vs. value */
     const { duration, score } = toRefs(props);
@@ -105,10 +106,11 @@ export default {
   },
   methods: {
     beforeEnter() {
-      this.debug && console.log("before entered...");
+      this.debug && console.log("before timer entered...");
       this.setElapsed(0);
     },
     afterEnter() {
+      console.log("after enter in Timer fired...");
       this.debug && console.log("timer entered...");
       this.startTimer();
     },
@@ -116,26 +118,26 @@ export default {
       this.debug && console.log("timer left...");
     },
   },
+  onMounted() {
+    console.log("Timer has mounted...");
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.timer-enter-active {
+.timer-enter-active,
+.timer-enter-from {
   opacity: 0;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timer-enter-to {
+  opacity: 1;
 }
 
 .timer-leave-active {
   opacity: 1;
   transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.timer-enter {
-  opacity: 0;
-}
-
-.timer-enter-to {
-  opacity: 1;
 }
 
 .timer-leave {
