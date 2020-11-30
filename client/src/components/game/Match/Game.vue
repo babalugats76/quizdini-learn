@@ -274,7 +274,7 @@ $tile-colors: (
 
 .match {
   &__game {
-    --board-bg-color: turquoise;
+    --board-bg-color: #01e7e4;
     font-family: "Inter", sans-serif;
     display: grid;
     grid-area: auto;
@@ -349,8 +349,8 @@ $tile-colors: (
     border-radius: 0.5em;
     opacity: 0;
     z-index: auto;
-    box-shadow: 0px 0px 15px -3px rgba(255, 255, 255, 0.15);
-    transition: all 300ms ease;
+    box-shadow: 0px 1px 4px 0px transparent, inset 0px 0px 0px 1px transparent;
+    transition: all 150ms ease;
   }
   &--term {
     font-family: "Montserrat", sans-serif;
@@ -359,10 +359,9 @@ $tile-colors: (
     opacity: 1;
     &.miss {
       opacity: 1;
-      filter: saturate(100%);
       transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
-        filter 300ms ease, background-color 300ms ease, color 300ms ease-in-out,
-        opacity 300ms ease, border-color 300ms ease;
+        background-color 150ms ease, color 150ms ease, filter 150ms ease,
+        opacity 150ms ease, border-color 150ms ease;
     }
     &.hit {
       --bg-end-color: #00cc00;
@@ -376,19 +375,18 @@ $tile-colors: (
       animation-fill-mode: forwards;
       z-index: 3;
     }
-    &.over {
-      --bg-opacity: 0.88;
-      &::after {
-        box-shadow: 0px 0px 15px -3px rgba(0, 0, 0, 0.15);
-      }
-    }
     &.drag {
       z-index: 500;
-      filter: saturate(110%);
-      @include borderColor(#fdfdfd, 1);
+      @include borderColor(#fdfdfd, 0.9);
+      --bg-opacity: 0.97;
       &::after {
         opacity: 1;
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1),
+          inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
       }
+    }
+    &.over {
+      --bg-opacity: 0.87;
     }
     &.terms-leave-active,
     &.terms-leave-from {
@@ -407,15 +405,16 @@ $tile-colors: (
     letter-spacing: normal;
     font-size: 1em;
     opacity: 1;
-    transition: filter 250ms ease-in-out, background-color 250ms ease-in-out,
-      color 250ms ease-in-out, opacity 250ms ease-in-out,
-      border-color 250ms ease-in-out;
-
+    transition: background-color 150ms ease, color 150ms ease,
+      filter 150ms ease opacity 150ms ease, border-color 150ms ease;
     &.over {
-      //@include bgColor(#ff784f);
-      //@include borderColor(#ff784f);
-      //color: white;
-      //filter: contrast(120%) saturate(200%) brightness(200%);
+      @include textColor(darken(#515328, 2%));
+      @include borderColor(#ccff33, 0.75);
+      &::after {
+        opacity: 1;
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1),
+          inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+      }
     }
     &.definitions-leave-active,
     &.definitions-leave-from {
