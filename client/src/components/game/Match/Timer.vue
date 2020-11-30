@@ -9,10 +9,10 @@
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @after-leave="afterLeave"
+    @after-appear="afterAppear"
     v-bind="$attrs"
-    mode="in-out"
   >
-    <div>
+    <div v-show="!expired">
       <div class="timer">
         <transition
           :duration="{
@@ -73,16 +73,17 @@ export default {
   props: ["config", "duration", "playing", "score"],
   setup(props, { emit }) {
     /* Pass props that change to composable via reference vs. value */
-    const { duration, score } = toRefs(props);
+    const { duration, playing, score } = toRefs(props);
 
     const timer = useTimer({
-      duration,
-      score,
-      interval: props.config.timeouts.interval,
-      warn: props.config.thresholds.warn,
       alert: props.config.thresholds.alert,
       debug: props.config.debug,
+      duration,
       emit,
+      interval: props.config.timeouts.interval,
+      playing,
+      score,
+      warn: props.config.thresholds.warn,
     });
 
     return {
@@ -107,12 +108,16 @@ export default {
   methods: {
     beforeEnter() {
       this.debug && console.log("before timer entered...");
-      this.setElapsed(0);
+      //this.setElapsed(0);
     },
     afterEnter() {
       console.log("after enter in Timer fired...");
       this.debug && console.log("timer entered...");
-      this.startTimer();
+      //this.startTimer();
+    },
+    afterAppear() {
+      console.log("after appear fired...");
+      //   setTimeout(() => this.markTimerReady());
     },
     afterLeave() {
       this.debug && console.log("timer left...");
@@ -128,7 +133,7 @@ export default {
 .timer-enter-active,
 .timer-enter-from {
   opacity: 0;
-  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1s ease-in;
 }
 
 .timer-enter-to {
@@ -137,7 +142,7 @@ export default {
 
 .timer-leave-active {
   opacity: 1;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1s ease-out;
 }
 
 .timer-leave {

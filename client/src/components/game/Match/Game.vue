@@ -8,6 +8,7 @@
   >
     <Splash key="1" v-if="!showBoard" v-on:start="startGame" />
     <div key="2" v-else class="match__game">
+      <button @click.prevent="togglePlaying">Toggle Playing</button>
       <DndBoard
         :active="canDnd"
         class="match__board"
@@ -150,7 +151,7 @@ export default {
 .mg-enter-active,
 .mg-enter-from {
   opacity: 0;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mg-enter-to {
@@ -160,7 +161,7 @@ export default {
 .mg-leave-active,
 .mg-leave-from {
   opacity: 1;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mg-leave-to {

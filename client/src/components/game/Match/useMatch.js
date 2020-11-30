@@ -306,7 +306,7 @@ export default function useMatch(data, debug = true) {
   async function gameOver() {
     console.log("game over...");
     state.playing = false;
-    state.showBoard = false;
+    //state.showBoard = false;
     // state.showSplash = true;
     state.terms = [];
     state.definitions = [];
@@ -359,6 +359,11 @@ export default function useMatch(data, debug = true) {
     }
   );
 
+  function togglePlaying() {
+    console.log("toggle playing fired!");
+    state.playing = !state.playing;
+  }
+
   return {
     config,
     ...toRefs(state),
@@ -370,5 +375,6 @@ export default function useMatch(data, debug = true) {
     onTileLeft,
     shuffle,
     startGame,
+    togglePlaying,
   };
 }
