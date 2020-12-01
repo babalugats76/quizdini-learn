@@ -35,15 +35,12 @@ export default function useTimer({
   score,
   warn,
 }) {
-  const [cancelTimerStart, startTimerWithDelay] = useTimeout(
-    unref(delay),
-    function () {
-      debug && console.log("starting timer after Delay...");
-      state.intervalId = setInterval(() => {
-        state.elapsed += unref(interval);
-      }, unref(interval));
-    }
-  );
+  const [, startTimerWithDelay] = useTimeout(unref(delay), function () {
+    debug && console.log("starting timer after Delay...");
+    state.intervalId = setInterval(() => {
+      state.elapsed += unref(interval);
+    }, unref(interval));
+  });
 
   const state = reactive({
     // duration, // to automatically unwrap .value; alternatively, use unref
@@ -105,7 +102,7 @@ export default function useTimer({
 
   watch(active, (newActive, oldActive) => {
     if (newActive && !oldActive && !state.running) {
-      cancelTimerStart();
+      //cancelTimerStart();
       startTimer();
     }
     if (!newActive && state.running) {
