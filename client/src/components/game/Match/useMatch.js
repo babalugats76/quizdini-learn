@@ -306,7 +306,7 @@ export default function useMatch(data, debug = true) {
   async function gameOver() {
     console.log("game over...");
     state.playing = false;
-    //state.showBoard = false;
+    state.showBoard = false;
     // state.showSplash = true;
     state.terms = [];
     state.definitions = [];
@@ -330,7 +330,7 @@ export default function useMatch(data, debug = true) {
     } = unref(data);
 
     state.colorScheme = colorScheme.toLowerCase();
-    state.duration = 8;
+    state.duration = 20;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);
