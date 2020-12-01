@@ -1,6 +1,5 @@
 <template>
   <transition
-    appear
     :duration="{
       enter: `${timeouts.enter}`,
       leave: `${timeouts.leave}`,
@@ -70,14 +69,17 @@ const FULL_DASH_ARRAY = 283;
 export default {
   inheritAttrs: false,
   name: "Timer",
-  props: ["config", "duration", "playing", "score"],
+  props: ["active", "config", "duration", "score"],
   setup(props, { emit }) {
     /* Pass props that change to composable via reference vs. value */
-    const { duration, playing, score } = toRefs(props);
+    const { active, duration, playing, score } = toRefs(props);
 
     const timer = useTimer({
+      active,
       alert: props.config.thresholds.alert,
+      autoStart: true,
       debug: props.config.debug,
+      delay: props.config.timeouts.delay,
       duration,
       emit,
       interval: props.config.timeouts.interval,
@@ -113,7 +115,7 @@ export default {
     afterEnter() {
       console.log("after enter in Timer fired...");
       this.debug && console.log("timer entered...");
-      //this.startTimer();
+      // this.startTimer();
     },
     afterAppear() {
       console.log("after appear fired...");

@@ -1,11 +1,11 @@
 // prettier-ignore
 export default {
   board: {
-    debug: true,
+    debug: false,
     timeouts: { throttle: 33 },
   },
   game: {
-    debug: true,
+    debug: false,
     timeouts: { enter: 1000, leave: 1000 },
     themes: {
       default: { colors: ['zaffre'] },
@@ -26,6 +26,6 @@ export default {
   timer: {
     debug: true,
     thresholds: { warn: 40, alert: 20 },
-    timeouts: { interval: 100, change: 250, enter: 1000, leave: 1000 },
+    timeouts: { interval: 100, change: 250, delay: 1500, enter: 1000, leave: 1000 },
   },
 };

@@ -85,10 +85,10 @@
       <Timer
         v-on:timer-expired="gameOver"
         class="match__timer"
+        :active="playing"
         :config="config.timer"
         :duration="duration"
         :score="score"
-        :playing="playing"
       />
     </div>
   </transition>

@@ -5,13 +5,14 @@ export default function useTimeout(ms, fn) {
   let timeout = null;
 
   function initiateTimeout() {
+    //console.log('inside initiate timeout');
+    //console.log('delay', ms);
     clear();
-    timeout = setTimeout(() => {
-      ((arguments && fn(...arguments)) || fn)();
-    }, unref(ms));
+    timeout = setTimeout(() => fn(), unref(ms));
   }
 
   function clear() {
+    //console.log('clearing...');
     clearTimeout(timeout);
   }
 
