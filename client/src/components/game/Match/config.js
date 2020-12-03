@@ -17,6 +17,9 @@ export default {
       },
     },
   },
+  splash: {
+   timeouts: { enter: 800, leave: 800}
+  },
   tile: {
     text: {
       scaling: { growth: 0.25, min: 1.25, max: 3.25 },

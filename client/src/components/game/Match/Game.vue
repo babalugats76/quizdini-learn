@@ -1,12 +1,12 @@
 <template>
-  <transition
-    :css="true"
-    :duration="1000"
-    mode="out-in"
-    name="mg"
-    @before-enter="beforeEnter"
-  >
-    <Splash key="1" v-if="!showBoard" v-on:start="startGame" />
+  <transition :duration="1000" mode="out-in" name="mt">
+    <Splash
+      :config="config.splash"
+      :showModal="!showBoard"
+      key="1"
+      v-if="!showBoard"
+      v-on:start="startGame"
+    />
     <div key="2" v-else class="match__game">
       <button @click.prevent="togglePlaying">Toggle Playing</button>
       <DndBoard
@@ -148,6 +148,26 @@ export default {
 </script>
 
 <style lang="scss">
+.mt-enter-active,
+.mt-enter-from {
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mt-enter-to {
+  opacity: 1;
+}
+
+.mt-leave-active,
+.mt-leave-from {
+  opacity: 1;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mt-leave-to {
+  opacity: 0;
+}
+
 .mg-enter-active,
 .mg-enter-from {
   opacity: 0;
