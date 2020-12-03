@@ -330,7 +330,7 @@ export default function useMatch(data, debug = true) {
     } = unref(data);
 
     state.colorScheme = colorScheme.toLowerCase();
-    state.duration = 20;
+    state.duration = duration;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);
