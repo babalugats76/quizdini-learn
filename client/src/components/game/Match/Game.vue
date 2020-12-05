@@ -1,11 +1,11 @@
 <template>
-  <transition :duration="1000" mode="out-in" name="mt">
+  <transition :duration="500" name="game">
     <Splash
       :config="config.splash"
-      :showModal="!showBoard"
+      :showModal="showSplash"
       key="1"
       v-if="!showBoard"
-      @start="startGame"
+      @start="toggleSplash"
     />
     <div key="2" v-else class="match__game">
       <button @click.prevent="togglePlaying">Toggle Playing</button>
@@ -148,43 +148,23 @@ export default {
 </script>
 
 <style lang="scss">
-.mt-enter-active,
-.mt-enter-from {
+.game-enter-active,
+.game-enter-from {
   opacity: 0;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 500ms ease-in-out;
 }
 
-.mt-enter-to {
+.game-enter-to {
   opacity: 1;
 }
 
-.mt-leave-active,
-.mt-leave-from {
+.game-leave-active,
+.game-leave-from {
   opacity: 1;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 500ms ease-in-out;
 }
 
-.mt-leave-to {
-  opacity: 0;
-}
-
-.mg-enter-active,
-.mg-enter-from {
-  opacity: 0;
-  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.mg-enter-to {
-  opacity: 1;
-}
-
-.mg-leave-active,
-.mg-leave-from {
-  opacity: 1;
-  transition: opacity 5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.mg-leave-to {
+.game-leave-to {
   opacity: 0;
 }
 

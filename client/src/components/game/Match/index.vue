@@ -1,7 +1,9 @@
 <template>
-  <transition :duration="1000" mode="out-in" name="mt">
-    <Loader key="1" v-if="showLoader" />
-    <Game key="2" v-else :match="match" />
+  <transition :duration="250" mode="out-in" name="match">
+    <div class="page page--full page--purple">
+      <Loader key="1" v-if="showLoader" />
+      <Game key="2" v-else :match="match" />
+    </div>
   </transition>
 </template>
 <script>
@@ -54,31 +56,41 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.mt-enter-active,
-.mt-enter-from {
+.match-enter-active,
+.match-enter-from {
   opacity: 0;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 250ms ease-in-out;
 }
 
-.mt-enter-to {
+.match-enter-to {
   opacity: 1;
 }
 
-.mt-leave-active,
-.mt-leave-from {
+.match-leave-active,
+.match-leave-from {
   opacity: 1;
-  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 250ms ease-in-out;
 }
 
-.mt-leave-to {
+.match-leave-to {
   opacity: 0;
 }
 
-.full-page {
+.page--full {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page--purple {
+  background-color: purple;
+}
+
+/*.full-page {
   height: 100%;
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: purple;
-}
+}*/
 </style>

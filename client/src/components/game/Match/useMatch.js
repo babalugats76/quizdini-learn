@@ -47,7 +47,7 @@ export default function useMatch(data, debug = true) {
     playing: false,
     score: 0,
     showBoard: false,
-    showSplash: false,
+    showSplash: true,
     shuffling: false,
     stats: [],
     termIsExiting: computed(() => {
@@ -292,6 +292,7 @@ export default function useMatch(data, debug = true) {
     state.incorrect = 0;
     state.playing = false;
     state.score = 0;
+    state.showSplash = false;
     state.showBoard = false;
     state.stats = [];
     state.terms = [];
@@ -307,7 +308,7 @@ export default function useMatch(data, debug = true) {
     console.log("game over...");
     state.playing = false;
     state.showBoard = false;
-    // state.showSplash = true;
+    state.showSplash = true;
     state.terms = [];
     state.definitions = [];
     const response = await postPing({
@@ -364,6 +365,10 @@ export default function useMatch(data, debug = true) {
     state.playing = !state.playing;
   }
 
+  function toggleSplash() {
+    setTimeout(() => startGame(), 500);
+  }
+
   return {
     config,
     ...toRefs(state),
@@ -376,5 +381,6 @@ export default function useMatch(data, debug = true) {
     shuffle,
     startGame,
     togglePlaying,
+    toggleSplash,
   };
 }
