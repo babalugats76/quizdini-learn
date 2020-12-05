@@ -1,19 +1,29 @@
 <template>
-  <transition :appear="appear" name="modal" :duration="5000">
-    <div v-if="show" class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-          <slot />
+  <div>
+    <teleport to="#quizdini__modals">
+      <transition :appear="appear" name="modal" :duration="5000">
+        <div v-if="show" class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-container">
+              <slot name="header">
+                <button @click="$emit('close')">Close</button>
+              </slot>
+              <slot name="body"></slot>
+              <slot name="footer"></slot>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </transition>
+      </transition>
+    </teleport>
+  </div>
 </template>
 
 <script>
 export default {
+  inheritAttrs: false,
   name: "Modal",
   props: ["appear", "show"],
+  emits: ["close"],
 };
 </script>
 

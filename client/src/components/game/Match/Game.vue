@@ -5,7 +5,7 @@
       :showModal="!showBoard"
       key="1"
       v-if="!showBoard"
-      v-on:start="startGame"
+      @start="startGame"
     />
     <div key="2" v-else class="match__game">
       <button @click.prevent="togglePlaying">Toggle Playing</button>
@@ -507,7 +507,7 @@ $tile-colors: (
     margin: 0 auto;
     text-align: center;
     &--terms {
-      background-color: #711cff;
+      background-color: rgb(113, 28, 255);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
     }
     &--definitions {

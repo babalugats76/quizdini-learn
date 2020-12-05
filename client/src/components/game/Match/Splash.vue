@@ -1,9 +1,9 @@
 <template>
-  <component :is="'teleport'" to="#quizdini__modals">
-    <Modal :appear="true" :show="showModal" v-bind="$attrs">
+  <Modal :appear="true" :show="showModal" @close="$attrs.start">
+    <template v-slot:body>
       <button @click.prevent="onClickStart">Start Game</button>
-    </Modal>
-  </component>
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -15,6 +15,7 @@ export default {
   components: {
     Modal,
   },
+  emits: ["start"],
   props: ["config", "showModal"],
   methods: {
     onClickStart() {
