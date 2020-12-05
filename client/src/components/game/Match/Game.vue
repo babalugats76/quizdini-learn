@@ -1,8 +1,8 @@
 <template>
-  <transition :duration="500" name="game">
+  <transition :duration="500" mode="in-out" name="game">
     <Splash
       :config="config.splash"
-      :showModal="showSplash"
+      :showModal="!showBoard"
       key="1"
       v-if="!showBoard"
       @start="toggleSplash"

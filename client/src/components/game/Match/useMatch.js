@@ -366,7 +366,9 @@ export default function useMatch(data, debug = true) {
   }
 
   function toggleSplash() {
-    setTimeout(() => startGame(), 500);
+    console.log("splash toggle fired...");
+    state.showBoard = !state.showBoard;
+    // setTimeout(() => startGame(), 500);
   }
 
   return {
