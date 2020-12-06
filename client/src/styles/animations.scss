@@ -8,6 +8,16 @@
   }
 }
 
+@keyframes border-color {
+  from {
+    border-color: var(--border-start-color);
+  }
+
+  to {
+    border-color: var(--border-end-color);
+  }
+}
+
 @keyframes opacity {
   from {
     opacity: var(--start-opacity);
@@ -117,5 +127,51 @@
 
   100% {
     --text-opacity: 1;
+  }
+}
+
+@keyframes border-fade {
+  0% {
+    --border-opacity: 0;
+  }
+
+  10% {
+    --border-opacity: 0.1;
+  }
+
+  20% {
+    --border-opacity: 0.2;
+  }
+
+  30% {
+    --border-opacity: 0.3;
+  }
+
+  40% {
+    --border-opacity: 0.4;
+  }
+
+  50% {
+    --border-opacity: 0.5;
+  }
+
+  60% {
+    --border-opacity: 0.6;
+  }
+
+  70% {
+    --border-opacity: 0.7;
+  }
+
+  80% {
+    --border-opacity: 0.8;
+  }
+
+  90% {
+    --border-opacity: 0.9;
+  }
+
+  100% {
+    --border-opacity: 1;
   }
 }

@@ -48,6 +48,7 @@
               :miss="t.miss"
               :over="t.over"
               type="term"
+              data-type="term"
             />
           </transition-group>
           <transition-group
@@ -79,6 +80,7 @@
               :miss="d.miss"
               :over="d.over"
               type="definition"
+              data-type="definition"
             />
           </transition-group>
         </DndBoard>
@@ -142,7 +144,7 @@ export default {
     },
     tileAfterLeave(el, type) {
       this.config.game.debug && console.log(`${type} (${el.id}) leaving...`);
-      this.playing && this.onTileLeft(el.id, type);
+      this.onTileExited(el.id, type);
     },
   },
 };
@@ -302,7 +304,7 @@ $tile-colors: (
 .slide {
   /* transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78); */
   /*transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important; */
-  transition: transform 600ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important;
+  transition: transform 500ms cubic-bezier(0.45, 1.28, 0.39, 0.78) !important;
 }
 
 .match {
@@ -407,6 +409,14 @@ $tile-colors: (
       animation-duration: var(--hit-duration, 2s);
       animation-fill-mode: forwards;
       z-index: 3;
+      &.terms-leave-active,
+      &.terms-leave-from {
+        opacity: 1;
+        transition: opacity 500ms ease;
+      }
+      &.terms-leave-to {
+        opacity: 0;
+      }
     }
     &.drag {
       z-index: 500;
@@ -423,8 +433,8 @@ $tile-colors: (
     }
     &.terms-leave-active,
     &.terms-leave-from {
-      opacity: 0;
-      transition: opacity 400ms ease;
+      opacity: 1;
+      transition: opacity 500ms ease 500ms;
     }
     &.terms-leave-to {
       opacity: 0;
@@ -442,7 +452,9 @@ $tile-colors: (
       filter 150ms ease opacity 150ms ease, border-color 150ms ease;
     &.over {
       @include textColor(darken(#515328, 2%));
-      @include borderColor(#ccff33, 0.75);
+      @include borderColor(#ccff33, 1);
+      animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms
+        infinite alternate-reverse;
       &::after {
         opacity: 1;
         box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1),
@@ -452,7 +464,7 @@ $tile-colors: (
     &.definitions-leave-active,
     &.definitions-leave-from {
       opacity: 1;
-      transition: opacity 400ms ease 400ms;
+      transition: opacity 500ms ease 500ms;
     }
     &.definitions-leave-to {
       opacity: 0;

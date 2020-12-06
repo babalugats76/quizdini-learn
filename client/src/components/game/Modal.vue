@@ -42,7 +42,7 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity 500ms ease;
+  //transition: opacity 100ms ease;
 }
 
 .modal-wrapper {
@@ -86,7 +86,7 @@ export default {
 .modal-enter-active,
 .modal-enter-from {
   opacity: 0;
-  transition: all 500ms ease-in-out;
+  transition: all 500ms ease;
 }
 
 .modal-enter-active .modal-container,
@@ -107,7 +107,7 @@ export default {
 .modal-leave-active,
 .modal-leave-from {
   opacity: 1;
-  transition: all 500ms ease-in-out;
+  transition: all 500ms ease;
 }
 
 .modal-leave-active .modal-container,

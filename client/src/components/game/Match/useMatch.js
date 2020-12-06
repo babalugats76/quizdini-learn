@@ -28,12 +28,8 @@ export default function useMatch(data, debug = true) {
   });
 
   const state = reactive({
-    activeDefinitions: computed(
-      () => state.playing && state.definitions.filter((d) => d.show)
-    ),
-    activeTerms: computed(
-      () => state.playing && state.terms.filter((t) => t.show)
-    ),
+    activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
+    activeTerms: computed(() => state.terms.filter((t) => t.show)),
     canDnd: computed(
       () => state.playing && !state.shuffling && !state.termIsExiting
     ),
@@ -223,7 +219,7 @@ export default function useMatch(data, debug = true) {
     matched && hideMatched();
   }
 
-  function onTileLeft(id, type) {
+  function onTileExited(id, type) {
     switch (type) {
       case "term":
         state.terms = updateObjInArray(state.terms, { id, exited: true });
@@ -293,16 +289,15 @@ export default function useMatch(data, debug = true) {
   function startGame() {
     state.correct = 0;
     state.incorrect = 0;
-    state.playing = false;
     state.score = 0;
-    state.showSplash = false;
-    //state.showBoard = false;
     state.stats = [];
+    state.playing = false;
+    state.showSplash = false;
     deal();
-    state.playing = true;
-    state.showBoard = true;
     nextTick(() => {
       shuffle();
+      state.playing = true;
+      state.showBoard = true;
     });
   }
 
@@ -310,7 +305,9 @@ export default function useMatch(data, debug = true) {
     console.log("game over...");
     state.playing = false;
     //state.showBoard = false;
-    state.showSplash = true;
+    state.terms = state.terms.map((m) => ({ ...m, show: false }));
+    state.definitions = state.definitions.map((d) => ({ ...d, show: false }));
+    //state.showSplash = true;
     //state.terms = [];
     //state.definitions = [];
     const response = await postPing({
@@ -333,7 +330,7 @@ export default function useMatch(data, debug = true) {
     } = unref(data);
 
     state.colorScheme = colorScheme.toLowerCase();
-    state.duration = 15;
+    state.duration = duration;
     state.matchId = matchId;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);
@@ -345,7 +342,7 @@ export default function useMatch(data, debug = true) {
     (newExited, oldExited) => {
       debug &&
         console.log(
-          "exited changed: ",
+          "exited:",
           JSON.stringify(oldExited),
           "=>",
           JSON.stringify(newExited)
@@ -353,19 +350,19 @@ export default function useMatch(data, debug = true) {
 
       if (newExited <= oldExited) return;
 
-      if (newExited === state.itemsPerBoard) {
-        deal();
-        nextTick(() => shuffle());
-      } else {
-        shuffle();
+      if (state.playing) {
+        if (newExited === state.itemsPerBoard) {
+          deal();
+          nextTick(() => shuffle());
+        } else {
+          shuffle();
+        }
       }
+
+      if (!state.playing && newExited === state.itemsPerBoard)
+        return (state.showSplash = true);
     }
   );
-
-  function togglePlaying() {
-    console.log("toggle playing fired!");
-    state.playing = !state.playing;
-  }
 
   function toggleSplash() {
     console.log("splash toggle fired...");
@@ -380,10 +377,9 @@ export default function useMatch(data, debug = true) {
     onDrag,
     onDrop,
     onOver,
-    onTileLeft,
+    onTileExited,
     shuffle,
     startGame,
-    togglePlaying,
     toggleSplash,
   };
 }

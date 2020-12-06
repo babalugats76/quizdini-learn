@@ -74,6 +74,8 @@ export default function useTimer({
   function startTimer() {
     stopTimer(); // clears any active timers
     state.running = true;
+    state.scoring = false;
+    state.scoringStatus = "";
     if (!state.remaining) {
       state.elapsed = 0;
     } // sets expired to false (see computed methods)
