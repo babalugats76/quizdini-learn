@@ -1,7 +1,12 @@
 <template>
   <div>
     <teleport to="#quizdini__modals">
-      <transition :appear="appear" name="modal" :duration="500">
+      <transition
+        :appear="appear"
+        name="modal"
+        :duration="500"
+        @after-leave="$emit('exited')"
+      >
         <div v-if="show" class="modal-mask">
           <div class="modal-wrapper">
             <div class="modal-container">
@@ -20,10 +25,10 @@
 
 <script>
 export default {
-  inheritAttrs: false,
   name: "Modal",
+  inheritAttrs: false,
   props: ["appear", "show"],
-  emits: ["close"],
+  emits: ["close", "exited"],
 };
 </script>
 
@@ -37,7 +42,7 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity 1s ease;
+  transition: opacity 500ms ease;
 }
 
 .modal-wrapper {
@@ -52,7 +57,7 @@ export default {
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 1s ease;
+  transition: all 500ms ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -84,10 +89,19 @@ export default {
   transition: all 500ms ease-in-out;
 }
 
-.modal-container .modal-enter-active,
-.modal-container .modal-enter-from {
+.modal-enter-active .modal-container,
+.modal-enter-from .modal-container {
   -webkit-transform: scale(5);
   transform: scale(5);
+}
+
+.modal-enter-to {
+  opacity: 1;
+}
+
+.modal-enter-to .modal-container {
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 
 .modal-leave-active,
@@ -96,8 +110,8 @@ export default {
   transition: all 500ms ease-in-out;
 }
 
-.modal-container .modal-leave-active,
-.modal-container .modal-leave-from {
+.modal-leave-active .modal-container,
+.modal-leave-from .modal-container {
   -webkit-transform: scale(1);
   transform: scale(1);
 }
@@ -107,7 +121,7 @@ export default {
 }
 
 .modal-leave-to .modal-container {
-  -webkit-transform: scale(0.5);
-  transform: scale(0.5);
+  -webkit-transform: scale(0);
+  transform: scale(0);
 }
 </style>

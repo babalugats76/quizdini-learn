@@ -67,8 +67,8 @@ import useTimer from "@/compose/useTimer";
 const FULL_DASH_ARRAY = 283;
 
 export default {
-  inheritAttrs: false,
   name: "Timer",
+  inheritAttrs: false,
   props: ["active", "config", "duration", "score"],
   setup(props, { emit }) {
     /* Pass props that change to composable via reference vs. value */

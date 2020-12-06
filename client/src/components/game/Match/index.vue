@@ -1,8 +1,8 @@
 <template>
-  <div class="page page--full page--purple">
-    <Loader key="1" v-if="showLoader" />
-    <Game key="2" v-else :match="match" />
+  <div v-if="showLoader" key="loader" class="page page--full page--purple">
+    <Loader />
   </div>
+  <Game v-else key="game" :match="match" />
 </template>
 <script>
 /* eslint-disable */

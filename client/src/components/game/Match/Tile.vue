@@ -1,10 +1,10 @@
 <template>
   <component
+    :is="is"
+    :id="id"
     :active="active"
     :class="tileClasses"
     :disabled="disabled"
-    :id="id"
-    :is="is"
     :style="style"
   >
     <div

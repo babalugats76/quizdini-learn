@@ -1,7 +1,12 @@
 <template>
-  <Modal :appear="true" :show="showModal" @close="$attrs.start">
+  <Modal
+    :appear="true"
+    :show="showModal"
+    @close="$emit('close')"
+    @exited="$emit('exited')"
+  >
     <template v-slot:body>
-      <button @click.prevent="onClickStart">Start Game</button>
+      <button @click.prevent="$emit('close')">Start Game</button>
     </template>
   </Modal>
 </template>
@@ -10,18 +15,12 @@
 import Modal from "@/components/game/Modal";
 
 export default {
-  inheritAttrs: false,
   name: "Splash",
   components: {
     Modal,
   },
-  emits: ["start"],
   props: ["config", "showModal"],
-  methods: {
-    onClickStart() {
-      this.$emit("start");
-    },
-  },
+  emits: ["close", "exited"],
 };
 </script>
 

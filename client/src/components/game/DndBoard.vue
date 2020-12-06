@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" ref="dndRef">
+  <div ref="dndRef" :class="classes">
     <slot />
   </div>
 </template>

@@ -29,6 +29,6 @@ export default {
   timer: {
     debug: true,
     thresholds: { warn: 40, alert: 20 },
-    timeouts: { interval: 100, change: 250, delay: 1500, enter: 1000, leave: 1000 },
+    timeouts: { interval: 100, change: 250, delay: 800, enter: 1000, leave: 1000 },
   },
 };

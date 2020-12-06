@@ -1,95 +1,96 @@
 <template>
-  <transition :duration="500" mode="in-out" name="game">
-    <Splash
-      :config="config.splash"
-      :showModal="!showBoard"
-      key="1"
-      v-if="!showBoard"
-      @start="toggleSplash"
-    />
-    <div key="2" v-else class="match__game">
-      <button @click.prevent="togglePlaying">Toggle Playing</button>
-      <DndBoard
-        :active="canDnd"
-        class="match__board"
-        :config="config.board"
-        v-on:drag="onDrag"
-        v-on:over="onOver"
-        v-on:drop="onDrop"
-      >
-        <transition-group
-          :class="boardClasses('terms')"
-          :css="true"
-          :duration="{
-            enter: `${config.tile.timeouts.enter}`,
-            leave: `${config.tile.timeouts.leave}`,
-          }"
-          :move-class="shuffling ? 'slide' : 'no-move-list'"
-          name="terms"
-          tag="div"
-          :style="boardStyles('terms')"
-          @after-leave="(el) => tileAfterLeave(el, 'term')"
-        >
-          <Tile
-            v-for="t in activeTerms"
-            :key="t.id"
-            :id="t.id"
-            :content="t.content"
-            :style="[t.style]"
-            :active="t.dragging"
-            :disabled="false"
-            :color="t.color"
-            :dragging="t.dragging"
-            :hasHtml="t.hasHtml"
-            :hit="t.hit"
-            :length="t.length"
-            :maxWordLength="t.maxWordLength"
-            :miss="t.miss"
-            :over="t.over"
-            is="Draggable"
-            type="term"
-          />
-        </transition-group>
-        <transition-group
-          :class="boardClasses('definitions')"
-          :css="true"
-          :duration="{
-            enter: `${config.tile.timeouts.enter}`,
-            leave: `${config.tile.timeouts.leave}`,
-          }"
-          :move-class="shuffling ? 'slide' : 'no-move-list'"
-          name="definitions"
-          tag="div"
-          :style="boardStyles('definitions')"
-          @after-leave="(el) => tileAfterLeave(el, 'definition')"
-        >
-          <Tile
-            v-for="d in activeDefinitions"
-            :key="d.id"
-            :id="d.id"
-            :content="d.content"
-            :style="[d.style]"
-            :active="false"
-            :disabled="false"
-            :hasHtml="d.hasHtml"
-            :hit="d.hit"
-            :length="d.length"
-            :maxWordLength="d.maxWordLength"
-            :miss="d.miss"
-            :over="d.over"
-            is="Droppable"
-            type="definition"
-          />
-        </transition-group>
-      </DndBoard>
-      <Timer
-        v-on:timer-expired="gameOver"
-        class="match__timer"
-        :active="playing"
-        :config="config.timer"
-        :duration="duration"
-        :score="score"
+  <transition name="game" :duration="500">
+    <div class="page page--full page--purple">
+      <Splash
+        :config="config.splash"
+        :showModal="showSplash"
+        @close="toggleSplash"
+        @exited="startGame"
       />
+      <div class="match__game">
+        <!--<button @click.prevent="togglePlaying">Toggle Playing</button>-->
+        <DndBoard
+          class="match__board"
+          :active="canDnd"
+          :config="config.board"
+          @drag="onDrag"
+          @over="onOver"
+          @drop="onDrop"
+        >
+          <transition-group
+            name="terms"
+            tag="div"
+            :class="boardClasses('terms')"
+            :css="true"
+            :duration="{
+              enter: `${config.tile.timeouts.enter}`,
+              leave: `${config.tile.timeouts.leave}`,
+            }"
+            :move-class="shuffling ? 'slide' : 'no-move-list'"
+            :style="boardStyles('terms')"
+            @after-leave="(el) => tileAfterLeave(el, 'term')"
+          >
+            <Tile
+              is="Draggable"
+              v-for="t in activeTerms"
+              :id="t.id"
+              :key="t.id"
+              :content="t.content"
+              :style="[t.style]"
+              :active="t.dragging"
+              :disabled="false"
+              :color="t.color"
+              :dragging="t.dragging"
+              :hasHtml="t.hasHtml"
+              :hit="t.hit"
+              :length="t.length"
+              :maxWordLength="t.maxWordLength"
+              :miss="t.miss"
+              :over="t.over"
+              type="term"
+            />
+          </transition-group>
+          <transition-group
+            name="definitions"
+            tag="div"
+            :class="boardClasses('definitions')"
+            :css="true"
+            :duration="{
+              enter: `${config.tile.timeouts.enter}`,
+              leave: `${config.tile.timeouts.leave}`,
+            }"
+            :move-class="shuffling ? 'slide' : 'no-move-list'"
+            :style="boardStyles('definitions')"
+            @after-leave="(el) => tileAfterLeave(el, 'definition')"
+          >
+            <Tile
+              is="Droppable"
+              v-for="d in activeDefinitions"
+              :id="d.id"
+              :key="d.id"
+              :content="d.content"
+              :style="[d.style]"
+              :active="false"
+              :disabled="false"
+              :hasHtml="d.hasHtml"
+              :hit="d.hit"
+              :length="d.length"
+              :maxWordLength="d.maxWordLength"
+              :miss="d.miss"
+              :over="d.over"
+              type="definition"
+            />
+          </transition-group>
+        </DndBoard>
+        <Timer
+          class="match__timer"
+          :active="playing"
+          :config="config.timer"
+          :duration="duration"
+          :score="score"
+          @timer-expired="gameOver"
+        />
+      </div>
     </div>
   </transition>
 </template>
