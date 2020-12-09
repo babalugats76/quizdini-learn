@@ -448,8 +448,8 @@ $tile-colors: (
     letter-spacing: normal;
     font-size: 1em;
     opacity: 1;
-    transition: background-color 150ms ease, color 150ms ease,
-      filter 150ms ease opacity 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,
+      opacity 150ms ease, border-color 150ms ease;
     &.over {
       @include textColor(darken(#515328, 2%));
       @include borderColor(#ccff33, 1);

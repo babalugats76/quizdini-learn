@@ -181,7 +181,7 @@ export default {
     fill: transparent;
     stroke-width: 7px;
     stroke: #efefef;
-    transition: fill 500ms ease-in-out, stroke 500m ease-in-out;
+    transition: fill 500ms ease-in-out, stroke 500ms ease-in-out;
     &.hit {
       fill: rgba(0, 255, 0, 1);
       stroke: transparent;

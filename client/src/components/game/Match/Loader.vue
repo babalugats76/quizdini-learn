@@ -390,7 +390,7 @@ body {
 }
 
 .tassel {
-  display: absolute;
+  position: absolute;
   fill: #aa54ff;
   opacity: 0;
   transform-box: fill-box;
