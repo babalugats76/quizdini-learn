@@ -1,6 +1,6 @@
 <template>
   <transition name="game" :duration="500">
-    <div class="page page--full page--purple">
+    <div class="page page--full page--primary">
       <Splash
         :config="config.splash"
         :showModal="showSplash"
