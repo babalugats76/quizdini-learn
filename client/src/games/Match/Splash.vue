@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Modal from "@/components/game/Modal";
+import Modal from "@/components/Modal";
 
 export default {
   name: "Splash",

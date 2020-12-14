@@ -1,6 +1,6 @@
 <template>
   <transition name="game" :duration="500">
-    <div class="page page--full page--primary">
+    <FullPage theme="primary">
       <Splash
         :config="config.splash"
         :showModal="showSplash"
@@ -93,7 +93,7 @@
           @timer-expired="gameOver"
         />
       </div>
-    </div>
+    </FullPage>
   </transition>
 </template>
 
@@ -101,6 +101,7 @@
 /* eslint-disable */
 import { ref, toRefs } from "vue";
 import useMatch from "./useMatch";
+import FullPage from "@/components/FullPage";
 import DndBoard from "../DndBoard";
 import Splash from "./Splash";
 import Tile from "./Tile";
@@ -110,6 +111,7 @@ export default {
   name: "Game",
   components: {
     DndBoard,
+    FullPage,
     Splash,
     Tile,
     Timer,

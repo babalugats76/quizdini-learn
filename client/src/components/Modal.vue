@@ -1,6 +1,6 @@
 <template>
   <div>
-    <teleport to="#quizdini__modals">
+    <teleport to="#modals">
       <transition
         :appear="appear"
         name="modal"

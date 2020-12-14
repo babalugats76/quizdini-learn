@@ -1,7 +1,7 @@
 <template>
-  <div v-if="showLoader" key="loader" class="page page--full page--purple">
+  <FullPage v-if="showLoader" key="loader" theme="primary">
     <Loader />
-  </div>
+  </FullPage>
   <Game v-else key="game" :match="match" />
 </template>
 <script>
@@ -11,14 +11,14 @@ import { useRoute } from "vue-router";
 import { fetchMatch } from "@/api/match";
 import useLoader from "@/compose/useLoader";
 import { default as config } from "./config";
-//import { actions } from "./lib";
-
+import FullPage from "@/components/FullPage";
 import Game from "./Game";
 import Loader from "./Loader";
 
 export default {
   name: "Match",
   components: {
+    FullPage,
     Game,
     Loader,
   },
@@ -53,17 +53,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.page {
-  &--full {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  &--purple {
-    background-color: purple;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
