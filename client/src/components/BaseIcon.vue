@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-svg.icon {
+.icon {
   display: inline-block;
   width: 1em;
   height: 1em;
