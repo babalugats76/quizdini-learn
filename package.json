@@ -29,7 +29,8 @@
     "http-status-codes": "^2.1.4",
     "memjs": "^1.2.2",
     "mongoose": "^5.10.17",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

@@ -15,7 +15,8 @@
     "lodash.throttle": "^4.1.1",
     "shortid": "^2.2.16",
     "vue": "^3.0.3",
-    "vue-router": "^4.0.0-rc.5"
+    "vue-router": "^4.0.0-rc.5",
+    "vue-svg-loader": "^0.16.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.9",

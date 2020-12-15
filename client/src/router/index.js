@@ -2,8 +2,15 @@ import { createWebHistory, createRouter } from "vue-router";
 
 import { Match } from "@/games";
 import Matches from "@/views/Matches";
+import UI from "@/views/UI";
 
 const routes = [
+  {
+    path: "/",
+    name: "ui",
+    component: UI,
+    props: false,
+  },
   {
     path: "/",
     name: "matches",
@@ -16,12 +23,12 @@ const routes = [
     component: Match,
     props: false,
   },
-  /*{
-    path: "/newmatch/:id",
-    name: "newmatch",
-    component: NewMatch,
+  {
+    path: "/ui",
+    name: "ui",
+    component: UI,
     props: false,
-  },*/
+  },
 ];
 
 const router = createRouter({
