@@ -7,8 +7,6 @@
         name="watch"
         :full="false"
         :style="{ fill: 'red' }"
-        width="24"
-        height="24"
       />
     </div>
   </div>

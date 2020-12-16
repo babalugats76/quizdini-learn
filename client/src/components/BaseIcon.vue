@@ -45,6 +45,7 @@ export default {
       return {
         icon: true,
         [`icon--${this.name}`]: this.name,
+        [`icon--w-base`]: !this.width && !this.height,
         [`icon--w-full`]: this.full,
       };
     },
@@ -61,8 +62,6 @@ export default {
 <style lang="scss" scoped>
 .icon {
   display: inline-block;
-  width: 1em;
-  height: 1em;
   vertical-align: -12.5%;
   stroke-width: 0;
   stroke: currentColor;
@@ -71,6 +70,10 @@ export default {
   transition-duration: 200ms;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  &--w-base {
+    width: 1em;
+    height: 1em;
+  }
   &--w-full {
     width: 100%;
     height: 100%;
