@@ -2,8 +2,12 @@
   <transition name="game" :duration="500">
     <FullPage theme="primary">
       <Splash
+        class="match__splash"
         :config="config.splash"
+        :duration="duration"
+        :itemsPerBoard="itemsPerBoard"
         :showModal="showSplash"
+        :termCount="matches.length"
         @close="toggleSplash"
         @exited="startGame"
       />

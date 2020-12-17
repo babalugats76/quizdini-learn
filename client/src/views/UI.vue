@@ -1,13 +1,10 @@
 <template>
   <div class="p-4">
     <h1>Icons</h1>
-    <div :style="{ maxWidth: '250px' }">
-      <BaseIcon
-        class="hello"
-        name="watch"
-        :full="false"
-        :style="{ fill: 'red' }"
-      />
+    <div :style="{ maxWidth: '250px', fontSize: '1em', color: 'gray' }">
+      <BaseIcon class="my-custom-class" name="archive" />
+      <BaseIcon class="my-custom-class" name="grid" />
+      <BaseIcon class="my-custom-class" name="watch" />
     </div>
   </div>
 </template>

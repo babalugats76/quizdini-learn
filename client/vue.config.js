@@ -21,17 +21,6 @@ module.exports = {
       return args;
     });
     config.resolve.alias.set("styles", path.resolve(__dirname, "src/styles"));
-
-    const svgRule = config.module.rule("svg");
-
-    svgRule.uses.clear();
-
-    svgRule
-      .use("babel-loader")
-      .loader("babel-loader")
-      .end()
-      .use("vue-svg-loader")
-      .loader("vue-svg-loader");
   },
 
   outputDir: "../server/public",
