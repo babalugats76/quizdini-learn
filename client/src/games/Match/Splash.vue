@@ -71,19 +71,23 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   font-size: 1.125rem;
+  text-align: center;
   color: gray;
+  + .detail {
+    margin-left: 0.5rem;
+  }
   &__item {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 140px;
     margin: 0.5rem auto;
     font-family: Montserrat;
     letter-spacing: -1px;
   }
   &__icon {
     display: block;
+    margin-bottom: 0.25rem;
     font-size: 1.75rem;
   }
 }
