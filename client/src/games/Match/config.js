@@ -18,7 +18,7 @@ export default {
     },
   },
   splash: {
-   timeouts: { enter: 800, leave: 800}
+   timeouts: { default: 500 }
   },
   tile: {
     text: {
