@@ -3,7 +3,6 @@
     <slot />
   </component>
 </template>
-;
 
 <script>
 export default {
