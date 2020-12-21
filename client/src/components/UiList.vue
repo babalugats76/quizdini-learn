@@ -1,8 +1,7 @@
 <script>
-//import { h } from "vue";
 import classnames from "classnames";
 
-//import AppIcon from "@/components/AppIcon";
+import AppIcon from "@/components/AppIcon";
 
 export const UiList = {
   name: "ui-list",
@@ -23,21 +22,18 @@ export const UiList = {
         {this.$slots.default()}
       </Tag>
     );
-    /*return h(
-      this.tag,
-      {
-        class: classnames("ui-list", `ui-list--${this.size}`),
-      },
-      this.$slots.default()
-    );*/
   },
 };
 
 export const UiListItem = {
   name: "ui-list-item",
+  components: "AppIcon",
   props: {
     dense: {
       type: Boolean,
+    },
+    icon: {
+      type: String,
     },
     id: {
       type: [String, Number],
@@ -56,23 +52,14 @@ export const UiListItem = {
           [`ui-list__item--${this.id}`]: this.id,
         })}
       >
+        {this.icon && (
+          <AppIcon class={classnames("ui-list__icon")} name={this.icon} />
+        )}
         {this.$slots.default()}
       </Tag>
     );
-
-    /*return h(
-      this.tag,
-      {
-        class: classnames("ui-list__item", {
-          "ui-list__item--dense": this.dense,
-        }),
-      },
-      this.$slots.default()
-    );*/
   },
 };
-
-export const UiListIcon = {};
 
 export default UiList;
 </script>
@@ -105,6 +92,13 @@ $list-sizes: (
     + #{$item} {
       margin-top: 0.5rem;
     }
+  }
+  &__icon {
+    font-size: 1.25em;
+  }
+  &__item > &__icon {
+    margin-right: 0.375rem;
+    vertical-align: -0.1875em;
   }
 }
 </style>
