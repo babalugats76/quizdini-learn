@@ -1,8 +1,8 @@
 <template>
-  <FullPage v-if="showLoader" key="loader" theme="primary">
-    <Loader />
-  </FullPage>
-  <Game v-else key="game" :match="match" />
+  <app-full-page v-if="showLoader" key="loader" primary>
+    <game-loader />
+  </app-full-page>
+  <game v-else key="game" :match="match" />
 </template>
 <script>
 /* eslint-disable */
@@ -11,16 +11,16 @@ import { useRoute } from "vue-router";
 import { fetchMatch } from "@/api/match";
 import useLoader from "@/compose/useLoader";
 import { default as config } from "./config";
-import FullPage from "@/components/FullPage";
+import AppFullPage from "@/components/AppFullPage";
+import GameLoader from "@/components/GameLoader";
 import Game from "./Game";
-import Loader from "./Loader";
 
 export default {
   name: "Match",
   components: {
-    FullPage,
+    AppFullPage,
     Game,
-    Loader,
+    GameLoader,
   },
   computed: {
     matchId() {

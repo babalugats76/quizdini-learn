@@ -6,19 +6,17 @@
 
 <script>
 export default {
-  name: "FullPage",
+  name: "AppFullPage",
   props: {
-    theme: {
-      type: String,
-      required: false,
-      default: "primary",
+    primary: {
+      type: Boolean,
     },
   },
   computed: {
     classes() {
       return {
         page: true,
-        [`page--${this.theme}`]: this.theme,
+        "page--primary": this.primary,
       };
     },
   },

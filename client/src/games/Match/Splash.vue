@@ -1,5 +1,5 @@
 <template>
-  <BaseModal
+  <app-modal
     class="splash__modal"
     :appear="true"
     :duration="config.timeouts.default"
@@ -16,15 +16,15 @@
       <div class="splash__body">
         <ul class="detail__list splash__detail">
           <li class="detail__item">
-            <BaseIcon class="detail__icon term-count" name="archive" />
+            <app-icon class="detail__icon term-count" name="archive" />
             {{ termCount }} terms
           </li>
           <li class="detail__item">
-            <BaseIcon class="detail__icon items-per-board" name="grid" />
+            <app-icon class="detail__icon items-per-board" name="grid" />
             {{ itemsPerBoard }} per board
           </li>
           <li class="detail__item">
-            <BaseIcon class="detail__icon duration" name="watch" />
+            <app-icon class="detail__icon duration" name="watch" />
             {{ duration }} seconds
           </li>
         </ul>
@@ -33,18 +33,18 @@
         <button class="" @click.prevent="$emit('close')">Start Game</button>
       </div>
     </div>
-  </BaseModal>
+  </app-modal>
 </template>
 
 <script>
-import BaseModal from "@/components/BaseModal";
-import BaseIcon from "@/components/BaseIcon";
+import AppModal from "@/components/AppModal";
+import AppIcon from "@/components/AppIcon";
 
 export default {
   name: "Splash",
   components: {
-    BaseIcon,
-    BaseModal,
+    AppIcon,
+    AppModal,
   },
   props: ["config", "duration", "itemsPerBoard", "showModal", "termCount"],
   emits: ["close", "exited"],

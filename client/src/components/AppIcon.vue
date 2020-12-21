@@ -31,7 +31,7 @@ const icons = {
 };
 
 export default {
-  name: "BaseIcon",
+  name: "app-icon",
   props: {
     full: {
       type: Boolean,

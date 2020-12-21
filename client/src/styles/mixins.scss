@@ -1,12 +1,9 @@
+@use "sass:map";
+
 @mixin bgColor($color, $opacity: 1) {
   --bg-opacity: #{$opacity};
   background-color: $color;
-  background-color: rgba(
-    red($color),
-    green($color),
-    blue($color),
-    var(--bg-opacity)
-  );
+  background-color: rgba(red($color), green($color), blue($color), var(--bg-opacity));
 }
 
 @mixin textColor($color, $opacity: 1) {
@@ -18,10 +15,17 @@
 @mixin borderColor($color, $opacity: 1) {
   --border-opacity: #{$opacity};
   border-color: $color;
-  border-color: rgba(
-    red($color),
-    green($color),
-    blue($color),
-    var(--border-opacity)
-  );
+  border-color: rgba(red($color), green($color), blue($color), var(--border-opacity));
+}
+
+@mixin sizes($sz) {
+  @each $key, $value in $sz {
+    &--#{$key} {
+      font-size: #{$value};
+    }
+  }
+}
+
+@mixin getSize($sizes, $sz) {
+  font-size: #{map.get($sizes, $sz)};
 }

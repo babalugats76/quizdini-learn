@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "BaseModal",
+  name: "app-modal",
   inheritAttrs: false,
   props: ["appear", "duration", "show"],
   emits: ["close", "exited"],
@@ -50,15 +50,6 @@ export default {
     opacity 1s ease-in-out, background-color 1s ease-in-out;
 }
 
-/*.modal-enter-active,
-.modal-enter-from {
-  opacity: 0;
-}
-
-.modal-enter-to {
-  opacity: 1;
-}*/
-
 .modal-enter-active .modal__container,
 .modal-enter-from .modal__container {
   opacity: 0;
@@ -71,15 +62,6 @@ export default {
   -webkit-transform: scale(1);
   transform: scale(1);
 }
-
-/*.modal-leave-active,
-.modal-leave-from {
-  opacity: 1;
-}
-
-.modal-leave-to {
-  opacity: 0;
-}*/
 
 .modal-leave-active .modal__container,
 .modal-leave-from .modal__container {
