@@ -29,3 +29,7 @@
 @mixin getSize($sizes, $sz) {
   font-size: #{map.get($sizes, $sz)};
 }
+
+@mixin fontSize($sizes, $sz) {
+  font-size: #{map.get($sizes, $sz)};
+}
