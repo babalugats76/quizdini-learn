@@ -67,7 +67,6 @@ export default UiList;
 </script>
 
 <style lang="scss">
-$list-padding: 0 0 0 0.75rem;
 $list-sizes: (
   "xs": 0.75rem,
   "sm": 0.875rem,
@@ -78,7 +77,7 @@ $list-sizes: (
 
 .ui-list {
   display: block;
-  padding: $list-padding;
+  padding-right: 0 0 0 0.75rem;
   @include fontSize($list-sizes, "md"); // the "default"
   @include sizes($list-sizes);
   &__item {

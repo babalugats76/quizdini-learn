@@ -528,9 +528,6 @@ $tile-colors: (
     max-width: calc(100vw - #{2 * $tile-margin});
     padding: 0.6em;
     margin: #{$tile-margin};
-    &::after {
-      //padding: 0.6em;
-    }
   }
 }
 
@@ -539,9 +536,6 @@ $tile-colors: (
   .tile {
     padding: 0.6em;
     margin: #{$tile-margin};
-    &::after {
-      //padding: 0.6em;
-    }
     &-board--4 .tile {
       // half the width of the container, minus margin and 1px (rounding)
       flex-basis: calc(100% / 2 - (1px + #{$tile-margin * 2}));
