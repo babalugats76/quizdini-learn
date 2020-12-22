@@ -18,7 +18,9 @@ export const UiList = {
   render() {
     const Tag = `${this.tag}`;
     return (
-      <Tag class={classnames("ui-list", `ui-list--${this.size}`)}>
+      <Tag
+        class={classnames("ui-list", { [`ui-list--${this.size}`]: this.size })}
+      >
         {this.$slots.default()}
       </Tag>
     );
@@ -36,7 +38,7 @@ export const UiListItem = {
       type: String,
     },
     id: {
-      type: [String, Number],
+      type: String,
     },
     tag: {
       type: String,

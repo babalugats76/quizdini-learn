@@ -13,12 +13,14 @@
       :items="[
         { id: 'duration', icon: 'watch', content: '90 seconds' },
         { id: 'items-per-board', icon: 'grid', content: '9 per board' },
+        { id: 'term-count', icon: 'archive', content: '100 terms' },
       ]"
     ></my-list>
   </div>
 </template>
 
 <script>
+import AppIcon from "@/components/AppIcon";
 import { UiList, UiListItem } from "@/components/UiList.vue";
 
 const MyList = ({ items, ...rest }) => (
@@ -26,7 +28,7 @@ const MyList = ({ items, ...rest }) => (
     {items.map((item) => {
       const { content, id, ...rest } = item;
       return (
-        <UiListItem dense key={id} {...rest}>
+        <UiListItem dense key={id} id={id} {...rest}>
           {content}
         </UiListItem>
       );
@@ -37,7 +39,7 @@ const MyList = ({ items, ...rest }) => (
 export default {
   name: "UI",
   components: {
-    // AppIcon,
+    AppIcon,
     // AppList,
     //AppListItem,
     // AppListIcon,
