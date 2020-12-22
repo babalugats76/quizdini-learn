@@ -2,9 +2,9 @@
   <div class="p-4">
     <h1>Icons</h1>
     <div :style="{ maxWidth: '250px', fontSize: '1em', color: 'gray' }">
-      <app-icon class="my-custom-class" name="archive" />
-      <app-icon class="my-custom-class" name="grid" />
-      <app-icon class="my-custom-class" name="watch" />
+      <ui-icon class="my-custom-class" name="archive" />
+      <ui-icon class="my-custom-class" name="grid" />
+      <ui-icon class="my-custom-class" name="watch" />
     </div>
     <h1>Lists</h1>
     <my-list
@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import AppIcon from "@/components/AppIcon";
-import { UiList, UiListItem } from "@/components/UiList.vue";
+import { UiIcon, UiList, UiListItem } from "@/components/";
 
 const MyList = ({ items, ...rest }) => (
   <UiList {...rest}>
@@ -39,13 +38,8 @@ const MyList = ({ items, ...rest }) => (
 export default {
   name: "UI",
   components: {
-    AppIcon,
-    // AppList,
-    //AppListItem,
-    // AppListIcon,
+    UiIcon,
     MyList,
-    //UiList,
-    //UiListItem,
   },
 };
 </script>

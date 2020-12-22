@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="ui-modal">
     <teleport to="#modals">
       <transition
         :appear="appear"
@@ -9,16 +9,16 @@
       >
         <div
           v-if="show"
-          class="modal__mask"
+          class="ui-modal__mask"
           :style="{
             transitionDuration: `${duration}ms`,
             animationDuration: `${duration}ms`,
           }"
         >
-          <div class="modal__wrapper">
+          <div class="ui-modal__wrapper">
             <div
               v-bind="$attrs"
-              class="modal__container"
+              class="ui-modal__container"
               :style="{ transitionDuration: `${duration}ms` }"
             >
               <slot />
@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "app-modal",
+  name: "ui-modal",
   inheritAttrs: false,
   props: ["appear", "duration", "show"],
   emits: ["close", "exited"],
@@ -50,33 +50,33 @@ export default {
     opacity 1s ease-in-out, background-color 1s ease-in-out;
 }
 
-.modal-enter-active .modal__container,
-.modal-enter-from .modal__container {
+.modal-enter-active .ui-modal__container,
+.modal-enter-from .ui-modal__container {
   opacity: 0;
   -webkit-transform: scale(0.5);
   transform: scale(0.5);
 }
 
-.modal-enter-to .modal__container {
+.modal-enter-to .ui-modal__container {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
 }
 
-.modal-leave-active .modal__container,
-.modal-leave-from .modal__container {
+.modal-leave-active .ui-modal__container,
+.modal-leave-from .ui-modal__container {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
 }
 
-.modal-leave-to .modal__container {
+.modal-leave-to .ui-modal__container {
   opacity: 0;
   -webkit-transform: scale(0.9);
   transform: scale(0.9);
 }
 
-.modal {
+.ui-modal {
   &__mask {
     $mask: &;
     position: fixed;

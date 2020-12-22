@@ -18,14 +18,13 @@
 </template>
 
 <script>
-import Draggable from "../Draggable";
-import Droppable from "../Droppable";
+import { DragItem, DropItem } from "@/components/";
 
 export default {
   name: "Tile",
   components: {
-    Draggable,
-    Droppable,
+    DragItem,
+    DropItem,
   },
   props: {
     active: {

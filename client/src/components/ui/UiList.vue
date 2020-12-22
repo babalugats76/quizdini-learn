@@ -1,7 +1,7 @@
 <script>
 import classnames from "classnames";
 
-import AppIcon from "@/components/AppIcon";
+import UiIcon from "@/components/ui/UiIcon";
 
 export const UiList = {
   name: "ui-list",
@@ -29,7 +29,7 @@ export const UiList = {
 
 export const UiListItem = {
   name: "ui-list-item",
-  components: "AppIcon",
+  components: "UiIcon",
   props: {
     dense: {
       type: Boolean,
@@ -55,7 +55,7 @@ export const UiListItem = {
         })}
       >
         {this.icon && (
-          <AppIcon class={classnames("ui-list__icon")} name={this.icon} />
+          <UiIcon class={classnames("ui-list__icon")} name={this.icon} />
         )}
         {this.$slots.default()}
       </Tag>
@@ -77,7 +77,7 @@ $list-sizes: (
 
 .ui-list {
   display: block;
-  padding-right: 0 0 0 0.75rem;
+  padding-left: 0.75rem;
   @include fontSize($list-sizes, "md"); // the "default"
   @include sizes($list-sizes);
   &__item {

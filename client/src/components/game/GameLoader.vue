@@ -89,7 +89,7 @@
 
 <script>
 export default {
-  name: "GameLoader",
+  name: "game-loader",
 };
 </script>
 

@@ -1,19 +1,53 @@
 <template>
   <transition name="game" :duration="500">
     <app-full-page primary>
-      <Splash
+      <game-splash
         class="match__splash"
+        :author="author"
         :config="config.splash"
-        :duration="duration"
-        :itemsPerBoard="itemsPerBoard"
         :showModal="showSplash"
-        :termCount="matches.length"
+        :title="title"
         @close="toggleSplash"
         @exited="startGame"
-      />
+      >
+        <template v-slot:details>
+          <splash-details
+            v-if="!stats.length"
+            :items="[
+              { id: 'duration', icon: 'watch', content: `${duration} seconds` },
+              {
+                id: 'items-per-board',
+                icon: 'grid',
+                content: `${itemsPerBoard} per board`,
+              },
+              {
+                id: 'term-count',
+                icon: 'archive',
+                content: `${matches.length} terms`,
+              },
+            ]"
+          />
+          <splash-details
+            v-else
+            :items="[
+              { id: 'duration', icon: 'watch', content: `${correct} correct` },
+              {
+                id: 'items-per-board',
+                icon: 'grid',
+                content: `${incorrect} incorrect`,
+              },
+              {
+                id: 'term-count',
+                icon: 'archive',
+                content: `${score} score`,
+              },
+            ]"
+          />
+        </template>
+      </game-splash>
       <div class="match__game">
         <!--<button @click.prevent="togglePlaying">Toggle Playing</button>-->
-        <DndBoard
+        <dnd-board
           class="match__board"
           :active="canDnd"
           :config="config.board"
@@ -35,7 +69,7 @@
             @after-leave="(el) => tileAfterLeave(el, 'term')"
           >
             <Tile
-              is="Draggable"
+              is="drag-item"
               v-for="t in activeTerms"
               :id="t.id"
               :key="t.id"
@@ -69,7 +103,7 @@
             @after-leave="(el) => tileAfterLeave(el, 'definition')"
           >
             <Tile
-              is="Droppable"
+              is="drop-item"
               v-for="d in activeDefinitions"
               :id="d.id"
               :key="d.id"
@@ -87,7 +121,7 @@
               data-type="definition"
             />
           </transition-group>
-        </DndBoard>
+        </dnd-board>
         <Timer
           class="match__timer"
           :active="playing"
@@ -106,17 +140,31 @@
 import { ref, toRefs } from "vue";
 import useMatch from "./useMatch";
 import AppFullPage from "@/components/AppFullPage";
-import DndBoard from "../DndBoard";
-import Splash from "./Splash";
 import Tile from "./Tile";
 import Timer from "./Timer";
+
+import { DndBoard, GameSplash, UiList, UiListItem } from "@/components/";
+
+const SplashDetails = ({ items, ...rest }) => (
+  <UiList {...rest}>
+    {items.map((item) => {
+      const { content, id, ...rest } = item;
+      return (
+        <UiListItem dense key={id} id={id} {...rest}>
+          {content}
+        </UiListItem>
+      );
+    })}
+  </UiList>
+);
 
 export default {
   name: "Game",
   components: {
     AppFullPage,
     DndBoard,
-    Splash,
+    GameSplash,
+    SplashDetails,
     Tile,
     Timer,
   },

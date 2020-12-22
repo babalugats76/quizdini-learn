@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Draggable",
+  name: "drag-item",
   props: {
     active: {
       type: Boolean,

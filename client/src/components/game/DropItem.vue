@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Droppable",
+  name: "drop-item",
   props: {
     active: {
       type: Boolean,

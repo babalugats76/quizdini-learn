@@ -31,7 +31,7 @@ const icons = {
 };
 
 export default {
-  name: "app-icon",
+  name: "ui-icon",
   props: {
     full: {
       type: Boolean,
@@ -53,10 +53,10 @@ export default {
   computed: {
     classes() {
       return {
-        icon: true,
-        [`icon--${this.name}`]: this.name,
-        [`icon--w-base`]: !this.width && !this.height,
-        [`icon--w-full`]: this.full,
+        "ui-icon": true,
+        [`ui-icon--${this.name}`]: this.name,
+        [`ui-icon--w-base`]: !this.width && !this.height,
+        [`ui-icon--w-full`]: this.full,
       };
     },
     html() {
@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon {
+.ui-icon {
   display: inline-block;
   vertical-align: -12.5%;
   stroke-width: 0;

@@ -9,7 +9,7 @@ import { ref, toRefs } from "vue";
 import useDnd from "@/compose/useDnd";
 
 export default {
-  name: "DndBoard",
+  name: "dnd-board",
   props: ["active", "config"],
   setup(props, { emit }) {
     const dndRef = ref(null);

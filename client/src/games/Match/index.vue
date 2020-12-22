@@ -12,7 +12,7 @@ import { fetchMatch } from "@/api/match";
 import useLoader from "@/compose/useLoader";
 import { default as config } from "./config";
 import AppFullPage from "@/components/AppFullPage";
-import GameLoader from "@/components/GameLoader";
+import { GameLoader } from "@/components/";
 import Game from "./Game";
 
 export default {

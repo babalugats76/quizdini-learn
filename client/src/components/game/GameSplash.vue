@@ -1,5 +1,5 @@
 <template>
-  <app-modal
+  <ui-modal
     class="splash__modal"
     :appear="true"
     :duration="config.timeouts.default"
@@ -9,44 +9,31 @@
   >
     <div class="splash">
       <div class="splash__header">
-        <header class="splash__title">Game Title</header>
         <div class="splash__badge"></div>
-        <div class="splash__subtitle">Mr. Bob Dobalina</div>
+        <header class="splash__title">{{ title }}</header>
+        <div class="splash__subtitle">{{ author }}</div>
       </div>
       <div class="splash__body">
-        <ul class="detail__list splash__detail">
-          <li class="detail__item">
-            <app-icon class="detail__icon term-count" name="archive" />
-            {{ termCount }} terms
-          </li>
-          <li class="detail__item">
-            <app-icon class="detail__icon items-per-board" name="grid" />
-            {{ itemsPerBoard }} per board
-          </li>
-          <li class="detail__item">
-            <app-icon class="detail__icon duration" name="watch" />
-            {{ duration }} seconds
-          </li>
-        </ul>
+        <div class="splash__details" v-if="$slots.details">
+          <slot name="details" />
+        </div>
       </div>
       <div class="splash__footer">
-        <button class="" @click.prevent="$emit('close')">Start Game</button>
+        <button @click.prevent="$emit('close')">Start Game</button>
       </div>
     </div>
-  </app-modal>
+  </ui-modal>
 </template>
 
 <script>
-import AppModal from "@/components/AppModal";
-import AppIcon from "@/components/AppIcon";
+import UiModal from "@/components/ui/UiModal";
 
 export default {
-  name: "Splash",
+  name: "game-splash",
   components: {
-    AppIcon,
-    AppModal,
+    UiModal,
   },
-  props: ["config", "duration", "itemsPerBoard", "showModal", "termCount"],
+  props: ["author", "config", "showModal", "title"],
   emits: ["close", "exited"],
 };
 </script>
@@ -57,6 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  color: #888;
   border-radius: inherit;
   &::before {
     content: ""; // ::before and ::after both require content
@@ -92,14 +80,14 @@ export default {
   }
 
   &__title {
-    margin: 0 7rem 0.5rem 0.25rem;
+    margin: 0 6rem 0.5rem 0.25rem;
     padding: 0.25rem;
     color: #333;
     font-size: 2.625rem;
     font-family: "Montserrat";
     font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.035em;
+    line-height: 1;
+    letter-spacing: $tracking-tight;
     text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.6);
   }
 
@@ -108,8 +96,7 @@ export default {
     font-size: 1.25rem;
     font-family: "Montserrat";
     font-weight: 400;
-    color: #888;
-    letter-spacing: -0.035em;
+    letter-spacing: $tracking-tight;
   }
 
   &__body {
@@ -134,28 +121,6 @@ export default {
       font-weight: 800;
       letter-spacing: -0.035em;
     }
-  }
-}
-
-.detail {
-  &__list {
-    margin-left: 0.75rem;
-    color: #888;
-  }
-  &__item {
-    $item: &;
-    font-size: 1.25rem;
-    line-height: 1.25;
-    font-family: "Montserrat";
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    @at-root #{$item} + #{$item} {
-      margin-top: 0.5rem;
-    }
-  }
-  &__icon {
-    margin-right: 0.1875rem;
-    font-size: 1.5rem;
   }
 }
 

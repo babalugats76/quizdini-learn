@@ -30,6 +30,7 @@ export default function useMatch(data, debug = true) {
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
     activeTerms: computed(() => state.terms.filter((t) => t.show)),
+    author: "",
     canDnd: computed(
       () => state.playing && !state.shuffling && !state.termIsExiting
     ),
@@ -323,17 +324,20 @@ export default function useMatch(data, debug = true) {
 
   watchEffect(() => {
     const {
-      matchId,
+      author = "",
       matches = [],
+      matchId,
       options: { duration = 60, colorScheme = "", itemsPerBoard = 9 } = {},
       title = "",
     } = unref(data);
 
+    state.author = author;
     state.colorScheme = colorScheme.toLowerCase();
-    state.duration = duration;
-    state.matchId = matchId;
+    //state.duration = duration;
+    state.duration = 5;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);
+    state.matchId = matchId;
     state.title = title;
   });
 
