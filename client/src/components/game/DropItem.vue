@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.draggable {
+.droppable {
   z-index: 1;
 
   * {
