@@ -29,7 +29,6 @@ export const UiList = {
 
 export const UiListItem = {
   name: "ui-list-item",
-  components: "UiIcon",
   props: {
     dense: {
       type: Boolean,
@@ -54,12 +53,22 @@ export const UiListItem = {
           [`ui-list__item--${this.id}`]: this.id,
         })}
       >
-        {this.icon && (
-          <UiIcon class={classnames("ui-list__icon")} name={this.icon} />
-        )}
         {this.$slots.default()}
       </Tag>
     );
+  },
+};
+
+export const UiListIcon = {
+  name: "ui-list-icon",
+  components: "UiIcon",
+  props: {
+    name: {
+      type: String,
+    },
+  },
+  render() {
+    return <UiIcon class={classnames("ui-list__icon")} name={this.name} />;
   },
 };
 
@@ -93,9 +102,15 @@ $list-sizes: (
     + #{$item} {
       margin-top: 0.5rem;
     }
+    &.success {
+      background-color: $success !important;
+    }
   }
   &__icon {
     font-size: 1.25em;
+    &.success {
+      color: $success;
+    }
   }
   &__item > &__icon {
     margin-right: 0.375rem;

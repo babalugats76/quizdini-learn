@@ -5,7 +5,7 @@ import GameLoader from "./game/GameLoader";
 import GameSplash from "./game/GameSplash";
 import UiIcon from "./ui/UiIcon";
 import UiModal from "./ui/UiModal";
-import { UiList, UiListItem } from "./ui/UiList";
+import { UiList, UiListItem, UiListIcon } from "./ui/UiList";
 
 export {
   DndBoard,
@@ -15,6 +15,7 @@ export {
   GameLoader,
   UiIcon,
   UiList,
+  UiListIcon,
   UiModal,
   UiListItem,
 };

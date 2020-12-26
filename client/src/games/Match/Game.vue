@@ -13,33 +13,46 @@
         <template v-slot:details>
           <splash-details
             v-if="!stats.length"
+            class="primary"
             :items="[
-              { id: 'duration', icon: 'watch', content: `${duration} seconds` },
               {
-                id: 'items-per-board',
-                icon: 'grid',
-                content: `${itemsPerBoard} per board`,
+                content: `${duration} seconds`,
+                icon: 'watch',
+                iconClass: 'text-success',
+                id: 'duration',
               },
               {
-                id: 'term-count',
-                icon: 'archive',
+                content: `${itemsPerBoard} per board`,
+                icon: 'grid',
+                id: 'items-per-board',
+              },
+              {
                 content: `${matches.length} terms`,
+                icon: 'archive',
+                id: 'term-count',
               },
             ]"
           />
           <splash-details
             v-else
+            class="primary"
             :items="[
-              { id: 'duration', icon: 'watch', content: `${correct} correct` },
               {
-                id: 'items-per-board',
-                icon: 'grid',
-                content: `${incorrect} incorrect`,
+                content: `${correct} correct`,
+                icon: 'watch',
+                iconClass: 'text-success',
+                id: 'duration',
               },
               {
-                id: 'term-count',
-                icon: 'archive',
+                content: `${incorrect} incorrect`,
+                icon: 'grid',
+                id: 'items-per-board',
+              },
+              {
                 content: `${score} score`,
+                icon: 'archive',
+                id: 'term-count',
+                itemClass: 'success',
               },
             ]"
           />
@@ -143,15 +156,21 @@ import AppFullPage from "@/components/AppFullPage";
 import Tile from "./Tile";
 import Timer from "./Timer";
 
-import { DndBoard, GameSplash, UiList, UiListItem } from "@/components/";
+import {
+  DndBoard,
+  GameSplash,
+  UiList,
+  UiListItem,
+  UiListIcon,
+} from "@/components/";
 
 const SplashDetails = ({ items, ...rest }) => (
   <UiList {...rest}>
     {items.map((item) => {
-      const { content, id, ...rest } = item;
+      const { content, icon, iconClass, id, itemClass, ...rest } = item;
       return (
-        <UiListItem dense key={id} id={id} {...rest}>
-          {content}
+        <UiListItem dense class={itemClass} key={id} id={id} {...rest}>
+          <UiListIcon class={iconClass} name={icon} /> {content}
         </UiListItem>
       );
     })}

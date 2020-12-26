@@ -5,8 +5,50 @@ $electric-purple: #aa54ff;
 $violet: #711cff;
 $yellow-crayola: #fff07c;
 $white: #ffffff;
-$primary: $zaffre;
+$success: lime;
 
+$fonts: (
+  'Montserrat': (
+    'light': (
+      'path': 'montserrat-v15-latin-ext_latin-300',
+      'style': 'normal',
+      'weight': 300,
+    ),
+    'normal': (
+      'path': 'montserrat-v15-latin-ext_latin-regular',
+      'style': 'normal',
+      'weight': 400,
+    ),
+    'medium': (
+      'path': 'montserrat-v15-latin-ext_latin-500',
+      'style': 'normal',
+      'weight': 500,
+    ),
+    'semi-bold': (
+      'path': 'montserrat-v15-latin-ext_latin-600',
+      'style': 'normal',
+      'weight': 600,
+    ),
+    'bold': (
+      'path': 'montserrat-v15-latin-ext_latin-700',
+      'style': 'normal',
+      'weight': 700,
+    ),
+    'extra-bold': (
+      'path': 'montserrat-v15-latin-ext_latin-800',
+      'style': 'normal',
+      'weight': 800,
+    ),
+    'black': (
+      'path': 'montserrat-v15-latin-ext_latin-900',
+      'style': 'normal',
+      'weight': 900,
+    )
+  )
+);
+
+
+$primary: $zaffre;
 $tracking-tight: -0.025em;
 
 $list-sizes: (
