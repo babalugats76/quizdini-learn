@@ -48,3 +48,27 @@
       /* Safari, Android, iOS */ url($filepath + ".svg##{$font-name}") format("svg"); /* Legacy iOS */
   }
 }
+
+@mixin webfont($f) {
+  @each $font, $variants in $f {
+    @each $variant, $values in $variants {
+      @include font-face($font, map-get($values, "path"), map-get($values, "weight"));
+    }
+  }
+}
+
+@mixin font($f, $important: false) {
+  @each $font, $variants in $f {
+    @each $variant, $values in $variants {
+      .#{#{to-lower-case($font)}#{if($variant==normal,'','-'+$variant)}} {
+        font-family: quote($font) if($important, !important, null);
+        font-weight: map-get($values, "weight") if($important, !important, null);
+      }
+    }
+  }
+}
+
+@mixin getFont($family, $style: normal, $important: false) {
+  font-family: quote($family) if($important, !important, null);
+  font-weight: map-get($fonts, $family, $style, "weight") if($important, !important, null);
+}

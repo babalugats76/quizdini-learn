@@ -16,17 +16,19 @@
             class="primary"
             :items="[
               {
+                color: 'neutral',
                 content: `${duration} seconds`,
                 icon: 'watch',
-                iconClass: 'text-success',
                 id: 'duration',
               },
               {
+                color: 'neutral',
                 content: `${itemsPerBoard} per board`,
                 icon: 'grid',
                 id: 'items-per-board',
               },
               {
+                color: 'neutral',
                 content: `${matches.length} terms`,
                 icon: 'archive',
                 id: 'term-count',
@@ -40,12 +42,13 @@
               {
                 content: `${correct} correct`,
                 icon: 'watch',
-                iconClass: 'text-success',
+                iconColor: 'success accent-1',
                 id: 'duration',
               },
               {
                 content: `${incorrect} incorrect`,
                 icon: 'grid',
+                iconColor: 'success accent-1',
                 id: 'items-per-board',
               },
               {
@@ -167,10 +170,17 @@ import {
 const SplashDetails = ({ items, ...rest }) => (
   <UiList {...rest}>
     {items.map((item) => {
-      const { content, icon, iconClass, id, itemClass, ...rest } = item;
+      const { color, content, icon, iconColor, id, itemClass, ...rest } = item;
       return (
-        <UiListItem dense class={itemClass} key={id} id={id} {...rest}>
-          <UiListIcon class={iconClass} name={icon} /> {content}
+        <UiListItem
+          dense
+          color={color}
+          class={itemClass}
+          key={id}
+          id={id}
+          {...rest}
+        >
+          <UiListIcon color={iconColor} name={icon} /> {content}
         </UiListItem>
       );
     })}
@@ -383,7 +393,7 @@ $tile-colors: (
 .match {
   &__game {
     --board-bg-color: #01e7e4;
-    font-family: "Inter", sans-serif;
+    @include getFont("Montserrat");
     display: grid;
     grid-area: auto;
     grid-template-columns: 1fr;
@@ -461,9 +471,7 @@ $tile-colors: (
     transition: all 150ms ease;
   }
   &--term {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 800;
-    letter-spacing: 0.0625rem;
+    @include getFont("Montserrat", "extra-bold");
     opacity: 1;
     &.miss {
       opacity: 1;
@@ -516,9 +524,8 @@ $tile-colors: (
   &--definition {
     @include bgColor(#ffffff);
     @include textColor(#515328);
-    font-family: "Montserrat", sans-serif;
-    font-weight: 600;
-    letter-spacing: normal;
+    @include getFont("Montserrat", "bold");
+    letter-spacing: $tracking-tight;
     font-size: 1em;
     opacity: 1;
     transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,

@@ -57,27 +57,9 @@ body {
   --primary: var(--zaffre);
 }
 
-.text-success {
-  color: $success !important;
-}
-
 /*-------------------
   Typography
 --------------------*/
 
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-300", 300, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-regular", 400, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-500", 500, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-600", 600, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-700", 700, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-800", 800, "normal");
-@include font-face("Montserrat", "montserrat-v15-latin-ext_latin-900", 900, "normal");
-
-@each $font, $variants in $fonts {
-  @each $variant, $values in $variants {
-    .#{#{to-lower-case($font)}-#{$variant}} {
-      font-family: quote($font);
-      font-weight: map-get($values, "weight");
-    }
-  }
-}
+@include webfont($fonts);
+@include font($fonts, true);
