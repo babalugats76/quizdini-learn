@@ -133,9 +133,6 @@ $list-sizes: (
     + #{$item} {
       margin-top: 0.5rem;
     }
-    &.success {
-      background-color: $success !important;
-    }
   }
   &__icon {
     font-size: 1.25em;
