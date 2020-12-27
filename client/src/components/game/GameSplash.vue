@@ -84,7 +84,7 @@ export default {
     padding: 0.25rem;
     color: #333;
     font-size: 2.625rem;
-    @include getFont("Montserrat", "extra-bold");
+    @include get-font("Montserrat", "extra-bold");
     line-height: 1;
     letter-spacing: $tracking-tight;
     text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.6);
@@ -93,7 +93,7 @@ export default {
   &__subtitle {
     margin-left: 0.375rem;
     font-size: 1.25rem;
-    @include getFont("Montserrat");
+    @include get-font("Montserrat");
     letter-spacing: $tracking-tight;
   }
 
@@ -115,7 +115,7 @@ export default {
       width: 100%;
       font-size: 1.625rem;
       line-height: 2rem;
-      @include getFont("Montserrat", "extra-bold");
+      @include get-font("Montserrat", "extra-bold");
       letter-spacing: $tracking-tight;
     }
   }

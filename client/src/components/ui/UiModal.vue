@@ -86,20 +86,20 @@ export default {
     width: 100%;
     height: 100%;
     display: table;
-    @include bgColor($zaffre, 0.35);
+    @include bg-color($zaffre, 0.35);
     @at-root #{$mask}.modal-enter-active,
       #{$mask}.modal-enter-from {
-      @include bgColor($zaffre, 1);
+      @include bg-color($zaffre, 1);
     }
     @at-root #{$mask}.modal-enter-to {
-      @include bgColor($zaffre, 0.35);
+      @include bg-color($zaffre, 0.35);
     }
     @at-root #{$mask}.modal-leave-active,
       #{$mask}.modal-leave-from {
-      @include bgColor($zaffre, 0.35);
+      @include bg-color($zaffre, 0.35);
     }
     @at-root #{$mask}.modal-leave-to {
-      @include bgColor($zaffre, 0);
+      @include bg-color($zaffre, 0);
     }
   }
 
@@ -117,7 +117,7 @@ export default {
     background-color: #fff;
     border-radius: 0.875rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    @include getFont("Montserrat");
+    @include get-font("Montserrat");
   }
 }
 </style>

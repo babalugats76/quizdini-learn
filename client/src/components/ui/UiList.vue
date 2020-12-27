@@ -1,15 +1,12 @@
 <script>
 import classnames from "classnames";
-
 import UiIcon from "@/components/ui/UiIcon";
-import { setTextColor } from "./utils";
+import { color } from "./mixins";
 
 export const UiList = {
   name: "ui-list",
+  mixins: [color],
   props: {
-    color: {
-      type: String,
-    },
     size: {
       type: String,
       required: false,
@@ -19,31 +16,26 @@ export const UiList = {
       default: "div",
     },
   },
-  methods: {
-    setTextColor,
+  data: function () {
+    return {
+      staticClass: ["ui-list"],
+    };
   },
   render() {
     const Tag = `${this.tag}`;
-    return (
-      <Tag
-        class={classnames(
-          "ui-list",
-          { [`ui-list--${this.size}`]: this.size },
-          this.setTextColor(this.color)
-        )}
-      >
-        {this.$slots.default()}
-      </Tag>
+    const classes = classnames(
+      this.staticClass,
+      { [`ui-list--${this.size}`]: this.size },
+      this.getTextColor()
     );
+    return <Tag class={classes}>{this.$slots.default()}</Tag>;
   },
 };
 
 export const UiListItem = {
   name: "ui-list-item",
+  mixins: [color],
   props: {
-    color: {
-      type: String,
-    },
     dense: {
       type: Boolean,
     },
@@ -58,31 +50,29 @@ export const UiListItem = {
       default: "div",
     },
   },
-  methods: {
-    setTextColor,
+  data: function () {
+    return {
+      staticClass: ["ui-list__item"],
+    };
   },
   render() {
     const Tag = `${this.tag}`;
-    return (
-      <Tag
-        class={classnames(
-          "ui-list__item",
-          {
-            "ui-list__item--dense": this.dense,
-            [`ui-list__item--${this.id}`]: this.id,
-          },
-          this.setTextColor(this.color)
-        )}
-      >
-        {this.$slots.default()}
-      </Tag>
+    const classes = classnames(
+      this.staticClass,
+      {
+        "ui-list__item--dense": this.dense,
+        [`ui-list__item--${this.id}`]: this.id,
+      },
+      this.getTextColor()
     );
+    return <Tag class={classes}>{this.$slots.default()}</Tag>;
   },
 };
 
 export const UiListIcon = {
   name: "ui-list-icon",
   components: "UiIcon",
+  mixins: [color],
   props: {
     color: {
       type: String,
@@ -91,16 +81,14 @@ export const UiListIcon = {
       type: String,
     },
   },
-  methods: {
-    setTextColor,
+  data: function () {
+    return {
+      staticClass: ["ui-list__icon"],
+    };
   },
   render() {
-    return (
-      <UiIcon
-        class={classnames("ui-list__icon", this.setTextColor(this.color))}
-        name={this.name}
-      />
-    );
+    const classes = classnames(this.staticClass, this.getTextColor());
+    return <UiIcon class={classes} name={this.name} />;
   },
 };
 
@@ -119,13 +107,13 @@ $list-sizes: (
 .ui-list {
   display: block;
   padding-left: 0.75rem;
-  @include fontSize($list-sizes, "md"); // the "default"
-  @include sizes($list-sizes);
+  @include get-font-size($list-sizes, "md"); // the "default"
+  @include font-size($list-sizes);
   &__item {
     $item: &;
     font-size: 1.25em;
     line-height: 1.25;
-    @include getFont("Montserrat", "medium");
+    @include get-font("Montserrat", "medium");
     letter-spacing: 0em;
     &--dense {
       letter-spacing: $tracking-tight;
@@ -136,9 +124,6 @@ $list-sizes: (
   }
   &__icon {
     font-size: 1.25em;
-    &.success {
-      color: $success;
-    }
   }
   &__item > &__icon {
     margin-right: 0.375rem;

@@ -1,24 +1,24 @@
 @use "sass:map";
 
-@mixin bgColor($color, $opacity: 1) {
+@mixin bg-color($color, $opacity: 1) {
   --bg-opacity: #{$opacity};
   background-color: $color;
   background-color: rgba(red($color), green($color), blue($color), var(--bg-opacity));
 }
 
-@mixin textColor($color, $opacity: 1) {
+@mixin text-color($color, $opacity: 1) {
   --text-opacity: #{$opacity};
   color: $color;
   color: rgba(red($color), green($color), blue($color), var(--text-opacity));
 }
 
-@mixin borderColor($color, $opacity: 1) {
+@mixin border-color($color, $opacity: 1) {
   --border-opacity: #{$opacity};
   border-color: $color;
   border-color: rgba(red($color), green($color), blue($color), var(--border-opacity));
 }
 
-@mixin sizes($sz) {
+@mixin font-size($sz) {
   @each $key, $value in $sz {
     &--#{$key} {
       font-size: #{$value};
@@ -26,12 +26,8 @@
   }
 }
 
-@mixin getSize($sizes, $sz) {
-  font-size: #{map.get($sizes, $sz)};
-}
-
-@mixin fontSize($sizes, $sz) {
-  font-size: #{map.get($sizes, $sz)};
+@mixin get-font-size($s, $sz) {
+  font-size: #{map.get($s, $sz)};
 }
 
 @mixin font-face($font-name, $path, $weight: normal, $style: normal, $prefix: "~@/assets/fonts") {
@@ -68,7 +64,7 @@
   }
 }
 
-@mixin getFont($family, $style: normal, $important: false) {
+@mixin get-font($family, $style: normal, $important: false) {
   font-family: quote($family) if($important, !important, null);
   font-weight: map-get($fonts, $family, $style, "weight") if($important, !important, null);
 }
