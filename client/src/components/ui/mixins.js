@@ -11,10 +11,10 @@ export default {
 export const color = {
   props: ["color"],
   methods: {
-    getTextColor(prefix = "text-") {
+    getTextColor() {
       if (!this.color) return;
-      const [colorName, colorModifier] = this.color.trim().split(" ", 2);
-      return prefix + colorName + (colorModifier ? " " + colorModifier : "");
+      const [color, modifier] = this.color.trim().split(" ", 2);
+      return [color + "--text", modifier ? "text--" + modifier : ""];
     },
   },
 };

@@ -1,0 +1,96 @@
+$zaffre: #001399;
+$blue-ryb: #014ce4;
+$fluorescent-blue: #01e7e4;
+$electric-purple: #aa54ff;
+$violet: #711cff;
+$yellow-crayola: #fff07c;
+$white: #ffffff;
+$primary: $zaffre;
+
+$blue: (
+  "base": #014ce4, // blue-ryb
+  "lighten-5": #c2d6fe,
+  "lighten-4": #9abbfe,
+  "lighten-3": #71a0fe,
+  "lighten-2": #4885fe,
+  "lighten-1": #206afe,
+  "darken-1": #0144cb,
+  "darken-2": #0137a2,
+  "darken-3": #01297a,
+  "darken-4": #011b51,
+  "accent-1": #99bafe,
+  "accent-2": #3376fe,
+  "accent-3": #0043cb,
+  "accent-4": #002165,
+);
+
+$navy: (
+  "base": #001399,
+);
+
+$purple: (
+  "base": #aa54ff,
+);
+
+$teal: (
+  "base": #01e7e4,
+);
+
+$violet: (
+  "base": #711cff,
+);
+
+$colors: (
+  "blue": $blue,
+  "navy": $navy,
+  "purple": $purple,
+  "teal": $teal,
+  "violet": $violet,
+);
+
+$fonts: (
+  "Montserrat": (
+    "light": (
+      "path": "montserrat-v15-latin-ext_latin-300",
+      "style": "normal",
+      "weight": 300,
+    ),
+    "normal": (
+      "path": "montserrat-v15-latin-ext_latin-regular",
+      "style": "normal",
+      "weight": 400,
+    ),
+    "medium": (
+      "path": "montserrat-v15-latin-ext_latin-500",
+      "style": "normal",
+      "weight": 500,
+    ),
+    "semi-bold": (
+      "path": "montserrat-v15-latin-ext_latin-600",
+      "style": "normal",
+      "weight": 600,
+    ),
+    "bold": (
+      "path": "montserrat-v15-latin-ext_latin-700",
+      "style": "normal",
+      "weight": 700,
+    ),
+    "extra-bold": (
+      "path": "montserrat-v15-latin-ext_latin-800",
+      "style": "normal",
+      "weight": 800,
+    ),
+    "black": (
+      "path": "montserrat-v15-latin-ext_latin-900",
+      "style": "normal",
+      "weight": 900,
+    ),
+  ),
+);
+
+$theme: (
+  "colors": $colors,
+  "fonts": $fonts,
+);
+
+$tracking-tight: -0.025em;

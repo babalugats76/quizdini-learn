@@ -56,10 +56,3 @@ body {
   --white: #ffffff;
   --primary: var(--zaffre);
 }
-
-/*-------------------
-  Typography
---------------------*/
-
-@include webfont($fonts);
-@include font($fonts, true);

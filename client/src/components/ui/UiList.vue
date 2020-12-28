@@ -107,13 +107,13 @@ $list-sizes: (
 .ui-list {
   display: block;
   padding-left: 0.75rem;
-  @include get-font-size($list-sizes, "md"); // the "default"
-  @include font-size($list-sizes);
+  @include font-size($list-sizes, "md"); // the "default"
+  @include font-sizes($list-sizes);
   &__item {
     $item: &;
     font-size: 1.25em;
     line-height: 1.25;
-    @include get-font("Montserrat", "medium");
+    @include font("Montserrat", "medium");
     letter-spacing: 0em;
     &--dense {
       letter-spacing: $tracking-tight;

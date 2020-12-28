@@ -1,0 +1,40 @@
+@mixin font-sizes($sz) {
+  @each $key, $value in $sz {
+    &--#{$key} {
+      font-size: #{$value};
+    }
+  }
+}
+
+@mixin font-size($s, $sz) {
+  font-size: #{map.get($s, $sz)};
+}
+
+@mixin bg-color($color, $important: false) {
+  background-color: $color if($important, !important, null);
+  border-color: $color if($important, !important, null);
+}
+
+@mixin text-color($color, $important: false) {
+  color: $color if($important, !important, null);
+  caret-color: $color if($important, !important, null);
+}
+
+@mixin bg-color-alpha($color, $opacity: 1) {
+  --bg-opacity: #{$opacity};
+  background-color: $color;
+  background-color: rgba(red($color), green($color), blue($color), var(--bg-opacity));
+}
+
+@mixin text-color-alpha($color, $opacity: 1) {
+  --text-opacity: #{$opacity};
+  color: $color;
+  color: rgba(red($color), green($color), blue($color), var(--text-opacity));
+}
+
+@mixin border-color-alpha($color, $opacity: 1) {
+  --border-opacity: #{$opacity};
+  border-color: $color;
+  border-color: rgba(red($color), green($color), blue($color), var(--border-opacity));
+}
+

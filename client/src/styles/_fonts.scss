@@ -1,0 +1,34 @@
+@mixin font-face($font-name, $path, $weight: normal, $style: normal, $prefix: "~@/assets/fonts") {
+  $filepath: "~@/assets/fonts" + "/" + $path;
+  @font-face {
+    font-family: quote($font-name);
+    font-weight: $weight;
+    font-style: $style;
+    src: url($filepath + ".eot"); /* IE9 Compat Modes */
+    src: url($filepath + ".eot?#iefix") format("embedded-opentype"),
+      /* IE6-IE8 */ url($filepath + ".woff2") format("woff2"),
+      /* Super Modern Browsers */ url($filepath + ".woff") format("woff"),
+      /* Modern Browsers */ url($filepath + ".ttf") format("truetype"),
+      /* Safari, Android, iOS */ url($filepath + ".svg##{$font-name}") format("svg"); /* Legacy iOS */
+  }
+}
+
+@mixin font($family, $style: normal, $important: false) {
+  font-family: quote($family) if($important, !important, null);
+  font-weight: map-get($theme, "fonts", $family, $style, "weight") if($important, !important, null);
+}
+
+@each $font, $variants in map-get($theme, "fonts") {
+  @each $variant, $values in $variants {
+    @include font-face($font, map-get($values, "path"), map-get($values, "weight"));
+  }
+}
+
+@each $font, $variants in map-get($theme, "fonts") {
+  @each $variant, $values in $variants {
+    .#{#{to-lower-case($font)}#{if($variant==normal,'','-'+$variant)}} {
+      font-family: quote($font) !important;
+      font-weight: map-get($values, "weight") !important;
+    }
+  }
+}
