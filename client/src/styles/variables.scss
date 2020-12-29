@@ -1,14 +1,8 @@
-$zaffre: #001399;
-$blue-ryb: #014ce4;
-$fluorescent-blue: #01e7e4;
-$electric-purple: #aa54ff;
-$violet: #711cff;
 $yellow-crayola: #fff07c;
 $white: #ffffff;
-$primary: $zaffre;
 
 $blue: (
-  "base": #014ce4, // blue-ryb
+  "base": #014ce4,
   "lighten-5": #c2d6fe,
   "lighten-4": #9abbfe,
   "lighten-3": #71a0fe,
@@ -26,18 +20,70 @@ $blue: (
 
 $navy: (
   "base": #001399,
+  "lighten-5": #7081ff,
+  "lighten-4": #475dff,
+  "lighten-3": #1f39ff,
+  "lighten-2": #001df5,
+  "lighten-1": #0018cc,
+  "darken-1": #000e7a,
+  "darken-2": #000c66,
+  "darken-3": #000a52,
+  "darken-4": #00073d,
+  "accent-1": #99a5ff,
+  "accent-2": #334cff,
+  "accent-3": #0019cc,
+  "accent-4": #000c66,
 );
 
 $purple: (
   "base": #aa54ff,
+  "lighten-5": #e0c2ff,
+  "lighten-4": #d6adff,
+  "lighten-3": #cc99ff,
+  "lighten-2": #c285ff,
+  "lighten-1": #b870ff,
+  "darken-1": #9933ff,
+  "darken-2": #850aff,
+  "darken-3": #7000e0,
+  "darken-4": #5c00b8,
+  "accent-1": #cc99ff,
+  "accent-2": #9933ff,
+  "accent-3": #6600cc,
+  "accent-4": #330066,
 );
 
 $teal: (
   "base": #01e7e4,
+  "lighten-5": #c2fefd,
+  "lighten-4": #9afefd,
+  "lighten-3": #71fefc,
+  "lighten-2": #48fefb,
+  "lighten-1": #20fefa,
+  "darken-1": #01cbc8,
+  "darken-2": #01a2a0,
+  "darken-3": #017a78,
+  "darken-4": #01514f,
+  "accent-1": #99fefd,
+  "accent-2": #33fefb,
+  "accent-3": #00cbc8,
+  "accent-4": #006564,
 );
 
 $violet: (
   "base": #711cff,
+  "lighten-5": #F2EBFF,
+  "lighten-4": #D8C2FF,
+  "lighten-3": #BE99FF,
+  "lighten-2": #A570FF,
+  "lighten-1": #8B47FF,
+  "darken-1": #5A00F5,
+  "darken-2": #4B00CC,
+  "darken-3": #3C00A3,
+  "darken-4": #2D007A,
+  "accent-1": #bf99ff,
+  "accent-2": #7f33ff,
+  "accent-3": #4c00cc,
+  "accent-4": #260066,
 );
 
 $colors: (

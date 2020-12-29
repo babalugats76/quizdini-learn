@@ -40,6 +40,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$modal-mask-color: color("navy");
+$modal-mask-opacity: 0.35;
+
 .modal-enter-active,
 .modal-enter-from,
 .modal-enter-to,
@@ -86,20 +89,20 @@ export default {
     width: 100%;
     height: 100%;
     display: table;
-    @include bg-color-alpha($zaffre, 0.35);
+    @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
     @at-root #{$mask}.modal-enter-active,
       #{$mask}.modal-enter-from {
-      @include bg-color-alpha($zaffre, 1);
+      @include bg-color-alpha($modal-mask-color, 1);
     }
     @at-root #{$mask}.modal-enter-to {
-      @include bg-color-alpha($zaffre, 0.35);
+      @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
     }
     @at-root #{$mask}.modal-leave-active,
       #{$mask}.modal-leave-from {
-      @include bg-color-alpha($zaffre, 0.35);
+      @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
     }
     @at-root #{$mask}.modal-leave-to {
-      @include bg-color-alpha($zaffre, 0);
+      @include bg-color-alpha($modal-mask-color, 0);
     }
   }
 
