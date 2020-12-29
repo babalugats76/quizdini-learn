@@ -19,6 +19,7 @@
                 color: 'neutral',
                 content: `${duration} seconds`,
                 icon: 'watch',
+                iconColor: 'blue accent-1',
                 id: 'duration',
               },
               {
