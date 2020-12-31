@@ -7,10 +7,6 @@ export const UiList = {
   name: "ui-list",
   mixins: [color, size],
   props: {
-    size: {
-      type: String,
-      required: false,
-    },
     tag: {
       type: String,
       default: "div",
@@ -101,7 +97,7 @@ export default UiList;
 $list-sizes: (
   "xs": 0.75rem,
   "sm": 0.875rem,
-  "md": 1rem,
+  "base": 1rem,
   "lg": 1.1875rem,
   "xl": 1.375rem,
 );
@@ -109,7 +105,6 @@ $list-sizes: (
 .ui-list {
   display: block;
   padding-left: 0.75rem;
-  @include font-size($list-sizes, "md"); // the "default"
   @include font-sizes($list-sizes);
   &__item {
     $item: &;

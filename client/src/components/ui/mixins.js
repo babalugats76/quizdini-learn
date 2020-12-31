@@ -2,13 +2,13 @@ export const size = {
   props: {
     size: {
       type: String,
-      default: "md",
+      default: "base",
     },
   },
   computed: {
     sizeClasses() {
       return {
-        [`size-${this.size}`]: this.size,
+        [`size--${this.size}`]: this.size,
       };
     },
   },
