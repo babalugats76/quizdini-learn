@@ -16,11 +16,14 @@
         { id: 'term-count', icon: 'archive', content: '100 terms' },
       ]"
     ></my-list>
+    <h1>Buttons</h1>
+    <ui-button>Hello, World!</ui-button>
+    <ui-button disabled> Disabled Button </ui-button>
   </div>
 </template>
 
 <script>
-import { UiIcon, UiList, UiListItem } from "@/components/";
+import { UiButton, UiIcon, UiList, UiListItem } from "@/components/";
 
 const MyList = ({ items, ...rest }) => (
   <UiList {...rest}>
@@ -38,6 +41,7 @@ const MyList = ({ items, ...rest }) => (
 export default {
   name: "UI",
   components: {
+    UiButton,
     UiIcon,
     MyList,
   },

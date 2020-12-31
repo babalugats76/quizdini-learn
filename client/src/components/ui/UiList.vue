@@ -1,11 +1,11 @@
 <script>
 import classnames from "classnames";
 import UiIcon from "@/components/ui/UiIcon";
-import { color } from "./mixins";
+import { color, size } from "./mixins";
 
 export const UiList = {
   name: "ui-list",
-  mixins: [color],
+  mixins: [color, size],
   props: {
     size: {
       type: String,
@@ -18,15 +18,15 @@ export const UiList = {
   },
   data: function () {
     return {
-      staticClass: ["ui-list"],
+      staticClass: "ui-list",
     };
   },
   render() {
     const Tag = `${this.tag}`;
     const classes = classnames(
       this.staticClass,
-      { [`ui-list--${this.size}`]: this.size },
-      this.getTextColor()
+      this.sizeClasses,
+      this.colorClasses
     );
     return <Tag class={classes}>{this.$slots.default()}</Tag>;
   },
@@ -52,20 +52,22 @@ export const UiListItem = {
   },
   data: function () {
     return {
-      staticClass: ["ui-list__item"],
+      staticClass: "ui-list__item",
     };
+  },
+  computed: {
+    classes() {
+      return {
+        [`${this.staticClass}`]: true,
+        "ui-list__item--dense": this.dense,
+        [`ui-list__item--${this.id}`]: this.id,
+        ...this.colorClasses,
+      };
+    },
   },
   render() {
     const Tag = `${this.tag}`;
-    const classes = classnames(
-      this.staticClass,
-      {
-        "ui-list__item--dense": this.dense,
-        [`ui-list__item--${this.id}`]: this.id,
-      },
-      this.getTextColor()
-    );
-    return <Tag class={classes}>{this.$slots.default()}</Tag>;
+    return <Tag class={this.classes}>{this.$slots.default()}</Tag>;
   },
 };
 
@@ -87,7 +89,7 @@ export const UiListIcon = {
     };
   },
   render() {
-    const classes = classnames(this.staticClass, this.getTextColor());
+    const classes = classnames(this.staticClass, this.colorClasses);
     return <UiIcon class={classes} name={this.name} />;
   },
 };

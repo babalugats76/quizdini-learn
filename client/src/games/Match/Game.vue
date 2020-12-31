@@ -169,7 +169,7 @@ import {
 } from "@/components/";
 
 const SplashDetails = ({ items, ...rest }) => (
-  <UiList {...rest}>
+  <UiList size="xl" {...rest}>
     {items.map((item) => {
       const { color, content, icon, iconColor, id, itemClass, ...rest } = item;
       return (

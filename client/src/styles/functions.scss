@@ -5,3 +5,37 @@
   }
   @return $value;
 }
+
+@function get-color($name, $shade: "base") {
+  $value: #000000;
+  @if map-has-key(map-get($theme, "colors"), $name, $shade) {
+    @return map-get($theme, "colors", $name, $shade);
+  }
+  @return $value;
+}
+
+@function brightness($color) {
+  @return ((red($color) * 0.299) + (green($color) * 0.587) + (blue($color) * 0.114)) / 255 * 100%;
+}
+
+// Compares contrast of a given color to the light/dark arguments and returns whichever is most "contrasty"
+@function contrast-color(
+  $color,
+  $dark: map-get("theme", "text", "default-dark"),
+  $light: map-get("theme", "text", "default-light")
+) {
+  @if $color == null {
+    @return null;
+  } @else {
+    $color-brightness: brightness($color);
+    $light-text-brightness: brightness($light);
+    $dark-text-brightness: brightness($dark);
+
+    @return if(
+      abs($color-brightness - $light-text-brightness) >
+        abs($color-brightness - $dark-text-brightness),
+      $light,
+      $dark
+    );
+  }
+}

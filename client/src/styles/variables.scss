@@ -71,19 +71,78 @@ $teal: (
 
 $violet: (
   "base": #711cff,
-  "lighten-5": #F2EBFF,
-  "lighten-4": #D8C2FF,
-  "lighten-3": #BE99FF,
-  "lighten-2": #A570FF,
-  "lighten-1": #8B47FF,
-  "darken-1": #5A00F5,
-  "darken-2": #4B00CC,
-  "darken-3": #3C00A3,
-  "darken-4": #2D007A,
+  "lighten-5": #f2ebff,
+  "lighten-4": #d8c2ff,
+  "lighten-3": #be99ff,
+  "lighten-2": #a570ff,
+  "lighten-1": #8b47ff,
+  "darken-1": #5a00f5,
+  "darken-2": #4b00cc,
+  "darken-3": #3c00a3,
+  "darken-4": #2d007a,
   "accent-1": #bf99ff,
   "accent-2": #7f33ff,
   "accent-3": #4c00cc,
   "accent-4": #260066,
+);
+
+$green: (
+  "base": #4caf50,
+  "lighten-5": #e8f5e9,
+  "lighten-4": #c8e6c9,
+  "lighten-3": #a5d6a7,
+  "lighten-2": #81c784,
+  "lighten-1": #66bb6a,
+  "darken-1": #43a047,
+  "darken-2": #388e3c,
+  "darken-3": #2e7d32,
+  "darken-4": #1b5e20,
+  "accent-1": #b9f6ca,
+  "accent-2": #69f0ae,
+  "accent-3": #00e676,
+  "accent-4": #00c853,
+);
+
+$light-green: (
+  "base": #8bc34a,
+  "lighten-5": #f1f8e9,
+  "lighten-4": #dcedc8,
+  "lighten-3": #c5e1a5,
+  "lighten-2": #aed581,
+  "lighten-1": #9ccc65,
+  "darken-1": #7cb342,
+  "darken-2": #689f38,
+  "darken-3": #558b2f,
+  "darken-4": #33691e,
+  "accent-1": #ccff90,
+  "accent-2": #b2ff59,
+  "accent-3": #76ff03,
+  "accent-4": #64dd17,
+);
+
+$lime: (
+  "base": #cddc39,
+  "lighten-5": #f9fbe7,
+  "lighten-4": #f0f4c3,
+  "lighten-3": #e6ee9c,
+  "lighten-2": #dce775,
+  "lighten-1": #d4e157,
+  "darken-1": #c0ca33,
+  "darken-2": #afb42b,
+  "darken-3": #9e9d24,
+  "darken-4": #827717,
+  "accent-1": #f4ff81,
+  "accent-2": #eeff41,
+  "accent-3": #c6ff00,
+  "accent-4": #aeea00,
+);
+
+$white: (
+  "base": #ffffff,
+);
+
+$black: (
+  "base": #000000,
 );
 
 $colors: (
@@ -92,6 +151,21 @@ $colors: (
   "purple": $purple,
   "teal": $teal,
   "violet": $violet,
+  "green": $green,
+  "white": $white,
+  "black": $black,
+);
+
+$palettes: (
+  "primary": #711cff,
+  "secondary": #014ce4,
+  "accent": #001399,
+  "error": #dc3545,
+  "info": #2196f3,
+  "success": #28a745,
+  "warning": #ffc107,
+  "light": #f8f9fa,
+  "dark": #343a40,
 );
 
 $fonts: (
@@ -134,9 +208,16 @@ $fonts: (
   ),
 );
 
+$text: (
+  "default-light": map-get($white, "base"),
+  "default-dark": rgba(map-get($black, "base"), 0.87),
+);
+
 $theme: (
   "colors": $colors,
   "fonts": $fonts,
+  "text": $text,
+  "palettes": $palettes
 );
 
 $tracking-tight: -0.025em;

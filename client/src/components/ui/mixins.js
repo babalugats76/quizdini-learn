@@ -1,24 +1,39 @@
-/*export function setTextColor(color) {
-  if (!color) return;
-  const [colorName, colorModifier] = color.trim().split(" ", 2);
-  return color ? "text-" + colorName + (colorModifier ? " " + colorModifier : "") : "";
-}
-
-export default {
-  setTextColor,
-};*/
+export const size = {
+  props: {
+    size: {
+      type: String,
+      default: "md",
+    },
+  },
+  computed: {
+    sizeClasses() {
+      return {
+        [`size-${this.size}`]: this.size,
+      };
+    },
+  },
+};
 
 export const color = {
   props: ["color"],
-  methods: {
-    getTextColor() {
+  computed: {
+    colorClasses() {
       if (!this.color) return;
       const [color, modifier] = this.color.trim().split(" ", 2);
-      return [color + "--text", modifier ? "text--" + modifier : ""];
+      return {
+        [`${color}--text`]: color,
+        [`text--${modifier}`]: modifier,
+      };
+    },
+    bgColorClasses() {
+      if (!this.color) return;
+      const [color, modifier] = this.color.trim().split(" ", 2);
+      return [color, modifier || ""];
     },
   },
 };
 
 export default {
   color,
+  size,
 };
