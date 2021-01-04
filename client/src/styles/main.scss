@@ -1,10 +1,10 @@
-@each $font, $styles in map-get($theme, "fonts") {
+@each $font, $styles in $fonts {
   @each $style, $values in $styles {
     @include font-face($font, map-get($values, "path"), map-get($values, "weight"));
   }
 }
 
-@each $font, $styles in map-get($theme, "fonts") {
+@each $font, $styles in $fonts {
   @each $style, $values in $styles {
     .#{#{to-lower-case($font)}#{if($style==normal,'','-'+$style)}} {
       font-family: quote($font) !important;
@@ -13,24 +13,18 @@
   }
 }
 
-@each $color, $shades in map-get($theme, "colors") {
-  @each $shade, $value in $shades {
-    @if ($shade == "base") {
-      .#{$color} {
-        @include bg-color($value, true);
-      }
+@each $color, $variants in $shades {
+  @each $shade, $value in $variants {
+    .bg-#{$color}-#{$shade} {
+      @include bg-color-alpha($value, true);
+    }
 
-      .#{$color}--text {
-        @include text-color($value, true);
-      }
-    } @else {
-      .#{$color}.#{$shade} {
-        @include bg-color($value, true);
-      }
+    .border-#{$color}-#{$shade} {
+      @include border-color-alpha($value, true);
+    }
 
-      .#{$color}--text.text--#{$shade} {
-        @include text-color($value, true);
-      }
+    .text-#{$color}-#{$shade} {
+      @include text-color-alpha($value, truee);
     }
   }
 }

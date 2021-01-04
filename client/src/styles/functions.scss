@@ -1,20 +1,20 @@
-@function color($name, $shade: "base") {
+@function color($name, $shade: "500") {
   $value: #000000;
-  @if map-has-key(map-get($theme, "colors"), $name, $shade) {
-    @return map-get($theme, "colors", $name, $shade);
+  @if map-has-key($shades, $name, $shade) {
+    @return map-get($shades, $name, $shade);
   }
   @return $value;
 }
 
-@function get-color($name, $shade: "base") {
+@function get-color($name, $shade: "500") {
   $value: #000000;
-  @if map-has-key(map-get($theme, "colors"), $name, $shade) {
-    @return map-get($theme, "colors", $name, $shade);
+  @if map-has-key($shades, $name, $shade) {
+    @return map-get($shades, $name, $shade);
   }
   @return $value;
 }
 
-@function brightness($color) {
+/*@function brightness($color) {
   @return ((red($color) * 0.299) + (green($color) * 0.587) + (blue($color) * 0.114)) / 255 * 100%;
 }
 
@@ -38,4 +38,4 @@
       $dark
     );
   }
-}
+}*/

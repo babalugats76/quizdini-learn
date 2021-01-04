@@ -72,9 +72,6 @@ export const UiListIcon = {
   components: "UiIcon",
   mixins: [color],
   props: {
-    color: {
-      type: String,
-    },
     name: {
       type: String,
     },
