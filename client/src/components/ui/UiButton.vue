@@ -31,6 +31,9 @@ export default UiButton;
 </script>
 
 <style lang="scss">
+$btn-border-radius: 0.375rem;
+$btn-disabled-opacity: 0.65;
+
 $btn-sizes: (
   "xs": 0.75rem,
   "sm": 0.875rem,
@@ -39,20 +42,31 @@ $btn-sizes: (
   "xl": 1.375rem,
 );
 
-$btn-border-radius: 0.5rem;
-
 .ui-btn {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0.375rem 0.75rem;
   border-radius: $btn-border-radius;
+  color: $gray-800;
+  @include font("Montserrat", "semi-bold");
+  line-height: 1.25;
+  text-align: center;
+  vertical-align: middle;
   letter-spacing: $tracking-tight;
-  @include font-size($btn-sizes, "md"); // the "default"
   outline: 0;
+  @include font-sizes($btn-sizes);
+  @each $theme, $color in $color-themes {
+    &.#{$theme} {
+      @include button-variant($color);
+    }
+  }
   &--disabled,
-  &:disabled {
-    opacity: 0.15;
+  &:disabled,
+  &.disabled {
+    pointer-events: none;
+    opacity: $btn-disabled-opacity;
   }
   &--active,
   &:active {

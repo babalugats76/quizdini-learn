@@ -63,6 +63,32 @@
   }
 }
 
+.text-transparent {
+  color: transparent !important;
+  caret-color: transparent !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.border-transparent {
+  border-color: transparent !important;
+}
+
+.text-current {
+  color: currentColor !important;
+  caret-color: currentColor !important;
+}
+
+.bg-current {
+  background-color: currentColor !important;
+}
+
+.border-current {
+  border-color: currentColor !important;
+}
+
 .uppercase {
   text-transform: uppercase !important;
 }
