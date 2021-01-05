@@ -1,4 +1,15 @@
 // Color shade variables
+
+$black-100: #999;
+$black-200: #888;
+$black-300: #777;
+$black-400: #666;
+$black-500: #555;
+$black-600: #444;
+$black-700: #333;
+$black-800: #222;
+$black-900: #111;
+
 $blue-100: #c2d6fe;
 $blue-200: #71a0fe;
 $blue-300: #4885fe;
@@ -120,6 +131,19 @@ $yellow-800: #664d03;
 $yellow-900: #332701;
 
 // Shade maps
+
+$blacks: (
+  "100": $black-100,
+  "200": $black-200,
+  "300": $black-300,
+  "400": $black-400,
+  "500": $black-500,
+  "600": $black-600,
+  "700": $black-700,
+  "800": $black-800,
+  "900": $black-900,
+);
+
 $blues: (
   "100": $blue-100,
   "200": $blue-200,
@@ -265,6 +289,7 @@ $yellows: (
 );
 
 $shades: (
+  "black": $blacks,
   "blue": $blues,
   "cyan": $cyans,
   "gray": $grays,
@@ -316,14 +341,18 @@ $base-colors: (
 $color-themes: (
   "primary": #711cff,
   "secondary": #014ce4,
-  "accent": #001399,
-  "error": #dc3545,
+  "tertiary": #001399,
+  "negative": #dc3545,
   "info": #2196f3,
-  "success": #28a745,
+  "positive": #28a745,
   "warning": #ffc107,
   "light": #f8f9fa,
   "dark": #343a40,
 );
+
+$min-contrast-ratio: 4.5;
+$color-contrast-dark: $black;
+$color-contrast-light: $white;
 
 $fonts: (
   "Montserrat": (
@@ -365,6 +394,15 @@ $fonts: (
   ),
 );
 
-$color-contrast-dark: #000;
-$color-contrast-light: #fff;
+$font-weights: (
+  'thin': 100,
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semi-bold': 600,
+  'bold': 700,
+  'extra-bold': 800,
+  'black': 900
+);
+
 $tracking-tight: -0.025em;

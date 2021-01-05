@@ -1,8 +1,9 @@
 <script>
-import classnames from "classnames";
+import { size } from "./mixins";
 
 export const UiButton = {
   name: "ui-button",
+  mixins: [size],
   props: {
     disabled: {
       type: Boolean,
@@ -13,16 +14,17 @@ export const UiButton = {
       default: "button",
     },
   },
-  data: function () {
-    return {
-      staticClass: "ui-btn",
-    };
+  computed: {
+    classes() {
+      return {
+        "ui-btn": true,
+        "ui-btn--disabled": this.disabled,
+        ...this.sizeClasses,
+      };
+    },
   },
   render() {
-    const classes = classnames(this.staticClass, {
-      [`${this.staticClass}--disabled`]: this.disabled,
-    });
-    return <button class={classes}>{this.$slots.default()}</button>;
+    return <button class={this.classes}>{this.$slots.default()}</button>;
   },
 };
 export default UiButton;

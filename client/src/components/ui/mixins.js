@@ -1,14 +1,40 @@
 export const size = {
   props: {
+    xSmall: {
+      type: Boolean,
+    },
+    small: {
+      type: Boolean,
+    },
+    medium: {
+      type: Boolean,
+    },
+    large: {
+      type: Boolean,
+    },
+    xLarge: {
+      type: Boolean,
+    },
     size: {
       type: String,
-      default: "base",
+      default: "md",
     },
   },
   computed: {
     sizeClasses() {
       return {
-        [`size--${this.size}`]: this.size,
+        [`size--xs`]: this.xSmall,
+        [`size--sm`]: this.small,
+        [`size--md`]: this.medium,
+        [`size--lg`]: this.large,
+        [`size--xl`]: this.xLarge,
+        [`size--${this.size}`]:
+          this.size &&
+          !this.xSmall &&
+          !this.small &&
+          !this.medium &&
+          !this.large &&
+          !this.xLarge,
       };
     },
   },
@@ -17,18 +43,20 @@ export const size = {
 export const color = {
   props: ["color"],
   computed: {
-    colorClasses() {
-      if (!this.color) return;
-      const [color, modifier] = this.color.trim().split(" ", 2);
+    bgColorClasses() {
       return {
-        [`${color}--text`]: color,
-        [`text--${modifier}`]: modifier,
+        [`bg-${this.color}`]: this.color,
       };
     },
-    bgColorClasses() {
-      if (!this.color) return;
-      const [color, modifier] = this.color.trim().split(" ", 2);
-      return [color, modifier || ""];
+    borderColorClasses() {
+      return {
+        [`border-${this.color}`]: this.color,
+      };
+    },
+    colorClasses() {
+      return {
+        [`text-${this.color}`]: this.color,
+      };
     },
   },
 };

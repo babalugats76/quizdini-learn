@@ -102,7 +102,7 @@ $modal-mask-opacity: 0.35;
       @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
     }
     @at-root #{$mask}.modal-leave-to {
-      @include bg-color-alpha($modal-mask-color, 0);
+      @include bg-color-alpha($modal-mask-color, false, 0);
     }
   }
 

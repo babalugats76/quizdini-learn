@@ -16,22 +16,26 @@
             class="primary"
             :items="[
               {
-                color: 'neutral',
+                // class: 'font-extra-bold',
+                color: 'black-200',
                 content: `${duration} seconds`,
+                dense: true,
                 icon: 'watch',
-                iconColor: 'blue accent-1',
                 id: 'duration',
+                iconProps: { name: 'watch' },
               },
               {
-                color: 'neutral',
+                color: 'black-200',
                 content: `${itemsPerBoard} per board`,
-                icon: 'grid',
+                dense: true,
+                iconProps: { name: 'grid' },
                 id: 'items-per-board',
               },
               {
-                color: 'neutral',
+                color: 'black-200',
                 content: `${matches.length} terms`,
-                icon: 'archive',
+                dense: true,
+                iconProps: { name: 'archive' },
                 id: 'term-count',
               },
             ]"
@@ -41,22 +45,27 @@
             class="primary"
             :items="[
               {
+                color: 'black-200',
                 content: `${correct} correct`,
-                icon: 'watch',
-                iconColor: 'success accent-1',
+                dense: true,
+                iconProps: { name: 'check', color: 'green' },
                 id: 'duration',
               },
               {
+                color: 'black-200',
                 content: `${incorrect} incorrect`,
-                icon: 'grid',
-                iconColor: 'success accent-1',
+                dense: true,
+                iconProps: { name: 'x', color: 'red' },
                 id: 'items-per-board',
               },
               {
-                content: `${score} score`,
-                icon: 'archive',
+                class: 'font-bold uppercase',
+                color: 'gray-800',
+                content: `${score} points`,
+                dense: true,
+                iconProps: { name: 'award', color: 'yellow-600' },
                 id: 'term-count',
-                itemClass: 'success',
+                size: '2xl',
               },
             ]"
           />
@@ -168,20 +177,13 @@ import {
   UiListIcon,
 } from "@/components/";
 
-const SplashDetails = ({ items, ...rest }) => (
-  <UiList {...rest}>
+const SplashDetails = ({ items, ...listProps }) => (
+  <UiList {...listProps}>
     {items.map((item) => {
-      const { color, content, icon, iconColor, id, itemClass, ...rest } = item;
+      const { iconProps = {}, content, ...itemProps } = item;
       return (
-        <UiListItem
-          dense
-          color={color}
-          class={itemClass}
-          key={id}
-          id={id}
-          {...rest}
-        >
-          <UiListIcon color={iconColor} name={icon} /> {content}
+        <UiListItem {...itemProps}>
+          <UiListIcon {...iconProps} /> {content}
         </UiListItem>
       );
     })}

@@ -1,5 +1,4 @@
 <script>
-import classnames from "classnames";
 import UiIcon from "@/components/ui/UiIcon";
 import { color, size } from "./mixins";
 
@@ -12,25 +11,24 @@ export const UiList = {
       default: "div",
     },
   },
-  data: function () {
-    return {
-      staticClass: "ui-list",
-    };
+  computed: {
+    classes() {
+      return {
+        "ui-list": true,
+        ...this.colorClasses,
+        ...this.sizeClasses,
+      };
+    },
   },
   render() {
     const Tag = `${this.tag}`;
-    const classes = classnames(
-      this.staticClass,
-      this.sizeClasses,
-      this.colorClasses
-    );
-    return <Tag class={classes}>{this.$slots.default()}</Tag>;
+    return <Tag class={this.classes}>{this.$slots.default()}</Tag>;
   },
 };
 
 export const UiListItem = {
   name: "ui-list-item",
-  mixins: [color],
+  mixins: [color, size],
   props: {
     dense: {
       type: Boolean,
@@ -46,18 +44,14 @@ export const UiListItem = {
       default: "div",
     },
   },
-  data: function () {
-    return {
-      staticClass: "ui-list__item",
-    };
-  },
   computed: {
     classes() {
       return {
-        [`${this.staticClass}`]: true,
+        "ui-list__item": true,
         "ui-list__item--dense": this.dense,
         [`ui-list__item--${this.id}`]: this.id,
         ...this.colorClasses,
+        ...this.sizeClasses,
       };
     },
   },
@@ -76,14 +70,16 @@ export const UiListIcon = {
       type: String,
     },
   },
-  data: function () {
-    return {
-      staticClass: ["ui-list__icon"],
-    };
+  computed: {
+    classes() {
+      return {
+        "ui-list__icon": true,
+        ...this.colorClasses,
+      };
+    },
   },
   render() {
-    const classes = classnames(this.staticClass, this.colorClasses);
-    return <UiIcon class={classes} name={this.name} />;
+    return <UiIcon class={this.classes} name={this.name} />;
   },
 };
 
@@ -94,9 +90,18 @@ export default UiList;
 $list-sizes: (
   "xs": 0.75rem,
   "sm": 0.875rem,
-  "base": 1rem,
+  "md": 1rem,
   "lg": 1.1875rem,
   "xl": 1.375rem,
+);
+
+$list-item-sizes: (
+  "xs": 0.9375em,
+  "sm": 1.0625em,
+  "md": 1.25em,
+  "lg": 1.375em,
+  "xl": 1.5em,
+  "2xl": 1.75em,
 );
 
 .ui-list {
@@ -105,7 +110,7 @@ $list-sizes: (
   @include font-sizes($list-sizes);
   &__item {
     $item: &;
-    font-size: 1.25em;
+    @include font-sizes($list-item-sizes);
     line-height: 1.25;
     @include font("Montserrat", "medium");
     letter-spacing: 0em;

@@ -44,7 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  color: #888;
+  color: $black-200;
   border-radius: inherit;
   &::before {
     content: ""; // ::before and ::after both require content
@@ -82,7 +82,7 @@ export default {
   &__title {
     margin: 0 6rem 0.5rem 0.25rem;
     padding: 0.25rem;
-    color: #333;
+    color: $gray-800;
     font-size: 2.625rem;
     @include font("Montserrat", "extra-bold");
     line-height: 1;
