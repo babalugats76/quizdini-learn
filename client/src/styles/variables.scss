@@ -339,18 +339,21 @@ $base-colors: (
 );
 
 $color-themes: (
+  "alert": #dc3545,
+  "dark": #343a40,
+  "error": #dc3545,
+  "info": #2196f3,
+  "light": #f8f9fa,
+  "negative": #dc3545,
+  "positive": #28a745,
   "primary": #711cff,
   "secondary": #014ce4,
+  "success": #28a745,
   "tertiary": #001399,
-  "negative": #dc3545,
-  "info": #2196f3,
-  "positive": #28a745,
-  "warning": #ffc107,
-  "light": #f8f9fa,
-  "dark": #343a40,
+  "warn": #ffc107,
 );
 
-$min-contrast-ratio: 4.5;
+$min-contrast-ratio: 3;
 $color-contrast-dark: $black;
 $color-contrast-light: $white;
 
@@ -395,14 +398,14 @@ $fonts: (
 );
 
 $font-weights: (
-  'thin': 100,
-  'light': 300,
-  'regular': 400,
-  'medium': 500,
-  'semi-bold': 600,
-  'bold': 700,
-  'extra-bold': 800,
-  'black': 900
+  "thin": 100,
+  "light": 300,
+  "regular": 400,
+  "medium": 500,
+  "semi-bold": 600,
+  "bold": 700,
+  "extra-bold": 800,
+  "black": 900,
 );
 
 $tracking-tight: -0.025em;
