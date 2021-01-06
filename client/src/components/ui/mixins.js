@@ -1,3 +1,63 @@
+export const color = {
+  props: ["color"],
+  computed: {
+    bgColorClasses() {
+      return {
+        [`bg-${this.color}`]: this.color,
+      };
+    },
+    borderColorClasses() {
+      return {
+        [`border-${this.color}`]: this.color,
+      };
+    },
+    colorClasses() {
+      return {
+        [`text-${this.color}`]: this.color,
+      };
+    },
+  },
+};
+
+export const severity = {
+  props: {
+    alert: {
+      type: Boolean,
+    },
+    danger: {
+      type: Boolean,
+    },
+    error: {
+      type: Boolean,
+    },
+    info: {
+      type: Boolean,
+    },
+    negative: {
+      type: Boolean,
+    },
+    positive: {
+      type: Boolean,
+    },
+    success: {
+      type: Boolean,
+    },
+    warning: {
+      type: Boolean,
+    },
+  },
+  computed: {
+    severityClasses() {
+      return {
+        danger: this.alert || this.danger || this.error || this.negative,
+        warning: this.warning,
+        info: this.info,
+        success: this.success || this.positive,
+      };
+    },
+  },
+};
+
 export const size = {
   props: {
     xSmall: {
@@ -40,22 +100,36 @@ export const size = {
   },
 };
 
-export const color = {
-  props: ["color"],
+export const theme = {
+  props: {
+    primary: {
+      type: Boolean,
+    },
+    secondary: {
+      type: Boolean,
+    },
+    tertiary: {
+      type: Boolean,
+    },
+    quaternary: {
+      type: Boolean,
+    },
+    light: {
+      type: Boolean,
+    },
+    dark: {
+      type: Boolean,
+    },
+  },
   computed: {
-    bgColorClasses() {
+    themeClasses() {
       return {
-        [`bg-${this.color}`]: this.color,
-      };
-    },
-    borderColorClasses() {
-      return {
-        [`border-${this.color}`]: this.color,
-      };
-    },
-    colorClasses() {
-      return {
-        [`text-${this.color}`]: this.color,
+        primary: this.primary,
+        secondary: this.secondary,
+        tertiary: this.tertiary,
+        quaternary: this.quaternary,
+        light: this.light,
+        dark: this.dark,
       };
     },
   },
@@ -63,5 +137,7 @@ export const color = {
 
 export default {
   color,
+  severity,
   size,
+  theme,
 };

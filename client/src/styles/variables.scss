@@ -339,18 +339,16 @@ $base-colors: (
 );
 
 $color-themes: (
-  "alert": #dc3545,
-  "dark": #343a40,
-  "error": #dc3545,
-  "info": #2196f3,
-  "light": #f8f9fa,
-  "negative": #dc3545,
-  "positive": #28a745,
   "primary": #711cff,
   "secondary": #014ce4,
-  "success": #28a745,
   "tertiary": #001399,
-  "warn": #ffc107,
+  "quaternary": #01e7e4,
+  "light": #f8f9fa,
+  "dark": #343a40,
+  "danger": #dc3545,
+  "warning": #ffc107,
+  "info": #2196f3,
+  "success": #28a745,
 );
 
 $min-contrast-ratio: 3;

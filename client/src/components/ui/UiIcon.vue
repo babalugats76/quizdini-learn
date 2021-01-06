@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { color } from "./mixins";
+
 const icons = {
   archive: {
     viewBox: "0 0 24 24",
@@ -47,6 +49,7 @@ const icons = {
 
 export default {
   name: "ui-icon",
+  mixins: [color],
   props: {
     full: {
       type: Boolean,
@@ -70,8 +73,8 @@ export default {
       return {
         "ui-icon": true,
         [`ui-icon--${this.name}`]: this.name,
-        [`ui-icon--w-base`]: !this.width && !this.height,
         [`ui-icon--w-full`]: this.full,
+        ...this.colorClasses,
       };
     },
     html() {
@@ -87,6 +90,8 @@ export default {
 <style lang="scss" scoped>
 .ui-icon {
   display: inline-block;
+  width: 1em;
+  height: 1em;
   vertical-align: -12.5%;
   stroke-width: 0;
   stroke: currentColor;
@@ -95,10 +100,6 @@ export default {
   transition-duration: 200ms;
   transition-property: all;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  &--w-base {
-    width: 1em;
-    height: 1em;
-  }
   &--w-full {
     width: 100%;
     height: 100%;

@@ -1,9 +1,9 @@
 <script>
-import { size } from "./mixins";
+import { severity, size, theme } from "./mixins";
 
 export const UiButton = {
   name: "ui-button",
-  mixins: [size],
+  mixins: [severity, size, theme],
   props: {
     disabled: {
       type: Boolean,
@@ -20,6 +20,8 @@ export const UiButton = {
         "ui-btn": true,
         "ui-btn--disabled": this.disabled,
         ...this.sizeClasses,
+        ...this.themeClasses,
+        ...this.severityClasses,
       };
     },
   },
