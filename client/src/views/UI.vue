@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 montserrat" :style="{ padding: '1rem' }">
+  <div class="p-4 montserrat">
     <h1>Icons</h1>
     <h2>Colors</h2>
     <div :style="{ color: 'black' }">

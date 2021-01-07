@@ -163,8 +163,9 @@
 
 <script>
 /* eslint-disable */
-import { ref, toRefs } from "vue";
+import { toRefs, toRef } from "vue";
 import useMatch from "./useMatch";
+import useTitle from "@/compose/useTitle";
 import AppFullPage from "@/components/AppFullPage";
 import Tile from "./Tile";
 import Timer from "./Timer";
@@ -203,7 +204,7 @@ export default {
   props: ["match"],
   setup(props) {
     const { match } = toRefs(props);
-    console.log(typeof match);
+    useTitle(toRef(props.match, "title"));
     return {
       ...useMatch(match),
     };

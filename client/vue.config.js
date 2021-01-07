@@ -5,6 +5,9 @@ module.exports = {
       scss: {
         additionalData: `@import "~styles/variables.scss"; @import "~styles/mixins.scss"; @import "~styles/functions.scss";`,
       },
+      postcss: {
+        plugins: [require("tailwindcss"), require("autoprefixer")],
+      },
     },
   },
   devServer: {

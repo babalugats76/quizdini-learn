@@ -51,8 +51,8 @@ $btn-sizes: (
   justify-content: center;
   padding: 0.375rem 0.75rem;
   border-radius: $btn-border-radius;
-  color: $gray-800;
   @include font("Montserrat", "semi-bold");
+  @apply bg-blue-500;
   line-height: 1.25;
   text-align: center;
   vertical-align: middle;
