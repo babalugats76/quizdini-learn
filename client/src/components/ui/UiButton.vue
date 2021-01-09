@@ -51,14 +51,13 @@ $btn-sizes: (
   justify-content: center;
   padding: 0.375rem 0.75rem;
   border-radius: $btn-border-radius;
-  @apply montserrat-semi-bold;
-  @apply bg-blue-500;
+  @include font("Montserrat", "semi-bold");
   line-height: 1.25;
   text-align: center;
   vertical-align: middle;
-  @apply tracking-tight;
+  letter-spacing: $tracking-tight;
   outline: 0;
-  @include font-sizes($btn-sizes);
+  @include chain($btn-sizes, "font-size", "size");
   @each $theme, $color in $color-themes {
     &.#{$theme} {
       @include button-variant($color);

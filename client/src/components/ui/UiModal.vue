@@ -40,6 +40,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$modal-mask-color: $tertiary;
+$modal-mask-opacity: 0.35;
+
 .modal-enter-active,
 .modal-enter-from,
 .modal-enter-to,
@@ -86,22 +89,20 @@ export default {
     width: 100%;
     height: 100%;
     display: table;
-    @apply bg-navy;
-    @apply transition-all;
-    --tw-bg-opacity: 0.35;
+    @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
     @at-root #{$mask}.modal-enter-active,
       #{$mask}.modal-enter-from {
-      --tw-bg-opacity: 1;
+      --bg-opacity: 1;
     }
     @at-root #{$mask}.modal-enter-to {
-      --tw-bg-opacity: 0.35;
+      --bg-opacity: $modal-mask-opacity;
     }
     @at-root #{$mask}.modal-leave-active,
       #{$mask}.modal-leave-from {
-      --tw-bg-opacity: 0.35;
+      --bg-opacity: $modal-mask-opacity;
     }
     @at-root #{$mask}.modal-leave-to {
-      --tw-bg-opacity: 0;
+      --bg-opacity: 0;
     }
   }
 
@@ -119,7 +120,7 @@ export default {
     background-color: #fff;
     border-radius: 0.875rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    @apply montserrat;
+    @include font("Montserrat");
   }
 }
 </style>

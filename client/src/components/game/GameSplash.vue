@@ -44,7 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  @apply text-black-200;
+  color: $black-200;
   border-radius: inherit;
   &::before {
     content: ""; // ::before and ::after both require content
@@ -74,7 +74,7 @@ export default {
     right: 1rem;
     width: 5rem;
     height: 5rem;
-    background-color: white;
+    background-color: $white;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.13);
     border-radius: 100%;
   }
@@ -82,19 +82,19 @@ export default {
   &__title {
     margin: 0 6rem 0.5rem 0.25rem;
     padding: 0.25rem;
-    @apply text-gray-800;
+    color: $gray-800;
     font-size: 2.625rem;
-    @apply montserrat-extra-bold;
+    @include font("Montserrat", "extra-bold");
     line-height: 1;
-    @apply tracking-tight;
+    letter-spacing: $tracking-tight;
     text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.6);
   }
 
   &__subtitle {
     margin-left: 0.375rem;
     font-size: 1.25rem;
-    @apply montserrat;
-    @apply tracking-tight;
+    @include font("Montserrat");
+    letter-spacing: $tracking-tight;
   }
 
   &__body {
@@ -115,8 +115,8 @@ export default {
       width: 100%;
       font-size: 1.625rem;
       line-height: 2rem;
-      @apply montserrat-extra-bold;
-      @apply tracking-tight;
+      @include font("Montserrat", "extra-bold");
+      letter-spacing: $tracking-tight;
     }
   }
 }

@@ -4,11 +4,6 @@
   color: $color;
 }
 
-@mixin bg-color($color, $important: false) {
-  background-color: $color if($important, !important, null);
-  border-color: $color if($important, !important, null);
-}
-
 @mixin bg-color-alpha($color, $opacity: 1, $important: false) {
   --bg-opacity: #{$opacity};
   background-color: $color if($important, !important, null);
@@ -20,6 +15,16 @@
   --border-opacity: #{$opacity};
   border-color: $color if($important, !important, null);
   border-color: rgba(red($color), green($color), blue($color), var(--border-opacity))
+    if($important, !important, null);
+}
+
+@mixin text-color-alpha($color, $opacity: 1, $important: false) {
+  --text-opacity: #{$opacity};
+  caret-color: $color if($important, !important, null);
+  caret-color: rgba(red($color), green($color), blue($color), var(--text-opacity))
+    if($important, !important, null);
+  color: $color if($important, !important, null);
+  color: rgba(red($color), green($color), blue($color), var(--text-opacity))
     if($important, !important, null);
 }
 
@@ -43,29 +48,11 @@
   }
 }
 
-@mixin font-size($s, $sz) {
-  font-size: #{map-get($s, $sz)};
-}
-
-@mixin font-sizes($sz) {
-  @each $key, $value in $sz {
-    &.size--#{$key} {
-      font-size: #{$value};
+@mixin chain($options, $property, $prefix: "") {
+  @each $opt, $value in $options {
+    $sep: if($prefix == "", "", "--");
+    &.#{$prefix}#{$sep}#{$opt} {
+      #{$property}: #{$value};
     }
   }
-}
-
-@mixin text-color($color, $important: false) {
-  color: $color if($important, !important, null);
-  caret-color: $color if($important, !important, null);
-}
-
-@mixin text-color-alpha($color, $opacity: 1, $important: false) {
-  --text-opacity: #{$opacity};
-  caret-color: $color if($important, !important, null);
-  caret-color: rgba(red($color), green($color), blue($color), var(--text-opacity))
-    if($important, !important, null);
-  color: $color if($important, !important, null);
-  color: rgba(red($color), green($color), blue($color), var(--text-opacity))
-    if($important, !important, null);
 }

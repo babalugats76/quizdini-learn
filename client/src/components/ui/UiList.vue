@@ -107,15 +107,15 @@ $list-item-sizes: (
 .ui-list {
   display: block;
   padding-left: 0.75rem;
-  @include font-sizes($list-sizes);
+  @include chain($list-sizes, "font-size", "size");
   &__item {
     $item: &;
-    @include font-sizes($list-item-sizes);
+    @include chain($list-item-sizes, "font-size", "size");
     line-height: 1.25;
-    @apply montserrat-medium;
+    @include font("Montserrat", "medium");
     letter-spacing: 0em;
     &--dense {
-      @apply tracking-tight;
+      letter-spacing: $tracking-tight;
     }
     + #{$item} {
       margin-top: 0.5rem;

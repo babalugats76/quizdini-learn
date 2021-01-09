@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const TailwindConfig = require("./tailwind.quizdini.js");
+const TailwindConfig = require("../client/tailwind.quizdini.js");
 const colors = TailwindConfig.theme.colors;
 const outPath = path.join(__dirname, "src", "styles", "theme-variables.scss");
 

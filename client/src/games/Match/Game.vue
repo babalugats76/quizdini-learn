@@ -59,11 +59,11 @@
                 id: 'items-per-board',
               },
               {
-                class: 'font-bold uppercase',
+                class: 'font-bold -ml-2',
                 color: 'gray-800',
                 content: `${score} points`,
                 dense: true,
-                iconProps: { name: 'award', color: 'yellow-600' },
+                iconProps: { name: 'award', class: 'm-0', color: 'yellow-600' },
                 id: 'term-count',
                 size: '2xl',
               },
@@ -397,7 +397,7 @@ $tile-colors: (
 .match {
   &__game {
     --board-bg-color: #01e7e4;
-    @apply montserrat;
+    @include font("Montserrat");
     display: grid;
     grid-area: auto;
     grid-template-columns: 1fr;
@@ -475,7 +475,7 @@ $tile-colors: (
     transition: all 150ms ease;
   }
   &--term {
-    @apply montserrat-extra-bold;
+    @include font("Montserrat", "extra-bold");
     opacity: 1;
     &.miss {
       opacity: 1;
@@ -528,8 +528,8 @@ $tile-colors: (
   &--definition {
     @include bg-color-alpha(#ffffff);
     @include text-color-alpha(#515328);
-    @apply montserrat-bold;
-    @apply tracking-tight;
+    @include font("Montserrat", "bold");
+    letter-spacing: $tracking-tight;
     font-size: 1em;
     opacity: 1;
     transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,

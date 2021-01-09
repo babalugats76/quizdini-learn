@@ -110,7 +110,7 @@ export default {
 
 <style lang="scss">
 hr {
-  @apply bg-gray-500;
+  background-color: $gray-500;
   margin: 1rem 0;
   height: 1px;
 }
