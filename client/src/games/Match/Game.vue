@@ -397,7 +397,7 @@ $tile-colors: (
 .match {
   &__game {
     --board-bg-color: #01e7e4;
-    @include font("Montserrat");
+    @apply montserrat;
     display: grid;
     grid-area: auto;
     grid-template-columns: 1fr;
@@ -475,7 +475,7 @@ $tile-colors: (
     transition: all 150ms ease;
   }
   &--term {
-    @include font("Montserrat", "extra-bold");
+    @apply montserrat-extra-bold;
     opacity: 1;
     &.miss {
       opacity: 1;
@@ -528,8 +528,8 @@ $tile-colors: (
   &--definition {
     @include bg-color-alpha(#ffffff);
     @include text-color-alpha(#515328);
-    @include font("Montserrat", "bold");
-    letter-spacing: $tracking-tight;
+    @apply montserrat-bold;
+    @apply tracking-tight;
     font-size: 1em;
     opacity: 1;
     transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,

@@ -40,9 +40,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$modal-mask-color: color("navy");
-$modal-mask-opacity: 0.35;
-
 .modal-enter-active,
 .modal-enter-from,
 .modal-enter-to,
@@ -89,20 +86,22 @@ $modal-mask-opacity: 0.35;
     width: 100%;
     height: 100%;
     display: table;
-    @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
+    @apply bg-navy;
+    @apply transition-all;
+    --tw-bg-opacity: 0.35;
     @at-root #{$mask}.modal-enter-active,
       #{$mask}.modal-enter-from {
-      @include bg-color-alpha($modal-mask-color, 1);
+      --tw-bg-opacity: 1;
     }
     @at-root #{$mask}.modal-enter-to {
-      @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
+      --tw-bg-opacity: 0.35;
     }
     @at-root #{$mask}.modal-leave-active,
       #{$mask}.modal-leave-from {
-      @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
+      --tw-bg-opacity: 0.35;
     }
     @at-root #{$mask}.modal-leave-to {
-      @include bg-color-alpha($modal-mask-color, false, 0);
+      --tw-bg-opacity: 0;
     }
   }
 
@@ -120,7 +119,7 @@ $modal-mask-opacity: 0.35;
     background-color: #fff;
     border-radius: 0.875rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    @include font("Montserrat");
+    @apply montserrat;
   }
 }
 </style>

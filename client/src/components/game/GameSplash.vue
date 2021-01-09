@@ -44,7 +44,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  color: $black-200;
+  @apply text-black-200;
   border-radius: inherit;
   &::before {
     content: ""; // ::before and ::after both require content
@@ -82,19 +82,19 @@ export default {
   &__title {
     margin: 0 6rem 0.5rem 0.25rem;
     padding: 0.25rem;
-    color: $gray-800;
+    @apply text-gray-800;
     font-size: 2.625rem;
-    @include font("Montserrat", "extra-bold");
+    @apply montserrat-extra-bold;
     line-height: 1;
-    letter-spacing: $tracking-tight;
+    @apply tracking-tight;
     text-shadow: 2px 2px 1px rgba(255, 255, 255, 0.6);
   }
 
   &__subtitle {
     margin-left: 0.375rem;
     font-size: 1.25rem;
-    @include font("Montserrat");
-    letter-spacing: $tracking-tight;
+    @apply montserrat;
+    @apply tracking-tight;
   }
 
   &__body {
@@ -115,8 +115,8 @@ export default {
       width: 100%;
       font-size: 1.625rem;
       line-height: 2rem;
-      @include font("Montserrat", "extra-bold");
-      letter-spacing: $tracking-tight;
+      @apply montserrat-extra-bold;
+      @apply tracking-tight;
     }
   }
 }

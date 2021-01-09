@@ -112,10 +112,10 @@ $list-item-sizes: (
     $item: &;
     @include font-sizes($list-item-sizes);
     line-height: 1.25;
-    @include font("Montserrat", "medium");
+    @apply montserrat-medium;
     letter-spacing: 0em;
     &--dense {
-      letter-spacing: $tracking-tight;
+      @apply tracking-tight;
     }
     + #{$item} {
       margin-top: 0.5rem;
