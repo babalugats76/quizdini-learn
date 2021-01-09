@@ -16,44 +16,44 @@
 @each $color, $variants in $shades {
   @each $shade, $value in $variants {
     .bg-#{$color}-#{$shade} {
-      @include bg-color-alpha($value, 1, true);
+      @include bg-color($value, 1, true);
     }
 
     .border-#{$color}-#{$shade} {
-      @include border-color-alpha($value, 1, true);
+      @include border-color($value, 1, true);
     }
 
     .text-#{$color}-#{$shade} {
-      @include text-color-alpha($value, 1, true);
+      @include text-color($value, 1, true);
     }
   }
 }
 
 @each $theme, $value in $color-themes {
   .bg-#{$theme} {
-    @include bg-color-alpha($value, 1, true);
+    @include bg-color($value, 1, true);
   }
 
   .border-#{$theme} {
-    @include border-color-alpha($value, 1, true);
+    @include border-color($value, 1, true);
   }
 
   .text-#{$theme} {
-    @include text-color-alpha($value, 1, true);
+    @include text-color($value, 1, true);
   }
 }
 
 @each $color, $value in $base-colors {
   .bg-#{$color} {
-    @include bg-color-alpha($value, 1, true);
+    @include bg-color($value, 1, true);
   }
 
   .border-#{$color} {
-    @include border-color-alpha($value, 1, true);
+    @include border-color($value, 1, true);
   }
 
   .text-#{$color} {
-    @include text-color-alpha($value, 1, true);
+    @include text-color($value, 1, true);
   }
 }
 

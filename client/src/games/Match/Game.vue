@@ -455,8 +455,8 @@ $tile-colors: (
     color 300ms ease-in-out, opacity 300ms ease, border-color 300ms ease;
   @each $color, $values in $tile-colors {
     &.#{$color} {
-      @include bg-color-alpha(lighten(map-get($values, "background"), 5%));
-      @include text-color-alpha(map-get($values, "color"));
+      @include bg-color(lighten(map-get($values, "background"), 5%));
+      @include text-color(map-get($values, "color"));
     }
   }
   &::after {
@@ -505,7 +505,7 @@ $tile-colors: (
     }
     &.drag {
       z-index: 500;
-      @include border-color-alpha(#fdfdfd, 0.9);
+      @include border-color(#fdfdfd, 0.9);
       --bg-opacity: 0.97;
       &::after {
         opacity: 1;
@@ -526,8 +526,8 @@ $tile-colors: (
     }
   }
   &--definition {
-    @include bg-color-alpha(#ffffff);
-    @include text-color-alpha(#515328);
+    @include bg-color(#ffffff);
+    @include text-color(#515328);
     @include font("Montserrat", "bold");
     letter-spacing: $tracking-tight;
     font-size: 1em;
@@ -535,8 +535,8 @@ $tile-colors: (
     transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,
       opacity 150ms ease, border-color 150ms ease;
     &.over {
-      @include text-color-alpha(darken(#515328, 2%));
-      @include border-color-alpha(#ccff33, 1);
+      @include text-color(darken(#515328, 2%));
+      @include border-color(#ccff33, 1);
       animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms
         infinite alternate-reverse;
       &::after {

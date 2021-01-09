@@ -57,7 +57,7 @@ $btn-sizes: (
   vertical-align: middle;
   letter-spacing: $tracking-tight;
   outline: 0;
-  @include chain($btn-sizes, "font-size", "size");
+  @include sizes($btn-sizes);
   @each $theme, $color in $color-themes {
     &.#{$theme} {
       @include button-variant($color);

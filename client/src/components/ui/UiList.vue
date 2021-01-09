@@ -107,10 +107,10 @@ $list-item-sizes: (
 .ui-list {
   display: block;
   padding-left: 0.75rem;
-  @include chain($list-sizes, "font-size", "size");
+  @include sizes($list-sizes);
   &__item {
     $item: &;
-    @include chain($list-item-sizes, "font-size", "size");
+    @include sizes($list-item-sizes);
     line-height: 1.25;
     @include font("Montserrat", "medium");
     letter-spacing: 0em;

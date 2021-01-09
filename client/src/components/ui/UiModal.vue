@@ -89,7 +89,7 @@ $modal-mask-opacity: 0.35;
     width: 100%;
     height: 100%;
     display: table;
-    @include bg-color-alpha($modal-mask-color, $modal-mask-opacity);
+    @include bg-color($modal-mask-color, $modal-mask-opacity);
     @at-root #{$mask}.modal-enter-active,
       #{$mask}.modal-enter-from {
       --bg-opacity: 1;
