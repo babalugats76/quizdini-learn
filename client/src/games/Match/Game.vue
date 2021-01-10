@@ -5,6 +5,8 @@
         class="match__splash"
         :author="author"
         :config="config.splash"
+        :has-results="!stats.length"
+        :referrer="exited ? 'game' : 'loader'"
         :showModal="showSplash"
         :title="title"
         @close="toggleSplash"
