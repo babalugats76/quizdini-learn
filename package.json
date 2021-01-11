@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "description": "Quizdini learn app",
+  "description": "Quizdini learn web app",
   "config": {
     "comment": "Updated quizdini-learn source code"
   },
