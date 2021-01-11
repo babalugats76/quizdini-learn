@@ -3,6 +3,7 @@
     class="splash__modal"
     :appear="true"
     :duration="config.timeouts.default"
+    :fade-type="referrer === 'loader' ? 'dark-to-light' : 'light-to-dark'"
     :show="showModal"
     @close="$emit('close')"
     @exited="$emit('exited')"

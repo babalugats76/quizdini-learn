@@ -9,7 +9,7 @@
       >
         <div
           v-if="show"
-          class="ui-modal__mask"
+          :class="maskClasses"
           :style="{
             transitionDuration: `${duration}ms`,
             animationDuration: `${duration}ms`,
@@ -34,14 +34,22 @@
 export default {
   name: "ui-modal",
   inheritAttrs: false,
-  props: ["appear", "duration", "show"],
+  props: ["appear", "duration", "fadeType", "show"],
   emits: ["close", "exited"],
+  computed: {
+    maskClasses() {
+      return {
+        "ui-modal__mask": true,
+        [`ui-modal__mask--${this.fadeType}`]: this.fadeType,
+      };
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 $modal-mask-color: $tertiary;
-$modal-mask-opacity: 0.35;
+$modal-mask-opacity: 0.6;
 
 .modal-enter-active,
 .modal-enter-from,
@@ -90,16 +98,24 @@ $modal-mask-opacity: 0.35;
     height: 100%;
     display: table;
     @include bg-color($modal-mask-color, $modal-mask-opacity);
-    @at-root #{$mask}.modal-enter-active,
-      #{$mask}.modal-enter-from {
+    transition-property: background-color;
+    @at-root #{$mask}--dark-to-light.modal-enter-active,
+      #{$mask}--dark-to-light.modal-enter-from {
       --bg-opacity: 1;
     }
-    @at-root #{$mask}.modal-enter-to {
-      --bg-opacity: $modal-mask-opacity;
+    @at-root #{$mask}--light-to-dark.modal-enter-active,
+      #{$mask}--light-to-dark.modal-enter-from {
+      --bg-opacity: 0;
+    }
+    @at-root #{$mask}--dark-to-light.modal-enter-to {
+      --bg-opacity: #{$modal-mask-opacity};
+    }
+    @at-root #{$mask}--light-to-dark.modal-enter-to {
+      --bg-opacity: #{$modal-mask-opacity};
     }
     @at-root #{$mask}.modal-leave-active,
       #{$mask}.modal-leave-from {
-      --bg-opacity: $modal-mask-opacity;
+      --bg-opacity: #{$modal-mask-opacity};
     }
     @at-root #{$mask}.modal-leave-to {
       --bg-opacity: 0;
