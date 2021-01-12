@@ -333,8 +333,7 @@ export default function useMatch(data, debug = true) {
 
     state.author = author;
     state.colorScheme = colorScheme.toLowerCase();
-    //state.duration = duration;
-    state.duration = 5;
+    state.duration = duration;
     state.itemsPerBoard = itemsPerBoard;
     state.matches = processMatches(matches);
     state.matchId = matchId;
