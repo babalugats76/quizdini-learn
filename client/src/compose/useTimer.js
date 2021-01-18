@@ -27,6 +27,7 @@ export default function useTimer({
   active = false,
   alert,
   autoStart = true,
+  change = 1000,
   debug = false,
   delay = 5000,
   duration,
@@ -36,10 +37,21 @@ export default function useTimer({
   warn,
 }) {
   const [, startTimerWithDelay] = useTimeout(unref(delay), function () {
-    debug && console.log("starting timer after Delay...");
+    debug && console.log("starting timer after", unref(delay), "ms delay...");
     state.intervalId = setInterval(() => {
       state.elapsed += unref(interval);
     }, unref(interval));
+  });
+
+  const [, endScoringAfterTimeout] = useTimeout(unref(change), function () {
+    debug &&
+      console.log(
+        "ending scoring after",
+        unref(change),
+        "ms change timeout..."
+      );
+    state.scoring = false;
+    state.scoringStatus = "";
   });
 
   const state = reactive({
@@ -86,13 +98,6 @@ export default function useTimer({
     state.elapsed = val;
   }
 
-  /* For toggling ephemeral score change transition */
-  function endScoreChange() {
-    debug && console.log("timer scoring end...");
-    state.scoring = false;
-    state.scoringStatus = "";
-  }
-
   function stopTimer() {
     debug && console.log("stopping timer...");
     state.running = false;
@@ -118,6 +123,7 @@ export default function useTimer({
     state.scoring = true;
     state.scoringStatus =
       newScore > oldScore ? SCORING_STATUS.UP : SCORING_STATUS.DOWN;
+    endScoringAfterTimeout();
   });
 
   watch(
@@ -146,6 +152,5 @@ export default function useTimer({
     startTimer,
     stopTimer,
     setElapsed,
-    endScoreChange,
   };
 }

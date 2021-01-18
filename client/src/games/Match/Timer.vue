@@ -13,46 +13,37 @@
   >
     <div v-show="!expired">
       <div class="timer">
-        <transition
-          :duration="{
-            enter: `${timeouts.change}`,
-            leave: `${timeouts.change}`,
-          }"
-          name="scoring"
-          @after-leave="endScoreChange"
-        >
-          <div class="timer__wrapper" v-show="!scoring">
-            <svg
-              class="timer__svg"
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:svg="http://www.w3.org/2000/svg"
-            >
-              <g class="timer__circle">
-                <circle
-                  class="timer__path-elapsed"
-                  :class="scoreClass"
-                  cx="50"
-                  cy="50"
-                  r="45"
-                ></circle>
-                <path
-                  :stroke-dasharray="strokeDasharray"
-                  class="timer__path-remaining"
-                  :class="[severity, scoreClass]"
-                  d="M 50, 50
+        <div class="timer__wrapper" :class="[scoreClass]">
+          <svg
+            class="timer__svg"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:svg="http://www.w3.org/2000/svg"
+          >
+            <g class="timer__circle">
+              <circle
+                class="timer__path-elapsed"
+                :class="scoreClass"
+                cx="50"
+                cy="50"
+                r="45"
+              ></circle>
+              <path
+                :stroke-dasharray="strokeDasharray"
+                class="timer__path-remaining"
+                :class="[severity, scoreClass]"
+                d="M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-                ></path>
-              </g>
-            </svg>
-            <span class="timer__label" :class="scoreClass">{{
-              score || formatted
-            }}</span>
-          </div>
-        </transition>
+              ></path>
+            </g>
+          </svg>
+          <span class="timer__label" :class="scoreClass">{{
+            score || formatted
+          }}</span>
+        </div>
       </div>
     </div>
   </transition>
@@ -78,6 +69,7 @@ export default {
       active,
       alert: props.config.thresholds.alert,
       autoStart: true,
+      change: props.config.timeouts.change,
       debug: props.config.debug,
       delay: props.config.timeouts.delay,
       duration,
@@ -155,17 +147,17 @@ export default {
   opacity: 0;
 }
 
-.scoring-leave-active {
-  transform: scale(1, 1);
-  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scoring-leave-to {
-  transform: scale(1.05, 1.05);
-}
-
 .timer {
   position: relative;
+
+  &__wrapper {
+    transform: scale(1, 1);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    &.hit,
+    &.miss {
+      transform: scale(1.05, 1.05);
+    }
+  }
 
   &__svg {
     transform: scaleX(-1);
@@ -178,10 +170,9 @@ export default {
   }
 
   &__path-elapsed {
-    fill: transparent;
     stroke-width: 7px;
     stroke: #efefef;
-    transition: fill 500ms ease-in-out, stroke 500ms ease-in-out;
+    transition: fill 250ms ease-in-out, stroke 250ms ease-in-out;
     &.hit {
       fill: rgba(0, 255, 0, 1);
       stroke: transparent;
@@ -197,7 +188,7 @@ export default {
     stroke-linecap: square;
     transform: rotate(90deg);
     transform-origin: center;
-    transition: stroke 500ms ease-in-out;
+    transition: stroke 250ms ease-in-out;
     fill-rule: nonzero;
     stroke: currentColor;
 
@@ -231,15 +222,13 @@ export default {
     font-size: 2em;
     //font-family: monospace;
     transform: scale(1, 1);
-    transition: color 50ms ease-in-out, transform 200ms linear;
+    transition: color 250ms ease-in-out, transform 250ms linear;
     color: #111;
     font-weight: bold;
     &.hit,
     &.miss {
-      color: #fff;
-    }
-    &.miss {
       transform: scale(1.05, 1.05);
+      color: #fff;
     }
   }
 }

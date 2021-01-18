@@ -27,7 +27,7 @@ export default {
     timeouts: { enter: 800, hit: 800, leave: 1000, miss: 800, shuffle: 500 },
   },
   timer: {
-    debug: false,
+    debug: true,
     thresholds: { warn: 40, alert: 20 },
     timeouts: { interval: 100, change: 250, delay: 800, enter: 1000, leave: 1000 },
   },

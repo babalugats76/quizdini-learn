@@ -15,7 +15,7 @@
     "lodash.throttle": "^4.1.1",
     "shortid": "^2.2.16",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.2"
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.2",
@@ -29,8 +29,8 @@
     "eslint-plugin-vue": "^7.4.1",
     "http-proxy-middleware": "^1.0.6",
     "postcss": "^7.0.35",
-    "sass": "^1.32.2",
-    "sass-loader": "^10.1.0",
+    "sass": "^1.32.4",
+    "sass-loader": "^10.1.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
   },
   "eslintConfig": {
