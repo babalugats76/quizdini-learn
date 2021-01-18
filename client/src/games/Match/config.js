@@ -5,7 +5,7 @@ export default {
     timeouts: { throttle: 33 },
   },
   game: {
-    debug: true,
+    debug: false,
     timeouts: { enter: 1000, leave: 1000 },
     themes: {
       default: { colors: ['zaffre'] },
