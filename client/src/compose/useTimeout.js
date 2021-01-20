@@ -1,31 +1,35 @@
 /* eslint-disable */
-import { getCurrentInstance, onUnmounted, unref } from "vue";
-export default function useTimeout(ms, fn) {
+import { getCurrentInstance, onUnmounted, ref } from "vue";
+
+export default function useTimeout(ms = 1000) {
   const currentInstance = getCurrentInstance();
+  const expired = ref(false);
   let timeout = null;
 
-  function initiateTimeout() {
-    //console.log('inside initiate timeout');
-    //console.log('delay', ms);
+  function setTimer() {
+    //console.log("setting timer");
     clear();
-    timeout = setTimeout(() => fn(), unref(ms));
+    timeout = setTimeout(() => {
+      //console.log("timer expired");
+      expired.value = true;
+    }, ms);
   }
 
   function clear() {
-    //console.log('clearing...');
+    //console.log("clearing timer");
+    expired.value = false;
     clearTimeout(timeout);
   }
 
-  //initiateTimeout();
-
   if (currentInstance) {
     onUnmounted(() => {
-      console.log("cleaning up!");
-      timeout && clear();
+      console.log("cleaning up timer");
+      clear();
     });
-  } else {
-    console.log("not in current instance");
   }
 
-  return [clear, initiateTimeout];
+  const start = setTimer;
+  const stop = clear;
+
+  return [start, stop, expired];
 }

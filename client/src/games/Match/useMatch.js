@@ -11,7 +11,7 @@ import {
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
-import useTimeout from "@/compose/useTimeout";
+import useTimeout from "@/compose/useTimeoutOrig";
 import { postPing } from "@/api/ping";
 
 export default function useMatch(data, debug = true) {

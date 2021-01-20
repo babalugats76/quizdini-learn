@@ -3,6 +3,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import { Match } from "@/games";
 import Matches from "@/views/Matches";
 import UI from "@/views/UI";
+import TimeoutTest from "@/views/TimeoutTest";
 
 const routes = [
   {
@@ -27,6 +28,12 @@ const routes = [
     path: "/ui",
     name: "ui",
     component: UI,
+    props: false,
+  },
+  {
+    path: "/timeout",
+    name: "timeout",
+    component: TimeoutTest,
     props: false,
   },
 ];

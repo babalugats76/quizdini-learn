@@ -9,7 +9,7 @@ import {
   watch,
 } from "vue";
 
-import useTimeout from "@/compose/useTimeout";
+import useTimeout from "@/compose/useTimeoutOrig";
 
 const SEVERITY = {
   ALERT: "alert",
