@@ -11,21 +11,13 @@ import {
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
 import { default as config } from "./config";
-import useTimeout from "@/compose/useTimeoutOrig";
+import useTimeoutFn from "@/compose/useTimeoutFn";
 import { postPing } from "@/api/ping";
 
-export default function useMatch(data, debug = true) {
-  const [, hideMatched] = useTimeout(config.tile.timeouts.hit, () => {
-    state.terms = state.terms.map((t) =>
-      t.matched && t.show ? { ...t, show: false } : t
-    );
-    state.definitions = state.definitions.map((d) =>
-      d.matched && d.show ? { ...d, show: false } : d
-    );
-  });
-  const [, endShuffle] = useTimeout(config.tile.timeouts.shuffle, () => {
+export default function useMatch(data, debug = false) {
+  const [endShuffleAfterTimeout] = useTimeoutFn(() => {
     state.shuffling = false;
-  });
+  }, config.tile.timeouts.shuffle);
 
   const state = reactive({
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
@@ -217,7 +209,19 @@ export default function useMatch(data, debug = true) {
         : { term: term, hit: matched ? 1 : 0, miss: matched ? 0 : 1 }
     );
 
-    matched && hideMatched();
+    if (matched) {
+      const [hideAfterTimeout] = useTimeoutFn(() => {
+        state.terms = updateObjInArray(state.terms, {
+          id: dragId,
+          show: false,
+        });
+        state.definitions = updateObjInArray(state.definitions, {
+          id: dropId,
+          show: false,
+        });
+      }, config.tile.timeouts.hit);
+      hideAfterTimeout();
+    }
   }
 
   function onTileExited(id, type) {
@@ -284,7 +288,7 @@ export default function useMatch(data, debug = true) {
     state.shuffling = true;
     state.terms = shuffleArray(state.terms);
     state.definitions = shuffleArray(state.definitions);
-    endShuffle();
+    endShuffleAfterTimeout();
   }
 
   function startGame() {

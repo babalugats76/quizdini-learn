@@ -29,7 +29,7 @@ export default function useDnd({
   function addListeners(lsnrs) {
     lsnrs.forEach((event) => {
       debug && console.log(`adding ${event}...`);
-      element.value.addEventListener(event, handlers[event]);
+      element.value.addEventListener(event, handlers[event], { passive: true });
       state.listeners = state.listeners
         .concat(lsnrs)
         .filter((v, i, a) => a.indexOf(v) === i);

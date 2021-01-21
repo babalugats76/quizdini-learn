@@ -9,7 +9,7 @@ import {
   watch,
 } from "vue";
 
-import useTimeout from "@/compose/useTimeoutOrig";
+import useTimeoutFn from "@/compose/useTimeoutFn";
 
 const SEVERITY = {
   ALERT: "alert",
@@ -36,14 +36,14 @@ export default function useTimer({
   score,
   warn,
 }) {
-  const [, startTimerWithDelay] = useTimeout(unref(delay), function () {
+  const [startTimerAfterDelay] = useTimeoutFn(() => {
     debug && console.log("starting timer after", unref(delay), "ms delay...");
     state.intervalId = setInterval(() => {
       state.elapsed += unref(interval);
     }, unref(interval));
-  });
+  }, unref(delay));
 
-  const [, endScoringAfterTimeout] = useTimeout(unref(change), function () {
+  const [endScoringAfterTimeout] = useTimeoutFn(() => {
     debug &&
       console.log(
         "ending scoring after",
@@ -52,7 +52,7 @@ export default function useTimer({
       );
     state.scoring = false;
     state.scoringStatus = "";
-  });
+  }, unref(change));
 
   const state = reactive({
     // duration, // to automatically unwrap .value; alternatively, use unref
@@ -91,7 +91,7 @@ export default function useTimer({
     if (!state.remaining) {
       state.elapsed = 0;
     } // sets expired to false (see computed methods)
-    startTimerWithDelay();
+    startTimerAfterDelay();
   }
 
   function setElapsed(val) {
