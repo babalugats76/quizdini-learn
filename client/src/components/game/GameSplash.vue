@@ -78,8 +78,9 @@ export default {
     width: 5rem;
     height: 5rem;
     background-color: $white;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.13);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     border-radius: 100%;
+    background-image: url("~@/assets/images/match-badge-rainbow.svg");
   }
 
   &__title {
