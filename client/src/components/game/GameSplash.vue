@@ -60,9 +60,9 @@ export default {
     border-radius: inherit;
     background-image: url("~@/assets/images/splash.svg");
     background-repeat: no-repeat;
-    background-position-x: -135px;
-    background-position-y: -50px;
-    background-size: 800px auto;
+    background-position-x: 215px;
+    background-position-y: 0px;
+    background-size: 500px auto;
   }
 
   &__header {
