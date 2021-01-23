@@ -53,6 +53,11 @@
     </ui-list>
     <hr />
     <h1>Buttons</h1>
+    <h2>Autofocus</h2>
+    <ui-button :autofocus="true" primary ref="testFocusBtn">Primary</ui-button>
+    <ui-button :autofocus="false" @click.prevent="focusTest"
+      >Focus Test</ui-button
+    >
     <h2>Themes</h2>
     <ui-button primary>Primary</ui-button>
     <ui-button secondary>Secondary</ui-button>
@@ -104,6 +109,11 @@ export default {
     UiList,
     UiListIcon,
     UiListItem,
+  },
+  methods: {
+    focusTest() {
+      this.$refs.testFocusBtn.$el.focus();
+    },
   },
 };
 </script>

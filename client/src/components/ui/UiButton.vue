@@ -5,6 +5,10 @@ export const UiButton = {
   name: "ui-button",
   mixins: [severity, size, theme],
   props: {
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -25,6 +29,20 @@ export const UiButton = {
       };
     },
   },
+
+  mounted() {
+    this.autofocus &&
+      document.activeElement !== this.$el &&
+      typeof document !== "undefined" &&
+      this.setFocus();
+  },
+
+  methods: {
+    setFocus() {
+      this.$el.focus();
+    },
+  },
+
   render() {
     return <button class={this.classes}>{this.$slots.default()}</button>;
   },
