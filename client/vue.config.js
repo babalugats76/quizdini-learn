@@ -6,7 +6,7 @@ const sitemapOptions = {
   filename: "sitemap.xml",
   lastmod: true,
   changefreq: "hourly",
-  priority: "0.8",
+  priority: 0.8,
 };
 
 const sitemapPaths = [
