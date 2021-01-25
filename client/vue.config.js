@@ -20,7 +20,7 @@ const sitemapPaths = [
 
 module.exports = {
   configureWebpack: (config) => {
-    if (process.env.NODE_ENV === "production") {
+    if (process.env.NODE_ENV === "development") {
       plugins: [
         new SitemapPlugin({
           base: process.env.VUE_APP_LEARN_BASE_URL,
