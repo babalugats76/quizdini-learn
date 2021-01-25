@@ -19,7 +19,7 @@ const sitemapPaths = [
 ];
 
 module.exports = {
-  configureWebpack: (config) => {
+  configureWebpack: {
     //  if (process.env.NODE_ENV === "development") {
     plugins: [
       new SitemapPlugin({
@@ -32,7 +32,7 @@ module.exports = {
           priority: 0.4,
         },
       }),
-    ];
+    ],
     // }
   },
   css: {
