@@ -20,20 +20,20 @@ const sitemapPaths = [
 
 module.exports = {
   configureWebpack: (config) => {
-    if (process.env.NODE_ENV === "development") {
-      plugins: [
-        new SitemapPlugin({
-          base: process.env.VUE_APP_LEARN_BASE_URL,
-          paths: sitemapPaths,
-          options: {
-            filename: "sitemap.xml",
-            lastmod: true,
-            changefreq: "monthly",
-            priority: 0.4,
-          },
-        }),
-      ];
-    }
+    //  if (process.env.NODE_ENV === "development") {
+    plugins: [
+      new SitemapPlugin({
+        base: process.env.VUE_APP_LEARN_BASE_URL,
+        paths: sitemapPaths,
+        options: {
+          filename: "sitemap.xml",
+          lastmod: true,
+          changefreq: "monthly",
+          priority: 0.4,
+        },
+      }),
+    ];
+    // }
   },
   css: {
     loaderOptions: {
