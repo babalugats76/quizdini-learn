@@ -63,7 +63,7 @@
               {
                 class: 'font-bold -ml-2',
                 color: 'gray-800',
-                content: `${score} points`,
+                content: `${score} point${score !== 1 ? 's' : ''}`,
                 dense: true,
                 iconProps: { name: 'award', class: 'm-0', color: 'yellow-600' },
                 id: 'term-count',
