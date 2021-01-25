@@ -21,7 +21,7 @@ module.exports = {
 
   chainWebpack: (config) => {
     config.plugin("html").tap((args) => {
-      args[0].title = "Quizdini Games!";
+      args[0].title = "Quizdini Games";
       return args;
     });
     config.resolve.alias.set("styles", path.resolve(__dirname, "src/styles"));
