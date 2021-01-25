@@ -13,6 +13,13 @@ require("./models/User"); // Used in match routes, etc.
 require("./models/Match"); // Used in match routes, etc.
 require("./models/Ping"); // Used in ping routes, etc.
 
+var corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
 const memcache = require("./services/memcache")(keys);
 
 mongoose.connect(keys.mongoURI, {
@@ -30,16 +37,16 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
   const enforce = require("express-sslify");
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
+  corsOptions = {
+    ...corsOptions,
+    origin: "http://polar-dawn-13501",
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
 }
 
 app.use(logger("dev"));
 
-/*var corsOptions = {
-  origin: 'http://example.com',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}*/
-
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(errorHandler); // Custom default, i.e., catch-all, error handler middleware
 
