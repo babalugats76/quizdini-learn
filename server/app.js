@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
   corsOptions = {
     ...corsOptions,
-    origin: "http://polar-dawn-13501.herokuapp.com",
+    origin: ["http://polar-dawn-13501.herokuapp.com", /\.quizdini\.com$/],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   };
 }
