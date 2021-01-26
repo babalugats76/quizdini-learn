@@ -36,6 +36,9 @@ module.exports = (app, memcache) => {
        * Perform "entity escaping"
        * Format date ISO 8601
        * See: https://www.w3.org/TR/NOTE-datetime
+       *
+       * Excluding optional changefreq and priority
+       * See: https://www.sitemaps.org/protocol.html
        */
       for await (const doc of cursor) {
         matches.push({
@@ -67,8 +70,8 @@ module.exports = (app, memcache) => {
 
       var xml = builder.buildObject(sitemap);
 
-      // Write sitemap data to cache
-      memcache.set(sitemapKey, xml);
+      // Write sitemap data to cache (at most once per day)
+      memcache.set(sitemapKey, xml, { expires: 60 * 60 * 24 });
 
       res.send(xml);
     } catch (e) {
