@@ -19,7 +19,7 @@ const sitemapPaths = [
 ];
 
 module.exports = {
-  configureWebpack: {
+  /*configureWebpack: {
     //  if (process.env.NODE_ENV === "development") {
     plugins: [
       new SitemapPlugin({
@@ -34,7 +34,7 @@ module.exports = {
       }),
     ],
     // }
-  },
+  },*/
   css: {
     loaderOptions: {
       scss: {
@@ -49,6 +49,9 @@ module.exports = {
     progress: true,
     proxy: {
       "^/api": {
+        target: "http://localhost:5001",
+      },
+      "/sitemap.xml": {
         target: "http://localhost:5001",
       },
     },

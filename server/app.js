@@ -52,6 +52,7 @@ app.use(errorHandler); // Custom default, i.e., catch-all, error handler middlew
 
 require("./routes/matchRoutes")(app, memcache);
 require("./routes/pingRoutes")(app);
+require("./routes/sitemapRoutes")(app, memcache);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.get("*", (req, res) => {
