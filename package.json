@@ -16,7 +16,7 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "prettier": "prettier **/*.{js,ts,vue,json} --write",
-    "deploy-to-prod": "npm run prettier && npm run build --prefix client && git add . && git commit -m \"$npm_config_comment\" && git push origin main && git push heroku main",
+    "deploy-to-prod": "npm run prettier && npm run build --prefix client && git add . && cross-env git commit -m \"${npm_config_comment}\" && git push origin main && git push heroku main",
     "heroku-prebuild": "echo Hook for Heroku prebuild...",
     "heroku-postbuild": "echo Hook for Heroku postbuild...",
     "sitemap": "npm run sitemap --prefix client"
@@ -25,6 +25,7 @@
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-sslify": "^1.2.0",
