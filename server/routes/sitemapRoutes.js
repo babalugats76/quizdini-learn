@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const xml2js = require("xml2js");
-const Match = mongoose.model("matches");
+//const Match = mongoose.model("matches");
 
 module.exports = (app, memcache) => {
   app.get("/sitemap.xml", async (req, res, next) => {
