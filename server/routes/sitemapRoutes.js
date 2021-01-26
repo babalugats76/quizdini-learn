@@ -24,7 +24,7 @@ module.exports = (app, memcache) => {
       // Perform "entity escaping"
       for await (const doc of cursor) {
         matches.push({
-          loc: (keys.learnBaseURL + "/" + doc.matchId)
+          loc: (keys.learnBaseURL + "/match/" + doc.matchId)
             .replace(/&/g, "&amp;")
             .replace(/"/g, "&quot;")
             .replace(/'/g, "&apos;")
