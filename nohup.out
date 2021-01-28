@@ -1,0 +1,134 @@
+
+> server@0.0.0 deploy-to-prod /home/bobleeswagger/Documents/Quizdini/quizdini-learn
+> npm run prettier && npm run build --prefix client && git add . && cross-env git commit -m "${npm_config_comment}" && git push origin main && git push heroku main
+
+
+> server@0.0.0 prettier /home/bobleeswagger/Documents/Quizdini/quizdini-learn
+> prettier **/*.{js,ts,vue,json} --write
+
+.prettier.config.js 41ms
+client/babel.config.js 5ms
+client/package-lock.json 490ms
+client/package.json 23ms
+client/sitemapGenerator.js 9ms
+client/src/api/match.js 8ms
+client/src/api/ping.js 4ms
+client/src/App.vue 58ms
+client/src/components/AppFullPage.vue 20ms
+client/src/components/game/DndBoard.vue 18ms
+client/src/components/game/DragItem.vue 14ms
+client/src/components/game/DropItem.vue 20ms
+client/src/components/game/GameLoader.vue 93ms
+client/src/components/game/GameSplash.vue 51ms
+client/src/components/index.js 3ms
+client/src/components/ui/mixins.js 20ms
+client/src/components/ui/UiButton.vue 19ms
+client/src/components/ui/UiIcon.vue 24ms
+client/src/components/ui/UiList.vue 23ms
+client/src/components/ui/UiModal.vue 35ms
+client/src/compose/useDnd.js 53ms
+client/src/compose/useLoader.js 11ms
+client/src/compose/useTimeout.js 7ms
+client/src/compose/useTimeoutFn.js 3ms
+client/src/compose/useTimer.js 22ms
+client/src/compose/useTitle.js 7ms
+client/src/games/index.js 1ms
+client/src/games/Match/config.js 6ms
+client/src/games/Match/Game.vue 191ms
+client/src/games/Match/index.vue 15ms
+client/src/games/Match/Tile.vue 27ms
+client/src/games/Match/Timer.vue 56ms
+client/src/games/Match/useMatch.js 63ms
+client/src/main.js 2ms
+client/src/router/index.js 3ms
+client/src/utils/common.js 12ms
+client/src/utils/fetch.js 5ms
+client/src/views/Matches.vue 18ms
+client/src/views/TimeoutTest.vue 45ms
+client/src/views/UI.vue 64ms
+client/tailwind.config.js 3ms
+client/tailwind.quizdini.js 2ms
+client/vue.config.js 5ms
+DELETEME/tailwind.export.js 7ms
+DELETEME/useTimeoutOrig.js 3ms
+package-lock.json 70ms
+package.json 2ms
+server/app.js 8ms
+server/config/dev.js 2ms
+server/config/keys.js 2ms
+server/config/prod.js 2ms
+server/errors.js 4ms
+server/middlewares/errorHandler.js 2ms
+server/models/Match.js 5ms
+server/models/Ping.js 5ms
+server/models/User.js 4ms
+server/routes/matchRoutes.js 8ms
+server/routes/pingRoutes.js 3ms
+server/routes/sitemapRoutes.js 8ms
+server/services/memcache.js 6ms
+
+> client@0.1.0 build /home/bobleeswagger/Documents/Quizdini/quizdini-learn/client
+> vue-cli-service build --modern
+
+
+-  Building legacy bundle for production...
+ WARNING  Compiled with 2 warnings3:09:15 PM
+
+ warning  
+
+entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (388 KiB)
+      js/chunk-vendors-legacy.fe211d05.js
+      css/app.9486a3d4.css
+      js/app-legacy.a75f8dc5.js
+
+
+ warning  
+
+webpack performance recommendations: 
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+
+  File                                      Size             Gzipped
+
+  ../server/public/js/chunk-vendors-lega    234.44 KiB       84.66 KiB
+  cy.fe211d05.js
+  ../server/public/js/app-legacy.a75f8dc    57.84 KiB        17.35 KiB
+  5.js
+  ../server/public/css/app.9486a3d4.css     95.92 KiB        13.11 KiB
+
+  Images and other types of assets omitted.
+
+
+-  Building modern bundle for production...
+ WARNING  Compiled with 2 warnings3:09:27 PM
+
+ warning  
+
+entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  app (343 KiB)
+      js/chunk-vendors.d20a23eb.js
+      css/app.9486a3d4.css
+      js/app.5f10a924.js
+
+
+ warning  
+
+webpack performance recommendations: 
+You can limit the size of your bundles by using import() or require.ensure to lazy load some parts of your application.
+For more info visit https://webpack.js.org/guides/code-splitting/
+
+  File                                      Size             Gzipped
+
+  ../server/public/js/chunk-vendors.d20a    196.71 KiB       71.02 KiB
+  23eb.js
+  ../server/public/js/app.5f10a924.js       50.62 KiB        16.12 KiB
+  ../server/public/css/app.9486a3d4.css     95.92 KiB        13.11 KiB
+
+  Images and other types of assets omitted.
+
+ DONE  Build complete. The ../server/public directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+      

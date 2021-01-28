@@ -5,17 +5,8 @@
 @import "~styles/tailwind.css";
 
 /*-------------------
-  Quizdini Resets (opinionated)
+  Quizdini Resets
 --------------------*/
-
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
-  border-color: #e5e7eb;
-}
 
 * {
   -webkit-touch-callout: none; /* iOS Safari */

@@ -8,7 +8,7 @@
 /* eslint-disable */
 import { watchEffect, ref, unref } from "vue";
 import { useRoute } from "vue-router";
-import { fetchMatch } from "@/api/match";
+import { getMatchById } from "@/api/match";
 import useLoader from "@/compose/useLoader";
 import { default as config } from "./config";
 import AppFullPage from "@/components/AppFullPage";
@@ -40,7 +40,7 @@ export default {
       loading,
       success,
     } = useLoader({
-      callback: fetchMatch(route.params.id),
+      callback: getMatchById(route.params.id),
       immediate: true,
       deps: [() => route.params],
     });
