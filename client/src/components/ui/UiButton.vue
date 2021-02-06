@@ -1,14 +1,10 @@
 <script>
-import { severity, size, theme } from "./mixins";
+import { focus, severity, size, theme } from "./mixins";
 
 export const UiButton = {
   name: "ui-button",
-  mixins: [severity, size, theme],
+  mixins: [focus, severity, size, theme],
   props: {
-    autofocus: {
-      type: Boolean,
-      default: false,
-    },
     disabled: {
       type: Boolean,
       default: false,
@@ -27,19 +23,6 @@ export const UiButton = {
         ...this.themeClasses,
         ...this.severityClasses,
       };
-    },
-  },
-
-  mounted() {
-    this.autofocus &&
-      document.activeElement !== this.$el &&
-      typeof document !== "undefined" &&
-      this.setFocus();
-  },
-
-  methods: {
-    setFocus() {
-      this.$el.focus();
     },
   },
 

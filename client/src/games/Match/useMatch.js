@@ -9,7 +9,7 @@ import {
   watchEffect,
 } from "vue";
 import shortid from "shortid";
-import { shuffleArray, updateObjInArray, upsertArray } from "@/utils/common";
+import { shuffleArray, updateObjInArray, upsertArray } from "@/utils";
 import { default as config } from "./config";
 import useTimeoutFn from "@/compose/useTimeoutFn";
 import { postPing } from "@/api/ping";

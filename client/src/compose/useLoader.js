@@ -5,10 +5,10 @@ export default function useLoader({ callback, immediate = true, deps = [] }) {
     data: null,
     error: null,
     executions: 0,
-    inError: false,
+    failed: false,
     initialized: false,
+    loaded: false,
     loading: false,
-    success: null,
   });
 
   watch(
@@ -21,9 +21,16 @@ export default function useLoader({ callback, immediate = true, deps = [] }) {
       state.error = error;
       state.executions += 1;
       state.initialized = !!state.executions;
+
+      if (data) {
+        state.loaded = true;
+        state.failed = false;
+      }
+      if (error) {
+        state.loaded = false;
+        state.failed = true;
+      }
       state.loading = false;
-      if (data) return (state.success = true);
-      if (error) return (state.inError = true);
     },
     { immediate }
   );

@@ -19,6 +19,26 @@ export const color = {
   },
 };
 
+export const focus = {
+  props: {
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  mounted() {
+    this.autofocus &&
+      document.activeElement !== this.$el &&
+      typeof document !== "undefined" &&
+      this.setFocus();
+  },
+  methods: {
+    setFocus() {
+      this.$el.focus();
+    },
+  },
+};
+
 export const severity = {
   props: {
     alert: {
@@ -137,6 +157,7 @@ export const theme = {
 
 export default {
   color,
+  focus,
   severity,
   size,
   theme,

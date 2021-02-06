@@ -35,10 +35,10 @@ export default {
     const {
       data: match,
       error,
-      inError,
+      failed,
       initialized,
+      loaded,
       loading,
-      success,
     } = useLoader({
       callback: getMatchById(route.params.id),
       immediate: true,
