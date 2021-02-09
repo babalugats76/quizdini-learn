@@ -7,7 +7,9 @@
   ],
   "rules": {
     "vue/no-v-model-argument": "off",
-    "vue/no-v-html": "off"
+    "vue/no-v-html": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/multiline-html-element-content-newline": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {
