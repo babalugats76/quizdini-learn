@@ -3,7 +3,7 @@ import UiIcon from "@/components/ui/UiIcon";
 import { color, size } from "./mixins";
 
 export const UiList = {
-  name: "ui-list",
+  name: "UiList",
   mixins: [color, size],
   props: {
     tag: {
@@ -27,7 +27,7 @@ export const UiList = {
 };
 
 export const UiListItem = {
-  name: "ui-list-item",
+  name: "UiListItem",
   mixins: [color, size],
   props: {
     dense: {
@@ -62,7 +62,7 @@ export const UiListItem = {
 };
 
 export const UiListIcon = {
-  name: "ui-list-icon",
+  name: "UiListIcon",
   components: "UiIcon",
   mixins: [color],
   props: {

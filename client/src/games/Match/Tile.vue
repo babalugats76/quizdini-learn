@@ -34,10 +34,12 @@ export default {
     },
     color: {
       type: String,
+      default: "",
       required: false,
     },
     content: {
       type: String,
+      default: "",
       required: false,
     },
     disabled: {
@@ -58,7 +60,8 @@ export default {
       required: false,
     },
     id: {
-      required: false,
+      type: [String, Number],
+      required: true,
     },
     is: {
       type: String,
@@ -66,11 +69,11 @@ export default {
     },
     length: {
       type: Number,
-      required: false,
+      required: true,
     },
     maxWordLength: {
       type: Number,
-      required: false,
+      required: true,
     },
     miss: {
       type: Boolean,
@@ -81,11 +84,15 @@ export default {
       required: false,
     },
     style: {
+      type: Object,
+      default: () => ({}),
       required: false,
     },
     type: {
-      type: String,
-      required: false,
+      validator: function (value) {
+        return ["term", "definition"].indexOf(value) !== -1;
+      },
+      required: true,
     },
   },
   computed: {

@@ -2,7 +2,7 @@
 import { focus, severity, size, theme } from "./mixins";
 
 export const UiButton = {
-  name: "ui-button",
+  name: "UiButton",
   mixins: [focus, severity, size, theme],
   props: {
     disabled: {
@@ -25,7 +25,6 @@ export const UiButton = {
       };
     },
   },
-
   render() {
     return <button class={this.classes}>{this.$slots.default()}</button>;
   },

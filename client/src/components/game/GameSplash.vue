@@ -10,12 +10,16 @@
   >
     <div class="splash">
       <div class="splash__header">
-        <div class="splash__badge"></div>
-        <header class="splash__title">{{ title }}</header>
-        <div class="splash__subtitle">{{ author }}</div>
+        <div class="splash__badge" />
+        <header class="splash__title">
+          {{ title }}
+        </header>
+        <div class="splash__subtitle">
+          {{ author }}
+        </div>
       </div>
       <div class="splash__body">
-        <div class="splash__details" v-if="$slots.details">
+        <div v-if="$slots.details" class="splash__details">
           <slot name="details" />
         </div>
       </div>
@@ -32,11 +36,43 @@
 import UiModal from "@/components/ui/UiModal";
 
 export default {
-  name: "game-splash",
+  name: "GameSplash",
   components: {
     UiModal,
   },
-  props: ["author", "config", "hasResults", "referrer", "showModal", "title"],
+  props: {
+    author: {
+      type: String,
+      default: "",
+      required: false,
+    },
+    config: {
+      type: Object,
+      default: () => ({
+        timeouts: {
+          default: 1000,
+        },
+      }),
+      required: false,
+    },
+    hasResults: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    referrer: {
+      type: String,
+      default: "",
+      required: false,
+    },
+    showModal: {
+      type: Boolean,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+  },
   emits: ["close", "exited"],
 };
 </script>

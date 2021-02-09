@@ -54,42 +54,44 @@
     <hr />
     <h1>Buttons</h1>
     <h2>Autofocus</h2>
-    <ui-button :autofocus="true" primary ref="testFocusBtn">Primary</ui-button>
-    <ui-button :autofocus="false" @click.prevent="focusTest"
-      >Focus Test</ui-button
-    >
+    <ui-button ref="testFocusBtn" :autofocus="true" primary>
+      Primary
+    </ui-button>
+    <ui-button :autofocus="false" @click.prevent="focusTest">
+      Focus Test
+    </ui-button>
     <h2>Themes</h2>
-    <ui-button primary>Primary</ui-button>
-    <ui-button secondary>Secondary</ui-button>
-    <ui-button tertiary>Tertiary</ui-button>
-    <ui-button quaternary>Quaternary</ui-button>
-    <ui-button light>Light</ui-button>
-    <ui-button dark>Dark</ui-button>
-    <ui-button alert>Alert</ui-button>
-    <ui-button danger>Danger</ui-button>
-    <ui-button error>Error</ui-button>
-    <ui-button negative>Negative</ui-button>
-    <ui-button warning>Warning</ui-button>
-    <ui-button info>Info</ui-button>
-    <ui-button success>Success</ui-button>
-    <ui-button positive>Positive</ui-button>
+    <ui-button primary> Primary </ui-button>
+    <ui-button secondary> Secondary </ui-button>
+    <ui-button tertiary> Tertiary </ui-button>
+    <ui-button quaternary> Quaternary </ui-button>
+    <ui-button light> Light </ui-button>
+    <ui-button dark> Dark </ui-button>
+    <ui-button alert> Alert </ui-button>
+    <ui-button danger> Danger </ui-button>
+    <ui-button error> Error </ui-button>
+    <ui-button negative> Negative </ui-button>
+    <ui-button warning> Warning </ui-button>
+    <ui-button info> Info </ui-button>
+    <ui-button success> Success </ui-button>
+    <ui-button positive> Positive </ui-button>
     <ui-button>Default</ui-button>
     <h2>Themes (Disabled)</h2>
-    <ui-button primary disabled>Primary</ui-button>
-    <ui-button secondary disabled>Secondary</ui-button>
-    <ui-button tertiary disabled>Tertiary</ui-button>
-    <ui-button quaternary disabled>Quaternary</ui-button>
-    <ui-button light disabled>Light</ui-button>
-    <ui-button dark disabled>Dark</ui-button>
-    <ui-button alert disabled>Alert</ui-button>
-    <ui-button danger disabled>Danger</ui-button>
-    <ui-button error disabled>Error</ui-button>
-    <ui-button negative disabled>Negative</ui-button>
-    <ui-button warning disabled>Warning</ui-button>
-    <ui-button info disabled>Info</ui-button>
-    <ui-button success disabled>Success</ui-button>
-    <ui-button positive disabled>Positive</ui-button>
-    <ui-button disabled>Default</ui-button>
+    <ui-button primary disabled> Primary </ui-button>
+    <ui-button secondary disabled> Secondary </ui-button>
+    <ui-button tertiary disabled> Tertiary </ui-button>
+    <ui-button quaternary disabled> Quaternary </ui-button>
+    <ui-button light disabled> Light </ui-button>
+    <ui-button dark disabled> Dark </ui-button>
+    <ui-button alert disabled> Alert </ui-button>
+    <ui-button danger disabled> Danger </ui-button>
+    <ui-button error disabled> Error </ui-button>
+    <ui-button negative disabled> Negative </ui-button>
+    <ui-button warning disabled> Warning </ui-button>
+    <ui-button info disabled> Info </ui-button>
+    <ui-button success disabled> Success </ui-button>
+    <ui-button positive disabled> Positive </ui-button>
+    <ui-button disabled> Default </ui-button>
   </div>
 </template>
 

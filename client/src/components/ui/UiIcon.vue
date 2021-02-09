@@ -48,7 +48,7 @@ const icons = {
 };
 
 export default {
-  name: "ui-icon",
+  name: "UiIcon",
   mixins: [color],
   props: {
     full: {
@@ -57,6 +57,7 @@ export default {
     },
     height: {
       type: [Number, String],
+      default: "1em",
       required: false,
     },
     name: {
@@ -65,6 +66,7 @@ export default {
     },
     width: {
       type: [Number, String],
+      default: "1em",
       required: false,
     },
   },

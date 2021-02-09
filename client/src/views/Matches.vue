@@ -32,6 +32,13 @@ export default {
       games: [],
     };
   },
+  async created() {
+    const data = await this.fetchData();
+    const games = data.map((g) => {
+      return { id: g.matchId, title: g.title };
+    });
+    this.games = games;
+  },
   methods: {
     async fetchData() {
       // API GET
@@ -44,13 +51,6 @@ export default {
         console.log(error);
       }
     },
-  },
-  async created() {
-    const data = await this.fetchData();
-    const games = data.map((g) => {
-      return { id: g.matchId, title: g.title };
-    });
-    this.games = games;
   },
 };
 </script>

@@ -32,9 +32,26 @@
 
 <script>
 export default {
-  name: "ui-modal",
+  name: "UiModal",
   inheritAttrs: false,
-  props: ["appear", "duration", "fadeType", "show"],
+  props: {
+    appear: {
+      type: Boolean,
+    },
+    duration: {
+      type: Number,
+      default: 1000,
+      required: false,
+    },
+    fadeType: {
+      type: String,
+      default: "light-to-dark",
+      required: false,
+    },
+    show: {
+      type: Boolean,
+    },
+  },
   emits: ["close", "exited"],
   computed: {
     maskClasses() {

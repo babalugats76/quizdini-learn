@@ -5,11 +5,11 @@
       leave: `${timeouts.leave}`,
     }"
     name="timer"
+    v-bind="$attrs"
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @after-leave="afterLeave"
     @after-appear="afterAppear"
-    v-bind="$attrs"
   >
     <div v-show="!expired">
       <div class="timer">
@@ -27,7 +27,7 @@
                 cx="50"
                 cy="50"
                 r="45"
-              ></circle>
+              />
               <path
                 :stroke-dasharray="strokeDasharray"
                 class="timer__path-remaining"
@@ -37,7 +37,7 @@
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-              ></path>
+              />
             </g>
           </svg>
           <span class="timer__label" :class="scoreClass">{{
@@ -60,7 +60,36 @@ const FULL_DASH_ARRAY = 283;
 export default {
   name: "Timer",
   inheritAttrs: false,
-  props: ["active", "config", "duration", "score"],
+  props: {
+    active: {
+      type: Boolean,
+    },
+    config: {
+      type: Object,
+      default: () => ({
+        debug: false,
+        thresholds: {
+          warn: 40,
+          alert: 20,
+        },
+        timeouts: {
+          interval: 100,
+          change: 250,
+          delay: 1000,
+          enter: 1000,
+          leave: 1000,
+        },
+      }),
+    },
+    duration: {
+      type: Number,
+      required: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+    },
+  },
   setup(props, { emit }) {
     /* Pass props that change to composable via reference vs. value */
     const { active, duration, playing, score } = toRefs(props);

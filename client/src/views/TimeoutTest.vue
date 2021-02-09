@@ -1,14 +1,14 @@
 <template>
   <div>
-    <router-link to="/" exact>Home</router-link>
+    <router-link to="/" exact> Home </router-link>
     <section>
       <p>Just timer...</p>
       <h1 :style="{ color: timeoutExpired ? 'lime' : 'red' }">
         READY: {{ timeoutExpired }}
       </h1>
       <h2>Milliseconds: {{ ms }}</h2>
-      <input type="button" @click="startTimeout()" value="Set Timeout" />
-      <input type="button" @click="stopTimeout()" value="Stop Timeout" />
+      <input type="button" value="Set Timeout" @click="startTimeout()" />
+      <input type="button" value="Stop Timeout" @click="stopTimeout()" />
     </section>
     <hr />
     <section>
@@ -18,14 +18,14 @@
       </h1>
       <h2>Milliseconds: {{ ms }}</h2>
       <h2>TOTAL: {{ totalFn }}</h2>
-      <input type="button" @click="startTimeoutFn()" value="Set Timeout" />
-      <input type="button" @click="stopTimeoutFn()" value="Stop Timeout" />
+      <input type="button" value="Set Timeout" @click="startTimeoutFn()" />
+      <input type="button" value="Stop Timeout" @click="stopTimeoutFn()" />
     </section>
     <hr />
     <section>
       <p>Use inside a function</p>
       <h2>TOTAL: {{ total }}</h2>
-      <input type="button" @click="increment()" value="Increment" />
+      <input type="button" value="Increment" @click="increment()" />
     </section>
   </div>
 </template>

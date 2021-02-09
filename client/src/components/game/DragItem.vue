@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "drag-item",
+  name: "DragItem",
   props: {
     active: {
       type: Boolean,
@@ -20,7 +20,7 @@ export default {
     },
     id: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   computed: {
