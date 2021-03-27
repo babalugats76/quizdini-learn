@@ -1,13 +1,5 @@
 /* eslint-disable */
-import {
-  computed,
-  nextTick,
-  toRefs,
-  reactive,
-  unref,
-  watch,
-  watchEffect,
-} from "vue";
+import { computed, nextTick, toRefs, reactive, unref, watch, watchEffect } from "vue";
 import shortid from "shortid";
 import { shuffleArray, updateObjInArray, upsertArray } from "@/utils";
 import { default as config } from "./config";
@@ -23,16 +15,12 @@ export default function useMatch(data, debug = false) {
     activeDefinitions: computed(() => state.definitions.filter((d) => d.show)),
     activeTerms: computed(() => state.terms.filter((t) => t.show)),
     author: "",
-    canDnd: computed(
-      () => state.playing && !state.shuffling && !state.termIsExiting
-    ),
+    canDnd: computed(() => state.playing && !state.shuffling && !state.termIsExiting),
     correct: 0,
     colorScheme: "",
     definitions: [],
     duration: 60,
-    exited: computed(() =>
-      state.terms.reduce((a, v) => (v.exited ? (a += 1) : a), 0)
-    ),
+    exited: computed(() => state.terms.reduce((a, v) => (v.exited ? (a += 1) : a), 0)),
     incorrect: 0,
     itemsPerBoard: 9,
     matches: [],
@@ -79,9 +67,7 @@ export default function useMatch(data, debug = false) {
           length: t.length,
           matched: false,
           matchId: "",
-          maxWordLength: t
-            .split(" ")
-            .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          maxWordLength: t.split(" ").reduce((a, v) => (a > v.length ? a : v.length), 0),
           miss: false,
           over: false,
           show: true,
@@ -95,9 +81,7 @@ export default function useMatch(data, debug = false) {
           length: d.length,
           matched: false,
           matchId: "",
-          maxWordLength: d
-            .split(" ")
-            .reduce((a, v) => (a > v.length ? a : v.length), 0),
+          maxWordLength: d.split(" ").reduce((a, v) => (a > v.length ? a : v.length), 0),
           miss: false,
           over: false,
           show: true,
@@ -139,8 +123,7 @@ export default function useMatch(data, debug = false) {
 
   function isMatch(termId, defId) {
     const { answer } = state.terms.find((t) => t.id === termId) || {};
-    const { content: question } =
-      state.definitions.find((d) => d.id === defId) || {};
+    const { content: question } = state.definitions.find((d) => d.id === defId) || {};
     return !!answer && !!question && answer === question;
   }
 
@@ -255,14 +238,8 @@ export default function useMatch(data, debug = false) {
     const { growth: m, min, max } = config.tile.text.scaling || {};
 
     state.textScaling = {
-      terms: (
-        max * Math.pow(m, m * Math.max(meta[0], meta[1] / 2.5)) +
-        min
-      ).toFixed(2),
-      definitions: (
-        max * Math.pow(m, m * Math.max(meta[2], meta[3] / 2.5)) +
-        min
-      ).toFixed(2),
+      terms: (max * Math.pow(m, m * Math.max(meta[0], meta[1] / 2.5)) + min).toFixed(2),
+      definitions: (max * Math.pow(m, m * Math.max(meta[2], meta[3] / 2.5)) + min).toFixed(2),
     };
 
     debug && console.log(JSON.stringify(state.textScaling, null, 4));
@@ -271,10 +248,7 @@ export default function useMatch(data, debug = false) {
   function deal() {
     console.log("dealing...");
     state.matches = shuffleArray(state.matches);
-    const hand = state.matches.slice(
-      0,
-      Math.min(state.itemsPerBoard, state.matches.length)
-    );
+    const hand = state.matches.slice(0, Math.min(state.itemsPerBoard, state.matches.length));
     analyzeContent(hand);
     state.terms = addColors(
       hand.map((m) => m.term),
@@ -348,13 +322,7 @@ export default function useMatch(data, debug = false) {
   watch(
     () => state.exited,
     (newExited, oldExited) => {
-      debug &&
-        console.log(
-          "exited:",
-          JSON.stringify(oldExited),
-          "=>",
-          JSON.stringify(newExited)
-        );
+      debug && console.log("exited:", JSON.stringify(oldExited), "=>", JSON.stringify(newExited));
 
       if (newExited <= oldExited) return;
 
@@ -367,8 +335,7 @@ export default function useMatch(data, debug = false) {
         }
       }
 
-      if (!state.playing && newExited === state.itemsPerBoard)
-        return (state.showSplash = true);
+      if (!state.playing && newExited === state.itemsPerBoard) return (state.showSplash = true);
     }
   );
 

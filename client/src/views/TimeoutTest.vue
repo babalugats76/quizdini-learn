@@ -3,9 +3,7 @@
     <router-link to="/" exact> Home </router-link>
     <section>
       <p>Just timer...</p>
-      <h1 :style="{ color: timeoutExpired ? 'lime' : 'red' }">
-        READY: {{ timeoutExpired }}
-      </h1>
+      <h1 :style="{ color: timeoutExpired ? 'lime' : 'red' }">READY: {{ timeoutExpired }}</h1>
       <h2>Milliseconds: {{ ms }}</h2>
       <input type="button" value="Set Timeout" @click="startTimeout()" />
       <input type="button" value="Stop Timeout" @click="stopTimeout()" />
@@ -13,9 +11,7 @@
     <hr />
     <section>
       <p>Timer with function</p>
-      <h1 :style="{ color: timeoutExpiredFn ? 'lime' : 'red' }">
-        READY: {{ timeoutExpiredFn }}
-      </h1>
+      <h1 :style="{ color: timeoutExpiredFn ? 'lime' : 'red' }">READY: {{ timeoutExpiredFn }}</h1>
       <h2>Milliseconds: {{ ms }}</h2>
       <h2>TOTAL: {{ totalFn }}</h2>
       <input type="button" value="Set Timeout" @click="startTimeoutFn()" />

@@ -32,14 +32,7 @@ export default {
   setup() {
     const x = ref("");
     const route = useRoute();
-    const {
-      data: match,
-      error,
-      failed,
-      initialized,
-      loaded,
-      loading,
-    } = useLoader({
+    const { data: match, error, failed, initialized, loaded, loading } = useLoader({
       callback: getMatchById(route.params.id),
       immediate: true,
       deps: [() => route.params],

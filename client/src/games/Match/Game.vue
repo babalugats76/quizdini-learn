@@ -172,13 +172,7 @@ import AppFullPage from "@/components/AppFullPage";
 import Tile from "./Tile";
 import Timer from "./Timer";
 
-import {
-  DndBoard,
-  GameSplash,
-  UiList,
-  UiListItem,
-  UiListIcon,
-} from "@/components/";
+import { DndBoard, GameSplash, UiList, UiListItem, UiListIcon } from "@/components/";
 
 const SplashDetails = ({ items, ...listProps }) => (
   <UiList {...listProps}>
@@ -356,20 +350,12 @@ $tile-colors: (
     --border-opacity: 1;
     background-color: var(--bg-start-color);
     color: var(--text-start-color);
-    transform: translate3d(
-      var(--hit-start-tx),
-      var(--hit-start-ty),
-      var(--hit-start-tz)
-    );
+    transform: translate3d(var(--hit-start-tx), var(--hit-start-ty), var(--hit-start-tz));
   }
   to {
     background-color: var(--bg-end-color);
     color: var(--text-end-color);
-    transform: translate3d(
-      var(--hit-end-tx),
-      var(--hit-end-ty),
-      var(--hit-end-tz)
-    );
+    transform: translate3d(var(--hit-end-tx), var(--hit-end-ty), var(--hit-end-tz));
   }
 }
 
@@ -453,8 +439,8 @@ $tile-colors: (
   user-select: none;
   touch-action: none;
   opacity: 1;
-  transition: filter 300ms ease, background-color 300ms ease,
-    color 300ms ease-in-out, opacity 300ms ease, border-color 300ms ease;
+  transition: filter 300ms ease, background-color 300ms ease, color 300ms ease-in-out,
+    opacity 300ms ease, border-color 300ms ease;
   @each $color, $values in $tile-colors {
     &.#{$color} {
       @include bg-color(lighten(map-get($values, "background"), 5%));
@@ -481,9 +467,8 @@ $tile-colors: (
     opacity: 1;
     &.miss {
       opacity: 1;
-      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78),
-        background-color 150ms ease, color 150ms ease, filter 150ms ease,
-        opacity 150ms ease, border-color 150ms ease;
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78), background-color 150ms ease,
+        color 150ms ease, filter 150ms ease, opacity 150ms ease, border-color 150ms ease;
     }
     &.hit {
       --bg-end-color: #00cc00;
@@ -511,8 +496,7 @@ $tile-colors: (
       --bg-opacity: 0.97;
       &::after {
         opacity: 1;
-        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1),
-          inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
       }
     }
     &.over {
@@ -534,17 +518,16 @@ $tile-colors: (
     letter-spacing: $tracking-tight;
     font-size: 1em;
     opacity: 1;
-    transition: background-color 150ms ease, color 150ms ease, filter 150ms ease,
-      opacity 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease, filter 150ms ease, opacity 150ms ease,
+      border-color 150ms ease;
     &.over {
       @include text-color(darken(#515328, 2%));
       @include border-color(#ccff33, 1);
-      animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms
-        infinite alternate-reverse;
+      animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms infinite
+        alternate-reverse;
       &::after {
         opacity: 1;
-        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1),
-          inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
       }
     }
     &.definitions-leave-active,
@@ -611,8 +594,7 @@ $tile-colors: (
   }
 }
 
-@media screen and (max-width: 74.99em) and (min-width: 48em),
-  screen and (min-width: 75em) {
+@media screen and (max-width: 74.99em) and (min-width: 48em), screen and (min-width: 75em) {
   .tile {
     padding: 0.6em;
     margin: #{$tile-margin};

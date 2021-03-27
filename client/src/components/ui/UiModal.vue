@@ -1,12 +1,7 @@
 <template>
   <div class="ui-modal">
     <teleport to="#modals">
-      <transition
-        :appear="appear"
-        :duration="duration"
-        name="modal"
-        @after-leave="$emit('exited')"
-      >
+      <transition :appear="appear" :duration="duration" name="modal" @after-leave="$emit('exited')">
         <div
           v-if="show"
           :class="maskClasses"
@@ -74,8 +69,8 @@ $modal-mask-opacity: 0.6;
 .modal-leave-active,
 .modal-leave-from,
 .modal-leave-to {
-  transition: transform 1s cubic-bezier(0.45, 1.28, 0.39, 0.78),
-    opacity 1s ease-in-out, background-color 1s ease-in-out;
+  transition: transform 1s cubic-bezier(0.45, 1.28, 0.39, 0.78), opacity 1s ease-in-out,
+    background-color 1s ease-in-out;
 }
 
 .modal-enter-active .ui-modal__container,

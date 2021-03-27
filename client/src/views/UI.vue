@@ -44,22 +44,14 @@
     <hr />
     <h1>Lists</h1>
     <ui-list>
-      <ui-list-item dense>
-        <ui-list-icon name="check" color="success" />Good Stuff
-      </ui-list-item>
-      <ui-list-item dense>
-        <ui-list-icon name="x" color="danger" />Bad Stuff
-      </ui-list-item>
+      <ui-list-item dense> <ui-list-icon name="check" color="success" />Good Stuff </ui-list-item>
+      <ui-list-item dense> <ui-list-icon name="x" color="danger" />Bad Stuff </ui-list-item>
     </ui-list>
     <hr />
     <h1>Buttons</h1>
     <h2>Autofocus</h2>
-    <ui-button ref="testFocusBtn" :autofocus="true" primary>
-      Primary
-    </ui-button>
-    <ui-button :autofocus="false" @click.prevent="focusTest">
-      Focus Test
-    </ui-button>
+    <ui-button ref="testFocusBtn" :autofocus="true" primary> Primary </ui-button>
+    <ui-button :autofocus="false" @click.prevent="focusTest"> Focus Test </ui-button>
     <h2>Themes</h2>
     <ui-button primary>Primary</ui-button>
     <ui-button secondary>Secondary</ui-button>
@@ -96,13 +88,7 @@
 </template>
 
 <script>
-import {
-  UiButton,
-  UiIcon,
-  UiList,
-  UiListItem,
-  UiListIcon,
-} from "@/components/";
+import { UiButton, UiIcon, UiList, UiListItem, UiListIcon } from "@/components/";
 export default {
   name: "UI",
   components: {

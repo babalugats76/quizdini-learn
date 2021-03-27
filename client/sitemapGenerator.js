@@ -10,10 +10,7 @@ async function generateSitemap() {
 }
 
 async function getMatches() {
-  return await axios.get(
-    "https://polar-dawn-13501.herokuapp.com/api/matches",
-    AXIOS_CONFIG
-  );
+  return await axios.get("https://polar-dawn-13501.herokuapp.com/api/matches", AXIOS_CONFIG);
 }
 
 generateSitemap();

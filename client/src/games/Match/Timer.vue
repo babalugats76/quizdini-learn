@@ -21,13 +21,7 @@
             xmlns:svg="http://www.w3.org/2000/svg"
           >
             <g class="timer__circle">
-              <circle
-                class="timer__path-elapsed"
-                :class="scoreClass"
-                cx="50"
-                cy="50"
-                r="45"
-              />
+              <circle class="timer__path-elapsed" :class="scoreClass" cx="50" cy="50" r="45" />
               <path
                 :stroke-dasharray="strokeDasharray"
                 class="timer__path-remaining"
@@ -40,9 +34,7 @@
               />
             </g>
           </svg>
-          <span class="timer__label" :class="scoreClass">{{
-            score || formatted
-          }}</span>
+          <span class="timer__label" :class="scoreClass">{{ score || formatted }}</span>
         </div>
       </div>
     </div>
@@ -116,15 +108,10 @@ export default {
   },
   computed: {
     scoreClass() {
-      return this.scoring
-        ? this.scoringStatus === this.SCORING_STATUS.UP
-          ? "hit"
-          : "miss"
-        : "";
+      return this.scoring ? (this.scoringStatus === this.SCORING_STATUS.UP ? "hit" : "miss") : "";
     },
     strokeDasharray() {
-      const sofar =
-        this.progress / 100 - (1 / this.duration) * (1 - this.progress / 100);
+      const sofar = this.progress / 100 - (1 / this.duration) * (1 - this.progress / 100);
       return `${(sofar * FULL_DASH_ARRAY).toFixed(0)} ${FULL_DASH_ARRAY}`;
     },
   },

@@ -1,13 +1,5 @@
 /* eslint-disable */
-import {
-  computed,
-  onMounted,
-  onBeforeUnmount,
-  reactive,
-  toRefs,
-  unref,
-  watch,
-} from "vue";
+import { computed, onMounted, onBeforeUnmount, reactive, toRefs, unref, watch } from "vue";
 
 import useTimeoutFn from "@/compose/useTimeoutFn";
 
@@ -44,12 +36,7 @@ export default function useTimer({
   }, unref(delay));
 
   const [endScoringAfterTimeout] = useTimeoutFn(() => {
-    debug &&
-      console.log(
-        "ending scoring after",
-        unref(change),
-        "ms change timeout..."
-      );
+    debug && console.log("ending scoring after", unref(change), "ms change timeout...");
     state.scoring = false;
     state.scoringStatus = "";
   }, unref(change));
@@ -66,8 +53,7 @@ export default function useTimer({
     idle: computed(() => state.elapsed),
     intervalId: null,
     progress: computed(
-      () =>
-        Math.round((state.remaining / (unref(duration) * 1000)) * 10000) / 100
+      () => Math.round((state.remaining / (unref(duration) * 1000)) * 10000) / 100
     ),
     remaining: computed(() => unref(duration) * 1000 - state.elapsed),
     running: false,
@@ -121,8 +107,7 @@ export default function useTimer({
   watch(score, (newScore, oldScore) => {
     debug && console.log("score changed: ", oldScore, "=>", newScore);
     state.scoring = true;
-    state.scoringStatus =
-      newScore > oldScore ? SCORING_STATUS.UP : SCORING_STATUS.DOWN;
+    state.scoringStatus = newScore > oldScore ? SCORING_STATUS.UP : SCORING_STATUS.DOWN;
     endScoringAfterTimeout();
   });
 

@@ -2,19 +2,11 @@
 import { computed, reactive, toRefs, watch, onMounted, unref } from "vue";
 import _ from "lodash";
 
-export default function useDnd({
-  active,
-  element,
-  throttleMs = 33,
-  debug = false,
-  emit,
-}) {
+export default function useDnd({ active, element, throttleMs = 33, debug = false, emit }) {
   const state = reactive({
     dragged: {},
     listeners: [],
-    throttledDrag: computed(() =>
-      _.throttle(drag, throttleMs, { trailing: true })
-    ),
+    throttledDrag: computed(() => _.throttle(drag, throttleMs, { trailing: true })),
   });
 
   const handlers = {
@@ -30,9 +22,7 @@ export default function useDnd({
     lsnrs.forEach((event) => {
       debug && console.log(`adding ${event}...`);
       element.value.addEventListener(event, handlers[event], { passive: true });
-      state.listeners = state.listeners
-        .concat(lsnrs)
-        .filter((v, i, a) => a.indexOf(v) === i);
+      state.listeners = state.listeners.concat(lsnrs).filter((v, i, a) => a.indexOf(v) === i);
     });
   }
 
@@ -57,11 +47,7 @@ export default function useDnd({
     e.stopPropagation();
 
     debug &&
-      console.log(
-        `${
-          state.dragged.id ? `${e.type} (${state.dragged.id}) ` : `${e.type}`
-        }...`
-      );
+      console.log(`${state.dragged.id ? `${e.type} (${state.dragged.id}) ` : `${e.type}`}...`);
 
     const drag = e.target.classList.contains("draggable")
       ? e.target
@@ -81,10 +67,7 @@ export default function useDnd({
       initialY,
     };
 
-    const lsnrs =
-      e.type === "touchstart"
-        ? ["touchmove", "touchend"]
-        : ["mousemove", "mouseup"];
+    const lsnrs = e.type === "touchstart" ? ["touchmove", "touchend"] : ["mousemove", "mouseup"];
 
     addListeners(lsnrs);
   }
@@ -93,17 +76,10 @@ export default function useDnd({
     e.stopPropagation();
     /*** MOVE  ***/
     const { id: dragId, initialX, initialY, overId } = state.dragged;
-    debug &&
-      console.log(`${dragId ? `${e.type} (${dragId}) ` : `${e.type}`}...`);
-    const x =
-      e.type === "touchmove"
-        ? e.touches[0].clientX - initialX
-        : e.clientX - initialX;
+    debug && console.log(`${dragId ? `${e.type} (${dragId}) ` : `${e.type}`}...`);
+    const x = e.type === "touchmove" ? e.touches[0].clientX - initialX : e.clientX - initialX;
 
-    const y =
-      e.type === "touchmove"
-        ? e.touches[0].clientY - initialY
-        : e.clientY - initialY;
+    const y = e.type === "touchmove" ? e.touches[0].clientY - initialY : e.clientY - initialY;
 
     emit("drag", { dragId, dragX: x, dragY: y });
 
@@ -139,17 +115,14 @@ export default function useDnd({
     state.throttledDrag.cancel(); // cancel bottled up move events
     const { id: dragId, initialX, initialY, offsetX, offsetY } = state.dragged; // grab needed its from state
 
-    debug &&
-      console.log(`${dragId ? `${e.type} (${dragId}) ` : `${e.type}`}...`);
+    debug && console.log(`${dragId ? `${e.type} (${dragId}) ` : `${e.type}`}...`);
 
     // Get location of "pointer" upon drop
     const x = e.type === "touchend" ? e.changedTouches[0].clientX : e.clientX;
     const y = e.type === "touchend" ? e.changedTouches[0].clientY : e.clientY;
 
     // Has a drop occurred over a valid drop zone?
-    const drop = document
-      .elementsFromPoint(x, y)
-      .find((el) => el.classList.contains("droppable"));
+    const drop = document.elementsFromPoint(x, y).find((el) => el.classList.contains("droppable"));
 
     // Grab info and perform calculations necessary for hit/miss transforms
     const { top, left } = (drop && drop.getBoundingClientRect()) || {};
@@ -167,18 +140,14 @@ export default function useDnd({
     // No matter what, current drag is over (reset) state
     state.dragged = {};
 
-    const lsnrs =
-      e.type === "touchend"
-        ? ["touchmove", "touchend"]
-        : ["mousemove", "mouseup"];
+    const lsnrs = e.type === "touchend" ? ["touchmove", "touchend"] : ["mousemove", "mouseup"];
 
     removeListeners(lsnrs);
   }
 
   // the DOM element ref passed in is only available after initial render
   onMounted(() => {
-    debug &&
-      console.log(`dnd mounted (${unref(active) ? "active" : "inactive"})...`);
+    debug && console.log(`dnd mounted (${unref(active) ? "active" : "inactive"})...`);
     unref(active.value) && addListeners(["mousedown", "touchstart"]);
   });
 

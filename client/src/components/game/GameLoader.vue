@@ -1,9 +1,5 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 174.257 149.814"
-    class="loader"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 174.257 149.814" class="loader">
     <defs>
       <filter id="shadow">
         <feDropShadow dx="0" dy="0" stdDeviation="0.5" />
@@ -39,17 +35,8 @@
       d="M51.495 142.961c-5.908-0.009-10.695-4.796-10.705-10.702V115.75h5.681v16.509c0.069 2.774 2.376 4.968 5.151 4.897 2.677-0.066 4.832-2.222 4.898-4.897V115.75h5.68v16.509C62.194 138.166 57.405 142.954 51.495 142.961z"
       class="letter letter--2 u"
     />
-    <path
-      d="M66.323 115.72h6.207v26.508h-6.207V115.72z"
-      class="letter letter--3 i"
-    />
-    <rect
-      x="66.323"
-      y="105.397"
-      width="6.207"
-      height="6.206"
-      class="dot dot--1"
-    />
+    <path d="M66.323 115.72h6.207v26.508h-6.207V115.72z" class="letter letter--3 i" />
+    <rect x="66.323" y="105.397" width="6.207" height="6.206" class="dot dot--1" />
     <path
       d="M99.528 137.265v4.963H76.653v-3.92l14.545-17.624H76.94v-4.964h22.188v3.921l-14.596 17.624H99.528z"
       class="letter letter--4 z"
@@ -58,32 +45,14 @@
       d="M128.081 105.397v36.831h-5.957v-3.423c-1.01 1.244-2.314 2.216-3.797 2.826 -1.582 0.647-3.277 0.974-4.988 0.956 -2.398 0.037-4.766-0.545-6.875-1.688 -2.016-1.107-3.674-2.766-4.781-4.781 -2.314-4.457-2.314-9.762 0-14.219 1.113-2.007 2.771-3.659 4.781-4.766 2.109-1.144 4.477-1.726 6.875-1.688 1.648-0.02 3.285 0.285 4.816 0.896 1.438 0.583 2.715 1.502 3.723 2.682v-13.623h6.203V105.397zM118.09 136.245c1.199-0.683 2.18-1.688 2.832-2.903 1.391-2.745 1.391-5.988 0-8.733 -0.652-1.215-1.633-2.224-2.832-2.907 -2.508-1.355-5.531-1.355-8.041 0 -1.197 0.685-2.178 1.692-2.83 2.907 -1.387 2.747-1.387 5.987 0 8.733 0.65 1.215 1.633 2.222 2.83 2.903C112.557 137.605 115.583 137.605 118.09 136.245z"
       class="letter letter--5 d"
     />
-    <path
-      d="M132.192 115.72h6.203v26.508h-6.203V115.72z"
-      class="letter letter--6 i"
-    />
-    <rect
-      x="132.192"
-      y="105.397"
-      width="6.207"
-      height="6.206"
-      class="dot dot--2"
-    />
+    <path d="M132.192 115.72h6.203v26.508h-6.203V115.72z" class="letter letter--6 i" />
+    <rect x="132.192" y="105.397" width="6.207" height="6.206" class="dot dot--2" />
     <path
       d="M163.928 142.228h-5.674v-16.509c-0.07-2.774-2.377-4.968-5.15-4.897 -2.68 0.066-4.832 2.222-4.9 4.897v16.509h-5.68v-16.509c0-5.91 4.793-10.703 10.703-10.703 5.912 0 10.705 4.792 10.705 10.703L163.928 142.228z"
       class="letter letter--7 n"
     />
-    <path
-      d="M174.258 142.228h-6.207V115.72h6.207V142.228z"
-      class="letter letter--8 i"
-    />
-    <rect
-      x="168.051"
-      y="105.394"
-      width="6.207"
-      height="6.206"
-      class="dot dot--3"
-    />
+    <path d="M174.258 142.228h-6.207V115.72h6.207V142.228z" class="letter letter--8 i" />
+    <rect x="168.051" y="105.394" width="6.207" height="6.206" class="dot dot--3" />
   </svg>
 </template>
 
@@ -126,8 +95,7 @@ export default {
   transform-box: fill-box;
   transform-origin: center;
   transform: translate3d(0, 0, 0) rotate(0);
-  animation: rotate 300ms cubic-bezier(0.36, 0, 0.66, -0.56) 1300ms infinite
-      forwards,
+  animation: rotate 300ms cubic-bezier(0.36, 0, 0.66, -0.56) 1300ms infinite forwards,
     fade-in 150ms cubic-bezier(0.36, 0, 0.66, -0.56) 1300ms forwards;
 }
 
@@ -187,8 +155,7 @@ export default {
   transform-box: fill-box;
   transform-origin: center center;
   transform: scale(1, 1) rotateX(0deg);
-  animation: fill-text 3s ease-in-out infinite forwards,
-    flip 7s linear infinite forwards 1s;
+  animation: fill-text 3s ease-in-out infinite forwards, flip 7s linear infinite forwards 1s;
   &--8 {
     animation-delay: 1050ms;
   }
@@ -219,8 +186,7 @@ export default {
   transform-box: fill-box;
   transform-origin: center center;
   transform: scale(1, 1) rotateX(0deg);
-  animation: fill-text 3s ease-in-out infinite forwards,
-    flip 7s linear infinite forwards 1s;
+  animation: fill-text 3s ease-in-out infinite forwards, flip 7s linear infinite forwards 1s;
   &--3 {
     fill: var(--violet);
     --start-fill-color: var(--electric-purple);
