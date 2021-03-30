@@ -290,12 +290,14 @@ export default function useMatch(data, debug = false) {
     //state.terms = [];
     //state.definitions = [];
     const response = await postPing({
-      correct: state.correct,
-      data: state.stats,
       gameId: state.matchId,
       gameType: "M",
-      incorrect: state.incorrect,
-      score: state.score,
+      results: {
+        correct: state.correct,
+        incorrect: state.incorrect,
+        data: state.stats,
+        score: state.score,
+      },
     });
     debug && JSON.stringify(response.data, null, 4);
   }
