@@ -1,7 +1,7 @@
-const { INTERNAL_SERVER_ERROR } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 class CustomError extends Error {
-  constructor(msg, statusCode = INTERNAL_SERVER_ERROR, code = undefined) {
+  constructor(msg, statusCode = StatusCodes.INTERNAL_SERVER_ERROR, code = undefined) {
     super(msg);
     this.statusCode = statusCode;
     this.code = code || this.constructor.name;
