@@ -1,2 +1,2 @@
-import { default as Match } from "./Match";
+import { default as Match } from "./match";
 export { Match };

@@ -13,7 +13,7 @@ var http = require("http");
  */
 
 var port = normalizePort(process.env.PORT || 5001);
-console.log(port);
+// console.log(port);
 app.set("port", port);
 
 /**

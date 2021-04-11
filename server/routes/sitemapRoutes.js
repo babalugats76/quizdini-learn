@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const xml2js = require("xml2js");
 const keys = require("../config/keys");
-const Match = mongoose.model("matches");
+const Match = mongoose.model("match");
 const { format } = require("date-fns");
 
 module.exports = (app, memcache) => {

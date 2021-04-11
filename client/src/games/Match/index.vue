@@ -1,24 +1,22 @@
 <template>
-  <app-full-page v-if="showLoader" key="loader" primary>
+  <layout-single-page v-if="showLoader" key="loader" primary>
     <game-loader />
-  </app-full-page>
+  </layout-single-page>
   <game v-else key="game" :match="match" />
 </template>
 <script>
 /* eslint-disable */
 import { watchEffect, ref, unref } from "vue";
 import { useRoute } from "vue-router";
-import { getMatchById } from "@/api/match";
-import useLoader from "@/compose/useLoader";
+import { getMatch } from "@api";
+import { useLoader } from "@hooks";
 import { default as config } from "./config";
-import AppFullPage from "@/components/AppFullPage";
-import { GameLoader } from "@/components/";
+import { GameLoader } from "@components/game";
 import Game from "./Game";
 
 export default {
   name: "Match",
   components: {
-    AppFullPage,
     Game,
     GameLoader,
   },
@@ -33,7 +31,7 @@ export default {
     const x = ref("");
     const route = useRoute();
     const { data: match, error, failed, initialized, loaded, loading } = useLoader({
-      callback: getMatchById(route.params.id),
+      callback: getMatch(route.params.id),
       immediate: true,
       deps: [() => route.params],
     });

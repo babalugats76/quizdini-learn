@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "AppFullPage",
+  name: "LayoutSinglePage",
   props: {
     primary: {
       type: Boolean,

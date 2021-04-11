@@ -45,7 +45,7 @@
 /* See: https://tinyurl.com/y3dy82l8 */
 
 import { toRefs } from "vue";
-import useTimer from "@/compose/useTimer";
+import { useTimer } from "@hooks";
 
 const FULL_DASH_ARRAY = 283;
 

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { color } from "./mixins";
+import { color } from "@mixins";
 
 const icons = {
   archive: {

@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { computed, nextTick, toRefs, reactive, unref, watch, watchEffect } from "vue";
 import shortid from "shortid";
-import { shuffleArray, updateObjInArray, upsertArray } from "@/utils";
+import { shuffleArray, updateObjInArray, upsertArray } from "@utils";
 import { default as config } from "./config";
-import useTimeoutFn from "@/compose/useTimeoutFn";
-import { postPing } from "@/api/ping";
+import { useTimeoutFn } from "@hooks";
+import { postPing } from "@api";
 
 export default function useMatch(data, debug = false) {
   const [endShuffleAfterTimeout] = useTimeoutFn(() => {

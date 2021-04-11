@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { DragItem, DropItem } from "@/components/";
+import { DragItem, DropItem } from "@components/game";
 
 export default {
   name: "Tile",

@@ -6,7 +6,7 @@
 
 <script>
 import { ref, toRefs } from "vue";
-import useDnd from "@/compose/useDnd";
+import { useDnd } from "@hooks";
 
 export default {
   name: "DndBoard",

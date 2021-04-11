@@ -1,6 +1,6 @@
 <script>
-import UiIcon from "@/components/ui/UiIcon";
-import { color, size } from "./mixins";
+import UiIcon from "./UiIcon";
+import { color, size } from "@mixins";
 
 export const UiList = {
   name: "UiList",

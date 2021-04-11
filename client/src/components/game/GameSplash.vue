@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import UiModal from "@/components/ui/UiModal";
+import { UiModal } from "@ui";
 
 export default {
   name: "GameSplash",

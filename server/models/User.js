@@ -38,4 +38,4 @@ userSchema.virtual("author").get(function () {
   );
 });
 
-mongoose.model("users", userSchema);
+mongoose.model("user", userSchema, "users");

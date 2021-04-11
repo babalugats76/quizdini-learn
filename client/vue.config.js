@@ -38,7 +38,7 @@ module.exports = {
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@import "~styles/variables.scss"; @import "~styles/mixins.scss"; @import "~styles/functions.scss";`,
+        additionalData: `@import "~styles/style.scss";`,
       },
       postcss: {
         plugins: [require("tailwindcss"), require("autoprefixer")],
@@ -63,6 +63,14 @@ module.exports = {
       return args;
     });
     config.resolve.alias.set("styles", path.resolve(__dirname, "src/styles"));
+    config.resolve.alias.set("@api", path.resolve(__dirname, "src/api"));
+    config.resolve.alias.set("@components", path.resolve(__dirname, "src/components"));
+    config.resolve.alias.set("@games", path.resolve(__dirname, "src/games"));
+    config.resolve.alias.set("@hooks", path.resolve(__dirname, "src/compose"));
+    config.resolve.alias.set("@mixins", path.resolve(__dirname, "src/components/mixins"));
+    config.resolve.alias.set("@ui", path.resolve(__dirname, "src/components/ui"));
+    config.resolve.alias.set("@utils", path.resolve(__dirname, "src/utils"));
+    config.resolve.alias.set("@views", path.resolve(__dirname, "src/views"));
   },
 
   outputDir: "../server/public",

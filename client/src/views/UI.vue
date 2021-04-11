@@ -88,9 +88,9 @@
 </template>
 
 <script>
-import { UiButton, UiIcon, UiList, UiListItem, UiListIcon } from "@/components/";
+import { UiButton, UiIcon, UiList, UiListItem, UiListIcon } from "@ui";
 export default {
-  name: "UI",
+  name: "UITest",
   components: {
     UiButton,
     UiIcon,

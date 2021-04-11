@@ -1,9 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import { Match } from "@/games";
-import Matches from "@/views/Matches";
-import UI from "@/views/UI";
-import TimeoutTest from "@/views/TimeoutTest";
+import { Match } from "@games";
+import { Matches, TimeoutTest, UI } from "@views";
 
 const routes = [
   {

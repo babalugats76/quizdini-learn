@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const Ping = mongoose.model("pings");
+const Ping = mongoose.model("ping");
 
 module.exports = (app) => {
-  app.post("/api/ping", async (req, res, next) => {
+  app.post("/api/pings", async (req, res, next) => {
     try {
       const { gameId, gameType, results } = req.body;
       const ipAddress = req.ip;

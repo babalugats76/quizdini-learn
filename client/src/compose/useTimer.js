@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { computed, onMounted, onBeforeUnmount, reactive, toRefs, unref, watch } from "vue";
-
-import useTimeoutFn from "@/compose/useTimeoutFn";
+import useTimeoutFn from "./useTimeoutFn";
 
 const SEVERITY = {
   ALERT: "alert",

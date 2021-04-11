@@ -39,8 +39,8 @@ import {
   // watch,
   // watchEffect,
 } from "vue";
-import useTimeout from "@/compose/useTimeout";
-import useTimeoutFn from "@/compose/useTimeoutFn";
+
+import { useTimeout, useTimeoutFn } from "@hooks";
 
 export default {
   name: "TimeoutTest",
@@ -56,10 +56,7 @@ export default {
     const { ms } = props;
     const [startTimeout, stopTimeout, timeoutExpired] = useTimeout(ms);
 
-    const [startTimeoutFn, stopTimeoutFn, timeoutExpiredFn] = useTimeoutFn(
-      () => totalFn.value++,
-      ms
-    );
+    const [startTimeoutFn, stopTimeoutFn, timeoutExpiredFn] = useTimeoutFn(() => totalFn.value++, ms);
 
     const incrementAfterPause = function (val = 10) {
       const [run, ,] = useTimeoutFn(() => (total.value += val), 1000);

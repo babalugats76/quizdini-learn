@@ -108,8 +108,7 @@ export const size = {
         [`size--md`]: this.medium,
         [`size--lg`]: this.large,
         [`size--xl`]: this.xLarge,
-        [`size--${this.size}`]:
-          this.size && !this.xSmall && !this.small && !this.medium && !this.large && !this.xLarge,
+        [`size--${this.size}`]: this.size && !this.xSmall && !this.small && !this.medium && !this.large && !this.xLarge,
       };
     },
   },

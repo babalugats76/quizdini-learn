@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Match = mongoose.model("matches");
+const Match = mongoose.model("match");
 
 module.exports = (app, memcache) => {
   app.get("/api/matches", async (req, res, next) => {
@@ -18,7 +18,7 @@ module.exports = (app, memcache) => {
     }
   });
 
-  app.get("/api/match/:id", async (req, res, next) => {
+  app.get("/api/matches/:id", async (req, res, next) => {
     try {
       // throw new Error('Testing match error...');
 
@@ -30,7 +30,7 @@ module.exports = (app, memcache) => {
       // Otherwise, fetch data from database
       let match = await Match.findOne({
         matchId: req.params.id,
-      }).populate("user_id", "title firstName lastName author", "users");
+      }).populate("user_id", "title firstName lastName author", "user");
       if (!match) return res.send({}); // empty object signifies not found
       match = match.toJSON(); // convert to POJO
       match.author = match.user_id.author; // map author
