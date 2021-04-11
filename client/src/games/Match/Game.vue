@@ -171,7 +171,7 @@ import { useTitle } from "@hooks";
 import Tile from "./Tile";
 import Timer from "./Timer";
 
-import { UiList, UiListItem, UiListIcon } from "@ui"
+import { UiList, UiListItem, UiListIcon } from "@ui";
 import { DndBoard, GameSplash } from "@components/game";
 
 const SplashDetails = ({ items, ...listProps }) => (
@@ -438,8 +438,8 @@ $tile-colors: (
   user-select: none;
   touch-action: none;
   opacity: 1;
-  transition: filter 300ms ease, background-color 300ms ease, color 300ms ease-in-out, opacity 300ms ease,
-    border-color 300ms ease;
+  transition: filter 300ms ease, background-color 300ms ease, color 300ms ease-in-out,
+    opacity 300ms ease, border-color 300ms ease;
   @each $color, $values in $tile-colors {
     &.#{$color} {
       @include bg-color(lighten(map-get($values, "background"), 5%));
@@ -466,8 +466,8 @@ $tile-colors: (
     opacity: 1;
     &.miss {
       opacity: 1;
-      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78), background-color 150ms ease, color 150ms ease,
-        filter 150ms ease, opacity 150ms ease, border-color 150ms ease;
+      transition: transform 800ms cubic-bezier(0.45, 1.28, 0.39, 0.78), background-color 150ms ease,
+        color 150ms ease, filter 150ms ease, opacity 150ms ease, border-color 150ms ease;
     }
     &.hit {
       --bg-end-color: #00cc00;
@@ -522,7 +522,8 @@ $tile-colors: (
     &.over {
       @include text-color(darken(#515328, 2%));
       @include border-color(#ccff33, 1);
-      animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms infinite alternate-reverse;
+      animation: border-fade 300ms cubic-bezier(0.39, 2.01, 0.27, 0.75) 0ms infinite
+        alternate-reverse;
       &::after {
         opacity: 1;
         box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
