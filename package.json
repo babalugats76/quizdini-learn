@@ -34,7 +34,6 @@
     "memjs": "^1.2.2",
     "mongoose": "^5.10.17",
     "morgan": "~1.9.1",
-    "vue-template-compiler": "^2.6.12",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
